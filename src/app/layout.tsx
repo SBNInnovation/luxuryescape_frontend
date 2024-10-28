@@ -28,7 +28,7 @@ export default function RootLayout({
       </Head>
       <body className={poppins.className}>
         <div className="bg-primary/5">
-          <div className="mx-auto max-w-[1800px]">
+          <div className="mx-auto max-w-[2000px]">
             <Provider>
               <Navbar />
               <main className={`${poppins.className}`}>

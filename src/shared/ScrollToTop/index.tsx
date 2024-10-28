@@ -30,10 +30,10 @@ const ScrollToTop = () => {
             {visible && (
                 <Button
                     isIconOnly
-                    className="border border-white shadow-2xl transition duration-300 hover:-translate-y-1 size-[3rem] flex items-center p-1 justify-center rounded-full fixed lg:bottom-12 bottom-16 lg:right-12 right-8 bg-primary z-[999] cursor-pointer"
+                    className="border border-white shadow-2xl transition duration-300 hover:-translate-y-1  w-[3.5rem] h-[3.5rem] flex items-center p-1 justify-center rounded-full fixed lg:bottom-12 bottom-16 lg:right-12 right-8 bg-primary z-[999] cursor-pointer"
                     onClick={handleTop}
                 >
-                    <AiOutlineArrowUp size={25} className="text-white" />
+                    <AiOutlineArrowUp size={32} className="text-white" />
                 </Button>
             )}
         </>

@@ -209,11 +209,9 @@ const TopSellingSlider = () => {
                             <Image 
                                 src={item.image} 
                                 alt={item.title} 
-                                width={250}
-                                height={300}
-                                className={`object-cover rounded-lg transition-all duration-300 ${
-                                    item.index === activeIndex ? 'ring-2 ring-primary' : ''
-                                }`}
+                                width={1000}
+                                height={1000}
+                                className={`object-cover rounded-lg transition-all duration-300`}
                                 style={{
                                     height: item.index === activeIndex ? '240px' : '240px',
                                     width: item.index === activeIndex ? '250px' : '250px'

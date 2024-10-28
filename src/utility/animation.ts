@@ -50,6 +50,13 @@ export const mainSlideVariants: Variants = {
         ease: 'easeOut',
         }
     }),
+    hover:{
+        scale:1.02,
+        transition: {
+        duration: 0.2,
+        ease: 'easeInOut',
+        }
+    },
     
     tap: {
         scale: 1,

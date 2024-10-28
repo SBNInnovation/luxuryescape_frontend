@@ -4,6 +4,8 @@ import Image from 'next/image'
 import React from 'react'
 import { CiSearch } from 'react-icons/ci'
 import TopSellingSlider from './TopSelling/TopSelling'
+import Destination from './Destinations/Destination'
+import WhyUs from './WhyUs/WhyUs'
 
 const MainHome = () => {
     return (
@@ -15,10 +17,12 @@ const MainHome = () => {
                     <h1 className={`${antic.className} text-6xl font-bold text-white }`}>Welcome to </h1>
                     <h1 className={`${antic.className} text-7xl font-bold text-primary }`}>Luxury Escapes Nepal</h1>
                     <p className={`${antic.className} my-12 text-zinc-200`}>Experience the unmatched luxury of the Himalayas with bespoke journeys through Nepal, Bhutan, and Tibet.</p>
-                    <Input classNames={{input:"placeholder:text-gray-400 !text-white",inputWrapper: "!text-white",base:"border-b-[.5px] border-white"}} variant='underlined' type="email" size='lg' placeholder="Search your Tour... eg: Safari tour, Heli tour etc." className='rounded-sm my-8' radius='sm' startContent={<CiSearch size={32} className='text-white mr-2'/>} endContent={<><Button className='bg-primary rounded-sm px-8 py-0 text-white' size='sm'>Search</Button></>} />
+                    <Input classNames={{input:"placeholder:text-gray-400 !text-white",inputWrapper: "!text-white",base:"border-b-[.5px] border-white"}} variant='underlined' type="email" size='lg' placeholder="Search your Tour... eg: Safari tour, Heli tour etc." className='rounded-sm mt-20' radius='sm' startContent={<CiSearch size={32} className='text-white mr-2'/>} endContent={<><Button className='bg-primary rounded-sm px-8 py-0 text-white' size='sm'>Search</Button></>} />
                 </div>
             </div> 
             <TopSellingSlider/>
+            <Destination/>
+            <WhyUs/>
         </>
     )
 }

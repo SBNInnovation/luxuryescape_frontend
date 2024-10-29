@@ -1,7 +1,7 @@
 "use client"
 import { Button } from '@nextui-org/react'
 import React from 'react'
-import {CiSearch} from "react-icons/ci"
+import {IoSearch} from "react-icons/io5"
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {FaFacebookF, FaInstagram} from "react-icons/fa"
@@ -55,7 +55,7 @@ const Navbar = () => {
 
                 </section>
                 <div className='flex gap-8 items-center'>
-                    <Button className='bg-transparent' isIconOnly><CiSearch size={28} className='text-[#E8B86D]'/></Button>
+                    <Button className='bg-transparent' isIconOnly><IoSearch size={28} className='text-[#E8B86D]'/></Button>
                     <Button className='bg-primary rounded-sm px-8 text-white' size='sm'>Get a quote</Button>
                 </div>
                 

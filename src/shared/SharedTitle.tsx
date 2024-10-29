@@ -15,7 +15,7 @@ interface props{
 const SharedTitle:React.FC<props> = ({title,subtitle,classname}) => {
     return (
         <div className={`${monsterrat.className} ${classname} flex flex-col`}>
-            <h1 className='text-sm tracking-wider text-primary mb-2 uppercase font-semibold'>{subtitle}</h1>
+            <h1 className='text-lg tracking-wider text-primary mb-2 uppercase font-semibold'>{subtitle}</h1>
             <h1 className={`text-4xl ${antic.className}`}>{title}</h1>
         </div>
     )

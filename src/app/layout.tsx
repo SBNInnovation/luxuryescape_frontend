@@ -6,6 +6,7 @@ import Navbar from "@/shared/Navbar/Navbar";
 import ScrollToTop from "@/shared/ScrollToTop";
 import Head from "next/head";
 import { poppins } from "@/utility/font";
+import Footer from "@/shared/Footer/Footer";
 
 export const metadata: Metadata = {
   title: "Luxury Escapes Nepal",
@@ -35,6 +36,7 @@ export default function RootLayout({
                 {children}
                 <ScrollToTop />
               </main>
+              <Footer/>
             </Provider>
           </div>
         </div>

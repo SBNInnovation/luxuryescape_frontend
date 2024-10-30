@@ -7,6 +7,8 @@ import TopSellingSlider from './TopSelling/TopSelling'
 import Destination from './Destinations/Destination'
 import WhyUs from './WhyUs/WhyUs'
 import MajesticPlaces from './MajesticPlaces/MajesticPlaces'
+import TripTypes from './TripTypes/TripTypes'
+import BookTrip from './BookTrip/BookTrip'
 
 const MainHome = () => {
     return (
@@ -25,6 +27,8 @@ const MainHome = () => {
             <Destination/>
             <WhyUs/>
             <MajesticPlaces/>
+            <TripTypes/>
+            <BookTrip/>
         </>
     )
 }

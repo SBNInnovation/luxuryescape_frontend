@@ -96,13 +96,6 @@ const MajesticPlaces = () => {
         autoplaySpeed:4000,
         responsive: [
             {
-                breakpoint: 1680,
-                settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 1,
-                }
-            },
-            {
                 breakpoint: 1280,
                 settings: {
                     slidesToShow: 2,
@@ -121,23 +114,28 @@ const MajesticPlaces = () => {
 
     return (
         <>
-        <div className='relative w-full my-16 h-full'>
-            <section className='h-[400px] relative flex w-full bg-primary/20' > </section>
-            <section className='absolute h-[700px] flex z-[100] top-8 px-16 w-full'>
-                <div className='w-2/5 h-fit  py-4 px-8 rounded-md z-[100]'>
+        <div className='w-full py-16'>
+            <section className='h-[400px] relative w-full bg-primary/20'></section>
+            <section className='relative flex z-[100] -mt-[350px] px-16 w-full'>
+                <div className='w-2/5 h-fit py-4 px-8 rounded-md z-[100]'>
                     <SharedTitle title='Most loved majestic places' subtitle='do not miss'/>
-                    <p className='my-8 text-sm text-justify '>Explore the most loved destinations and majestic places across the Himalayas, where luxury meets awe-inspiring landscapes and rich cultural heritage. From the serene temples and vibrant cityscapes of Nepal to the mystic monasteries and lush valleys of Bhutan, and the timeless spiritual landscapes of Tibet.</p>
-                    <Button className='rounded-sm bg-primary px-12 text-white'>See More Packages</Button>
+                    <p className='my-8 text-sm text-justify'>
+                        Explore the most loved destinations and majestic places across the Himalayas, 
+                        where luxury meets awe-inspiring landscapes and rich cultural heritage. From the 
+                        serene temples and vibrant cityscapes of Nepal to the mystic monasteries and 
+                        lush valleys of Bhutan, and the timeless spiritual landscapes of Tibet.
+                    </p>
+                    <Button className='rounded-sm bg-primary px-12 text-white'>
+                        See More Packages
+                    </Button>
                 </div>
                 <div className='w-3/5 pt-16 h-fit'>
                     <Slider {...settings}>
-                        {topselling.map(item=>{
-                            return(
-                                <div key={item?.title} className='px-4 py-2'>
-                                    <Card {...item}/>
-                                </div>
-                            )
-                        })}
+                        {topselling.map(item => (
+                            <div key={item?.title} className='px-4 py-2'>
+                                <Card {...item}/>
+                            </div>
+                        ))}
                     </Slider>
                 </div>
             </section>

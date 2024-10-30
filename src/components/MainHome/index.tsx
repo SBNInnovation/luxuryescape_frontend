@@ -6,6 +6,7 @@ import { CiSearch } from 'react-icons/ci'
 import TopSellingSlider from './TopSelling/TopSelling'
 import Destination from './Destinations/Destination'
 import WhyUs from './WhyUs/WhyUs'
+import MajesticPlaces from './MajesticPlaces/MajesticPlaces'
 
 const MainHome = () => {
     return (
@@ -23,6 +24,7 @@ const MainHome = () => {
             <TopSellingSlider/>
             <Destination/>
             <WhyUs/>
+            <MajesticPlaces/>
         </>
     )
 }

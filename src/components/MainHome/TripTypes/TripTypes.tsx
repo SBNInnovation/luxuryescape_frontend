@@ -52,7 +52,7 @@ const TripTypes = () => {
             <div className='px-16'>
                 <SharedTitle title='Unforgettable Trips' subtitle='Dont miss out'/>
             </div>
-            <div className='flex flex-col gap-8 w-full mt-28 px-16'>
+            <div className='flex flex-col gap-4 w-full mt-28 px-16'>
                 <section className='flex gap-4 w-full relative'>
                     {trips.slice(0,4).map((item,index) => (
                         <div 

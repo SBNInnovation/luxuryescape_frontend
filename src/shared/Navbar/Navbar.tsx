@@ -1,11 +1,12 @@
 "use client"
-import { Button } from '@nextui-org/react'
+import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react'
 import React from 'react'
 import {IoSearch} from "react-icons/io5"
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {FaFacebookF, FaInstagram} from "react-icons/fa"
 import {FaXTwitter} from "react-icons/fa6"
+import {IoMdArrowDropdown} from "react-icons/io"
 
 const Navbar = () => {
     const nav=[
@@ -13,9 +14,15 @@ const Navbar = () => {
             title:"Home",
             link:"/"
         },
-        {
-            title:"Destinations",
-            link:"/destinations"
+        { 
+            title: "Destinations", 
+            isDropdown: true,
+            items: [
+                { title: "Nepal", href: "/destinations/nepal" },
+                { title: "Bhutan", href: "/destinations/bhutan" },
+                { title: "Tibet", href: "/destinations/tibet" },
+                { title: "multidestinations", href: "/destinations/multidestinations" }
+            ]
         },
         {
             title:"Trip Types",
@@ -65,18 +72,41 @@ const Navbar = () => {
         </div>
         <section className='w-full flex items-center justify-center pt-4 pb-4 bg-primary/20'>
                 <div className='flex gap-8'>
-                        {nav.map(item=>{
-                            return(
-                                <Link key={item.title} href={item.link}>
-                                    <div className='group relative'>
-                                        <p className='font-normal text-sm text-gray-600 uppercase tracking-wider'>{item.title}</p>
-                                        <span className={` ${isActive(item.link) ?"w-full":"w-0"} bottom-[-4px] group-hover:w-full absolute bg-primary h-[2px] rounded-full transition-all duration-400`}></span>
-                                    </div>
+                    {nav.map(item => (
+                        item.isDropdown ? (
+                        <Dropdown key={item.title} className='bg-primary/90 text-white rounded-sm' placement='bottom-start'>
+                            <DropdownTrigger>
+                                <div className="group font-normal text-sm text-gray-600 uppercase relative cursor-pointer tracking-wider flex items-center gap-2">
+                                    <p>{item.title}</p>
+                                    <IoMdArrowDropdown size={18} />
+                                    <span
+                                    className="absolute -bottom-0 left-0 h-[2px] bg-primary transition-all w-0 group-hover:w-4/5"
+                                    ></span>
+                                </div>
+                            </DropdownTrigger>
+                            <DropdownMenu aria-label={`${item.title} Menu`} variant='light'>
+                            {item.items.map((subItem, subIndex) => (
+                                <DropdownItem key={subIndex}>
+                                <Link href={subItem.href}>
+                                    {subItem.title}
                                 </Link>
-                                
-                            )
-                        })}
-                </div>
+                                </DropdownItem>
+                            ))}
+                            </DropdownMenu>
+                        </Dropdown>
+                        ) : (
+                        <Link key={item.title} href={item.link!}>
+                            <div className='group relative'>
+                            <p className='font-normal text-sm text-gray-600 uppercase tracking-wider'>{item.title}</p>
+                            <span
+                                className={` ${isActive(item.link!) ? "w-full" : "w-0"} bottom-[-4px] group-hover:w-full absolute bg-primary h-[2px] rounded-full transition-all duration-400`}
+                            ></span>
+                            </div>
+                        </Link>
+                        )
+                    ))}
+                    </div>
+
                 </section>
         </>
     )

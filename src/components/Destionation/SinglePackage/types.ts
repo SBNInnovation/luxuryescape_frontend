@@ -17,6 +17,7 @@ export interface LuxuryPackage {
     itinerary?: {
         days?: string;
         description?: string;
+        title:string;
         image?: string;
         hotel?: {
             name?: string;

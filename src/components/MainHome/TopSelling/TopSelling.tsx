@@ -223,7 +223,7 @@ const TopSellingSlider = () => {
                                 animate={{ opacity: item.index === activeIndex ? 0 : 0.2 }}
                             />
                             <motion.div 
-                                className={`absolute left-0 bottom-0 p-3 rounded-b-lg text-sm text-white ${antic.className} bg-black/30 w-full`}
+                                className={`absolute left-0 bottom-0 p-3 rounded-b-lg text-sm text-white ${antic.className} bg-black/70 w-full`}
                                 initial={false}
                                 animate={{ 
                                     height: item.index === activeIndex ? '0' : 'auto',

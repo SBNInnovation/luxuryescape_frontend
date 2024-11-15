@@ -5,12 +5,12 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
-*{
+* {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
-::-webkit-scrollbar{
+::-webkit-scrollbar {
   display: none;
 }
 @layer utilities {
@@ -84,3 +84,19 @@ body {
   }
 }
 
+.slick-slide.slick-center img {
+  transition: all .7s ;
+  transform: scale(1.25);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+.custom-trip-card {
+  box-shadow: 0 4px 6px rgba(0,0,0,.1);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.custom-trip-card:hover {
+  box-shadow: 0 8px 8px rgba(232, 184, 109, 0.4), 0 4px 6px rgba(232, 184, 109, 0.3);
+}

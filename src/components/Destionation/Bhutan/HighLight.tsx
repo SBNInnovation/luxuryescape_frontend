@@ -35,26 +35,25 @@ const CustomNextArrow: React.FC<CustomArrowComponentProps> = ({ onClick }) => (
 const HighlightCarousel: React.FC = () => {
 
     const highlights = [
-        "Private helicopter tours over the Himalayas",
-        "Five-star accommodations with breathtaking views",
-        "Personalized, guided cultural experiences",
-        "Scenic private boat rides and lake excursions",
-        "Exclusive wildlife safaris and nature encounters",
-        "Luxurious mountain retreats and wellness experiences"
-    ];
+            "Private guided visits to iconic monasteries like Tiger's Nest",
+            "Stays at world-class luxury resorts with stunning valley views",
+            "Immersive cultural experiences with traditional Bhutanese ceremonies",
+            "Exclusive wellness retreats featuring hot stone baths and spa therapies",
+            "Scenic hikes through pristine landscapes and ancient trails",
+            "Personalized culinary experiences with gourmet Bhutanese cuisine"
+        ]
 
     const images = [
-        "https://images.unsplash.com/photo-1533130061792-64b345e4a833?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "https://images.unsplash.com/photo-1672343961201-2ef9a7b037f0?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "https://images.unsplash.com/photo-1606710607626-350820daa247?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "https://images.unsplash.com/photo-1731046386361-21eca2d4af2a?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "https://images.unsplash.com/photo-1631874345455-3eb0c52c6eca?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "https://images.unsplash.com/photo-1676542448059-50af97a0703e?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        "https://images.unsplash.com/photo-1544811096-89a14f806d55?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGJodXRhbnxlbnwwfDF8MHx8fDI%3D",
+        "https://images.unsplash.com/photo-1713464107752-80b023d392c4?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGJodXRhbnxlbnwwfDF8MHx8fDI%3D",
+        "https://images.unsplash.com/photo-1566020591233-b0fb79a268c2?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGJodXRhbnxlbnwwfDF8MHx8fDI%3D",
+        "https://images.unsplash.com/photo-1585940043926-92f50991d354?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjZ8fGJodXRhbnxlbnwwfDF8MHx8fDI%3D",
+        "https://images.unsplash.com/photo-1578556886705-5913afc1d13f?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     ];
 
     const settings = {
         className: "center",
-    centerMode: true,
+        centerMode: true,
         infinite: true,
         slidesToShow: 3,
         slidesToScroll: 1,
@@ -100,7 +99,7 @@ const HighlightCarousel: React.FC = () => {
                     {images.map((item, index) => (
                     <div className='py-16 mx-4 relative'>
                             <div
-                                className={`px-4 w-[90%] h-[300px]`}
+                                className={`px-4 w-[90%] h-[280px]`}
                                 key={index}
                             >
                                 <Image src={item} alt={item} width={1000} height={1000} className='w-full h-full object-cover rounded-sm scale-[.95] transition duration-700' />

@@ -1,4 +1,4 @@
-import Bhutan from '@/components/Destionation/Bhutan'
+import Bhutan from '@/components/Destionation/Bhutan/Bhutan'
 import React from 'react'
 
 const page = () => {

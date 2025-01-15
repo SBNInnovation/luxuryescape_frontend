@@ -29,17 +29,26 @@ const Navbar = () => {
             link:"/trip-types"
         },
         {
+            title:"Luxury Treks",
+            link:"/luxury-treks"
+        },
+        {
+            title:"Accommodations",
+            link:"/accommodations"
+        },
+        {
             title:"Tailor Made",
             link:"/tailor-made"
         },
-        {
-            title:"About",
-            link:"/about"
+        { 
+            title: "Others", 
+            isDropdown: true,
+            items: [
+                { title: "About", href: "/about" },
+                { title: "Contact", href: "/contact" },
+                { title: "Blogs", href: "/blogs" },
+            ]
         },
-        {
-            title:"Contact",
-            link:"/contact"
-        }
     ]
     const pathname=usePathname()
     const isActive=(path:string)=>pathname===path

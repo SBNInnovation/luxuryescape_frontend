@@ -160,13 +160,7 @@ const Accommodations: React.FC = () => {
                   <span className="text-sm">{hotel.location}</span>
                 </div>
                 <p className="text-gray-600 mb-4 line-clamp-2 text-sm">{hotel.description}</p>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <span className="text-2xl font-bold text-primary">
-                      {formatPrice(hotel.pricePerNight)}
-                    </span>
-                    <span className="text-sm text-gray-500 ml-1">/ night</span>
-                  </div>
+                <div className="flex items-center justify-end">
                   <Button 
                     className='bg-primary rounded-sm px-4 text-white'
                     size="sm"

@@ -151,12 +151,6 @@ const HotelModal: React.FC<HotelModalProps> = ({ hotel, isOpen, onOpenChange }) 
                                     Bed: {room.bedType}
                                 </span>
                                 </div>
-                                <div className="mt-4 flex justify-between items-center">
-                                <span className="text-xl font-bold text-primary">
-                                    ${room.pricePerNight}/night
-                                </span>
-                                <Button color="primary" size="sm">Book Now</Button>
-                                </div>
                             </div>
                             </div>
                         </div>

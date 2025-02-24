@@ -1,3 +1,5 @@
+
+"use client"
 import { antic } from '@/utility/font'
 import { Button, Link } from '@nextui-org/react'
 import React from 'react'
@@ -8,8 +10,10 @@ import DetailedItenary from './DetailedItenary'
 import FAQPackage from './FAQPackage'
 import WhyUs from '@/components/MainHome/WhyUs/WhyUs'
 import WhyLuxury from './WhyLuxury'
+import QuoteModal from './QuoteModal'
 
 const SinglePackage = () => {
+    const [isOpen,setIsOpen] = React.useState(false)
     const trip = {
     "title": "Luxury Highlights of Nepal Tour",
     "totalDays": 12,
@@ -182,12 +186,12 @@ const SinglePackage = () => {
                         </main>
                     </div>
                     <div className='flex flex-col gap-2'>
-                        <Button variant='bordered' className='border border-primary rounded-sm px-8 py-0 text-primary'>Get Quote</Button>
+                        <Button onPress={()=>setIsOpen(true)} variant='bordered' className='border border-primary rounded-sm px-8 py-0 text-primary'>Get Quote</Button>
                         <Button className='bg-primary rounded-sm px-8 py-0 text-white'>Book with us</Button>
                     </div>
                 </section>
             </div>
-
+            <QuoteModal isOpen={isOpen} onClose={()=>setIsOpen(false)} Title={trip.title}/>
             <MainSlider/>
             <DestinationandOverview destinations={trip.destinations} description={trip.description} />
             <TripHighlights tripHighlight={trip.tripHighlight} activities={trip.activities} inclusions={trip.inclusions}/>

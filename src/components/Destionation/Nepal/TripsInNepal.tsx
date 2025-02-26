@@ -2,10 +2,17 @@ import { antic } from '@/utility/font'
 import React from 'react'
 import TripCard from './TripCard'
 import { Pagination } from '@nextui-org/react'
+import { useQuery } from '@tanstack/react-query'
+import { getTours } from '@/services/tours'
 
 const TripsInNepal = () => {
 
-    
+    const {data:tourData}=useQuery({
+        queryKey:["tourData"],
+        queryFn:()=>getTours(1,20)
+    })
+
+    console.log(tourData)
 
     const topselling=[
     {

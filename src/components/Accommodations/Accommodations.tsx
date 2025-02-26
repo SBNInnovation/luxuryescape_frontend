@@ -77,7 +77,6 @@ const Accommodations: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  if(isLoading) return <Loader/>
 
   return (
     <div className="min-h-screen">
@@ -129,6 +128,7 @@ const Accommodations: React.FC = () => {
 
       {/* Accommodations Grid */}
       <div className="container mx-auto px-4 mb-8">
+        {isLoading && <Loader />}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {currentHotels?.map((hotel: Accommodation) => (
             <motion.div

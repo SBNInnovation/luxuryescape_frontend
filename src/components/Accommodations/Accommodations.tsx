@@ -5,10 +5,10 @@ import { Select, SelectItem, Pagination, Selection } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import { FaMapMarkerAlt, FaStar } from "react-icons/fa";
 import { antic } from "@/utility/font";
-import HotelModal from "./HotelModal";
 import { useQuery } from "@tanstack/react-query";
 import { getAccoms } from "@/services/accom";
 import Loader from "@/shared/Loader";
+import Link from "next/link";
 
 export interface Accommodation {
   _id: string;
@@ -39,8 +39,6 @@ const ITEMS_PER_PAGE = 6;
 const Accommodations: React.FC = () => {
   const [selectedLocation, setSelectedLocation] = useState<Selection>(new Set(["all"]));
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [selectedHotel, setSelectedHotel] = useState<Accommodation | null>(null);
 
   const { data: accomData,isLoading } = useQuery({
     queryKey: ["accommodations"],
@@ -71,11 +69,6 @@ const Accommodations: React.FC = () => {
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
   );
-
-  const handleHotelClick = (hotel: Accommodation): void => {
-    setSelectedHotel(hotel);
-    setIsModalOpen(true);
-  };
 
 
   return (
@@ -137,7 +130,6 @@ const Accommodations: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               whileHover={{ y: -5 }}
               transition={{ duration: 0.3 }}
-              onClick={() => handleHotelClick(hotel)}
               className="bg-white rounded-sm overflow-hidden shadow-lg cursor-pointer hover:shadow-xl transition-all duration-300"
             >
               <div className="relative h-64">
@@ -165,15 +157,13 @@ const Accommodations: React.FC = () => {
                   {hotel.accommodationDescription}
                 </p>
                 <div className="flex items-center justify-end">
-                  <button
-                    className="bg-primary text-white rounded-sm px-4 py-2 text-sm hover:bg-primary/90 transition-colors"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleHotelClick(hotel);
-                    }}
-                  >
-                    View Details
-                  </button>
+                  <Link href={`/accommodations/${hotel.slug}`}>
+                    <button
+                      className="bg-primary text-white rounded-sm px-4 py-2 text-sm hover:bg-primary/90 transition-colors"
+                    >
+                      View Details
+                    </button>
+                  </Link>
                 </div>
               </div>
             </motion.div>
@@ -193,9 +183,6 @@ const Accommodations: React.FC = () => {
           />
         </div>
       )}
-
-      {/* Hotel Modal */}
-      <HotelModal hotel={selectedHotel} isOpen={isModalOpen} onOpenChange={setIsModalOpen} />
     </div>
   );
 };

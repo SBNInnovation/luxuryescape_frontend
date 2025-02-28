@@ -1,21 +1,57 @@
 "use client"
+import { postQuote } from '@/services/contact';
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Input, Textarea } from '@nextui-org/react'
+import { useMutation } from '@tanstack/react-query';
 import React, { useState, useEffect } from 'react'
+import { toast } from 'sonner';
 
 interface modalProps {
     isOpen: boolean;
     onClose: () => void;
     Title: string | undefined;
+    type: string
+    tourId?: string
+    trekId?: string
 }
 
-const QuoteModal: React.FC<modalProps> = ({ isOpen, onClose,Title }) => {
+const QuoteModal: React.FC<modalProps> = ({ isOpen, onClose, Title, type, tourId, trekId }) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [number, setNumber] = useState('');
     const [message, setMessage] = useState("");
 
+    const {mutate: postQuoteMutation} = useMutation({
+        mutationFn: (data: any) => postQuote(data),
+        onSuccess: () => {
+            toast.success("Quote request sent successfully");
+            setName("");
+            setEmail("");
+            setNumber("");
+            setMessage("");
+            onClose();
+        },
+        onError: () => {
+            toast.error("Failed to send quote request");
+        }
+    })
 
-    
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        
+        // Create data object, setting the opposing ID to null
+        const data = {
+            name,
+            email,
+            number,
+            message,
+            type,
+            tourName: Title,
+            tourId: tourId || null,
+            trekId: trekId || null
+        }
+        
+        postQuoteMutation(data);
+    }
 
     return (
         <Modal isOpen={isOpen} onOpenChange={onClose} size='2xl'>
@@ -26,7 +62,7 @@ const QuoteModal: React.FC<modalProps> = ({ isOpen, onClose,Title }) => {
                             Get Quote Form: {Title}
                         </ModalHeader>
                         <ModalBody>
-                            <form action="" className='flex flex-col gap-4'>
+                            <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
                                 <p>Please fill out the form below:</p>
                                 <Input 
                                     label="Name" 
@@ -71,7 +107,11 @@ const QuoteModal: React.FC<modalProps> = ({ isOpen, onClose,Title }) => {
                             <Button color="danger" variant="light" onPress={onClose} className='rounded-sm'>
                                 Close
                             </Button>
-                            <Button color="primary" className='rounded-md'>
+                            <Button 
+                                color="primary" 
+                                className='rounded-md'
+                                onClick={(e) => handleSubmit(e as any)}
+                            >
                                 Submit
                             </Button>
                         </ModalFooter>

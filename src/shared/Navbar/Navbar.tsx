@@ -72,7 +72,9 @@ const Navbar = () => {
                 </section>
                 <div className='flex gap-8 items-center'>
                     <Button className='bg-transparent' isIconOnly><IoSearch size={28} className='text-[#E8B86D]'/></Button>
-                    <Button className='bg-primary rounded-sm px-8 text-white' size='sm'>Get a quote</Button>
+                    <Link href={"/tailor-made"}>
+                        <Button className='bg-primary rounded-sm px-8 text-white' size='sm'>Customize trip</Button>
+                    </Link>
                 </div>
                 
             </div>

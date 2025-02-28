@@ -75,12 +75,12 @@ const SinglePackage:React.FC<props> = ({id}) => {
                         </main>
                     </div>
                     <div className='flex flex-col gap-2'>
-                        <Button onPress={()=>setIsOpen(true)} variant='bordered' className='border border-primary rounded-sm px-8 py-0 text-primary'>Get Quote</Button>
+                        <Button onPress={()=>setIsOpen(true)} variant='bordered' className='border border-primary rounded-sm px-8 py-0 text-primary'>Get Customized Quote</Button>
                         <Button className='bg-primary rounded-sm px-8 py-0 text-white'>Book with us</Button>
                     </div>
                 </section>
             </div>
-            <QuoteModal isOpen={isOpen} onClose={()=>setIsOpen(false)} Title={trip.title}/>
+            <QuoteModal isOpen={isOpen} onClose={()=>setIsOpen(false)} Title={trip.title} type={singleTour?.data?.type} tourId={singleTour?.data?._id}/>
             <MainSlider gallery={singleTour.data.gallery} thumbnail={singleTour.data.thumbnail} />
             <DestinationandOverview description={trip.description} />
             <TripHighlights activities={trip.activities} inclusions={trip.inclusions}/>
@@ -92,7 +92,7 @@ const SinglePackage:React.FC<props> = ({id}) => {
                 <h1 className={` text-5xl tracking-wide ${antic.className}`}>Customize Your Trip</h1>
                 <p className='w-4/5 my-4'>Discover the freedom to design your dream luxury experience. Choose your destinations, hand-pick activities, and set the pace of your journey, all while staying in premier accommodations. Our custom travel packages allow you to create a unique itinerary that reflects your personal tastes and interests. Whether it&apos; an exclusive cultural experience, a breathtaking helicopter tour, or a relaxing retreat, we're here to bring your vision to life with seamless planning and expert guidance. Enjoy a journey that is crafted uniquely for you, ensuring every moment is unforgettable.</p>
                 <Button className='rounded-sm bg-primary px-12 text-white'>
-                    <Link href='/contact' className='text-white'>Get Started</Link>
+                    <Link href='/tailor-made' className='text-white'>Get Started</Link>
                 </Button>
             </div>  
         </div>

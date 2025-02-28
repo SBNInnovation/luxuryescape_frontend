@@ -5,7 +5,7 @@ import Image from "next/image";
 import SharedTitle from "@/shared/SharedTitle";
 import { antic } from "@/utility/font";
 import { useMutation } from "@tanstack/react-query";
-import { postContact } from "@/services/contact";
+import { postContact } from "@/services/form";
 import { toast } from "sonner";
 
 // Interface for form values

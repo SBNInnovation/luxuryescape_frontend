@@ -1,5 +1,5 @@
 "use client"
-import { postQuote } from '@/services/contact';
+import { postQuote } from '@/services/form';
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Input, Textarea } from '@nextui-org/react'
 import { useMutation } from '@tanstack/react-query';
 import React, { useState, useEffect } from 'react'

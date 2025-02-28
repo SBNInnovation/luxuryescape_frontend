@@ -1,10 +1,10 @@
 import SinglePackage from '@/components/Destionation/SinglePackage/SinglePackage'
 import React from 'react'
 
-const page = () => {
+const page = ({params}:{params:{id:string}}) => {
     return (
         <div>
-            <SinglePackage/>
+            <SinglePackage id={params.id}/>
         </div>
     )
 }

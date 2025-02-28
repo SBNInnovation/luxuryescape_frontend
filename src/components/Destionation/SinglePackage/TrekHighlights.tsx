@@ -34,7 +34,7 @@ const CustomNextArrow: React.FC<CustomArrowComponentProps> = ({ onClick }) => (
     </Button>
 )
 
-const TrekHighlights: React.FC<LuxuryPackage> = ({tripHighlight,activities,inclusions}) => {
+const TrekHighlights: React.FC<LuxuryPackage> = ({activities, inclusions}) => {
     const settings = {
         infinite: true,
         speed: 500,
@@ -42,10 +42,10 @@ const TrekHighlights: React.FC<LuxuryPackage> = ({tripHighlight,activities,inclu
         slidesToScroll: 1,
         prevArrow: <CustomPrevArrow />,
         nextArrow: <CustomNextArrow />,
-        autoplay:true,
+        autoplay: true,
         pauseOnHover: true,
-        centerPaddiong: '60px',
-        autoplaySpeed:4000,
+        centerPadding: '60px',
+        autoplaySpeed: 4000,
         responsive: [
             {
                 breakpoint: 1280,
@@ -63,53 +63,47 @@ const TrekHighlights: React.FC<LuxuryPackage> = ({tripHighlight,activities,inclu
             }
         ]
     };
+    
     return (
         <div className='my-12'>
             <h1 className={`text-3xl ${antic.className} font-semibold text-primary my-8 `}>Trip Highlights</h1>
-            <div className='grid grid-cols-2 gap-4 gap-x-12 place-items-start w-full'>
-                {tripHighlight?.map((item, index) => (
-                    <>
-                        <div key={index} className='w-full'>
-                            <div className='flex items-center gap-4'>
-                                <FaRegDotCircle className='text-primary' size={14}/>
-                                <h2 className='font-medium '>{item}</h2>
+            
+            {/* Only render the slider if there are activities */}
+            {activities && activities.length > 0 && (
+                <div className="w-full my-16 relative">
+                    <Slider {...settings}>
+                        {activities.map((item, index) => (
+                            <div
+                                className={`w-full sm:w-1/2 md:w-1/3 cursor-pointer h-[350px] px-4 relative ${
+                                    index % 2 === 0 ? 'mt-16' : 'mt-0'
+                                }`}
+                                key={index}
+                            >
+                                <div className="h-full relative">
+                                    <Image
+                                        src={item.image || "/placeholder-image.jpg"}
+                                        alt={item.activity || "Tour highlight"}
+                                        height={1000}
+                                        width={1000}
+                                        className="w-full h-full object-cover rounded-sm"
+                                    />
+                                    <div className="z-[10] flex gap-4 items-center rounded-b-sm absolute bottom-0 w-full px-4 py-4 bg-black/60 text-white">
+                                        <CiLocationOn size={20} className='text-primary'/>
+                                        <h1>{item.activity}</h1>
+                                    </div>
+                                </div>
                             </div>
-                            <Divider className='my-2'/>
-                        </div>
-                    </>
-                ))}
-            </div>
-            <div className="w-full my-16 relative">
-                <Slider {...settings}>
-                    {activities?.map((item, index) => (
-                    <div
-                        className={`w-full sm:w-1/2 md:w-1/3 cursor-pointer h-[350px] px-4 relative ${
-                        index % 2 == 0 ? 'mt-16' : 'mt-0'
-                        }`}
-                        key={index}
-                    >
-                        <div className="h-full relative">
-                        <Image
-                            src={item.image!}
-                            alt={item.activity!}
-                            height={1000}
-                            width={1000}
-                            className="w-full h-full object-cover rounded-sm"
-                        />
-                        <div className="z-[10] flex gap-4 items-center rounded-b-sm absolute bottom-0 w-full px-4 py-4 bg-black/60 text-white">
-                            <CiLocationOn size={20} className='text-primary'/>
-                            <h1>{item.activity}</h1>
-                        </div>
-                        </div>
-                    </div>
-                    ))}
-                </Slider>
-            </div>
+                        ))}
+                    </Slider>
+                </div>
+            )}
 
-            <div className='mt-16 w-full'>
-                <h1 className={`text-3xl ${antic.className} font-semibold text-primary my-8 `}>Trip inclusions</h1>
-                <div className='grid grid-cols-3 gap-x-8 gap-y-4 mt-12'>
-                        {inclusions?.map((item, index) => (
+            {/* Only render the inclusions section if there are inclusions */}
+            {inclusions && inclusions.length > 0 && (
+                <div className='mt-16 w-full'>
+                    <h1 className={`text-3xl ${antic.className} font-semibold text-primary my-8 `}>Trip inclusions</h1>
+                    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-4 mt-12'>
+                        {inclusions.map((item, index) => (
                             <div key={index} className='w-full'>
                                 <div className='flex items-center gap-4'>
                                     <FaRegDotCircle className='text-primary' size={14}/>
@@ -118,9 +112,9 @@ const TrekHighlights: React.FC<LuxuryPackage> = ({tripHighlight,activities,inclu
                                 <Divider className='my-2'/>
                             </div>
                         ))}
+                    </div>
                 </div>
-            </div>
-
+            )}
         </div>
     )
 }

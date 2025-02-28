@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Provider } from "@/provider/Provider";
-import { Poppins } from 'next/font/google';
+import { Toaster } from "sonner";
 import Navbar from "@/shared/Navbar/Navbar";
 import ScrollToTop from "@/shared/ScrollToTop";
 import Head from "next/head";
@@ -32,6 +32,7 @@ export default function RootLayout({
           <div className="mx-auto max-w-[2000px]">
             <Provider>
               <Navbar />
+              <Toaster richColors/>
               <main className={`${poppins.className}`}>
                 {children}
                 <ScrollToTop />

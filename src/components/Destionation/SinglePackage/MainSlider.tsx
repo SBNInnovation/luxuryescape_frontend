@@ -1,40 +1,62 @@
 "use client"
 import React, { useEffect } from 'react'
-import Image from 'next/image';
+import Image from 'next/image'
 
-const MainSlider = () => {
+interface ImagesProps {
+    gallery?: string[];
+    thumbnail?: string;
+}
+
+const MainSlider: React.FC<ImagesProps> = ({ gallery = [], thumbnail }) => {
     const [currentSlide, setCurrentSlide] = React.useState(0);
-    const images=[
-        "https://images.unsplash.com/photo-1538280103171-f4281606408f?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "https://images.unsplash.com/photo-1716503191918-b811f0f9cdb1?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "https://images.unsplash.com/photo-1610997686651-98492fd08108?q=80&w=2831&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "https://images.unsplash.com/photo-1516426122078-c23e76319801?q=80&w=2936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "https://images.unsplash.com/photo-1567098279143-e90b699c6d7f?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-
-    ]
+    
+    // Combine gallery and thumbnail into a single array of images
+    const images = React.useMemo(() => {
+        const allImages = [...gallery];
+        
+        // Add thumbnail to the beginning if it exists and is not already in the gallery
+        if (thumbnail && !allImages.includes(thumbnail)) {
+            allImages.unshift(thumbnail);
+        }
+        
+        return allImages;
+    }, [gallery, thumbnail]);
 
     useEffect(() => {
+        // Only start the interval if there are multiple images
+        if (images.length <= 1) return;
+        
         const intervalId = setInterval(() => {
             setCurrentSlide((prevSlide) => (prevSlide + 1) % images.length);
         }, 5000); 
 
         return () => clearInterval(intervalId);
-    }, []);
+    }, [images.length]);
+
+    if (images.length === 0) {
+        return (
+            <div className='relative my-12 h-[600px] w-full bg-gray-200 flex items-center justify-center'>
+                <p className="text-gray-500">No images available</p>
+            </div>
+        );
+    }
+
     return (
         <div className='relative my-12 h-[600px] w-full'>
-                {images.map((img, index) => (
-                            <Image 
-                                key={img}
-                                src={img} 
-                                alt={`Bhutan ${index + 1}`} 
-                                layout="fill"
-                                objectFit="cover"
-                                className={`absolute transition-opacity duration-1000 ease-in-out ${
-                                    index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
-                                }`}
-                            />
-                        ))}
-            </div>
+            {images.map((img, index) => (
+                <Image 
+                    key={index}
+                    src={img} 
+                    alt={`Tour Image ${index + 1}`}
+                    fill
+                    sizes="100vw"
+                    priority={index === 0}
+                    className={`object-cover transition-opacity duration-1000 ease-in-out ${
+                        index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                    }`}
+                />
+            ))}
+        </div>
     )
 }
 

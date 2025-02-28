@@ -4,7 +4,7 @@ import { LuxuryPackage } from './types'
 import { antic } from '@/utility/font'
 import Image from 'next/image'
 import { Button } from '@nextui-org/react'
-const DestinationandOverview: React.FC<LuxuryPackage> = ({destinations,description}) => {
+const DestinationandOverview: React.FC<LuxuryPackage> = ({description}) => {
     const [expanded,setExpaned]=useState(false)
 
     const toggleExpanded=()=>{
@@ -14,7 +14,7 @@ const DestinationandOverview: React.FC<LuxuryPackage> = ({destinations,descripti
     return (
         <>
             <h1 className={`text-3xl ${antic.className} font-semibold text-primary my-8 `}>Destinations</h1>
-            <div className='grid grid-cols-3 gap-12 w-full'>
+            {/* <div className='grid grid-cols-3 gap-12 w-full'>
                 {destinations?.map((destination) => (
                     <div key={destination.city} className='flex justify-between w-full items-center shadow-md'>
                         <div className='w-[75%] flex flex-col my-2 bg-white h-full px-6 pt-4'>
@@ -28,7 +28,7 @@ const DestinationandOverview: React.FC<LuxuryPackage> = ({destinations,descripti
 
                 ))}
 
-            </div>
+            </div> */}
 
 
             <h1 className={`text-3xl ${antic.className} font-semibold text-primary mt-20 mb-8 `}>Trip Overview</h1>

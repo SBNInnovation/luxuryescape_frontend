@@ -7,6 +7,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getTours } from '@/services/tours'
 import { Tour } from '@/types/types'
 import Loader from '@/shared/Loader'
+import NoDataFound from '@/shared/NoData/NoData'
 
 const items_per_page=6
 
@@ -15,7 +16,7 @@ const TripsInNepal = () => {
     const first=useRef<HTMLParagraphElement>(null)
 
     const {data:tourData,isLoading}=useQuery({
-        queryKey:["tourData",page],
+        queryKey:["tourData-nepal",page],
         queryFn:()=>getTours(page,items_per_page,"Nepal")
     })
 
@@ -31,6 +32,7 @@ const TripsInNepal = () => {
                 </p>
             <div className='w-full px-32 flex flex-col gap-12 py-12 '>
                 {isLoading && <Loader/>}
+                {tourData?.data?.tours?.length===0 && <NoDataFound title='No Tours Found'/>}
                 {tourData?.data?.tours?.map((item:Tour,index:number)=>(
                     <TripCard key={index} {...item}/>
                 ))}

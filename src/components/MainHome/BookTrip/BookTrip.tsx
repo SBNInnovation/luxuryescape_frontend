@@ -1,6 +1,6 @@
 import SharedTitle from '@/shared/SharedTitle'
 import { antic } from '@/utility/font'
-import { Button } from '@nextui-org/react'
+import { Button, Link } from '@nextui-org/react'
 import React from 'react'
 import { FaClock, FaHandsHelping, FaMapMarkerAlt, FaMoneyBillWave, FaPlane } from 'react-icons/fa'
 
@@ -10,7 +10,7 @@ const BookTrip = () => {
             <div className='sticky top-4 px-4 py-4 w-1/2 h-fit'>
                 <SharedTitle title='Planning a trip ? ' subtitle='let us help'/>
                 <p className='text-sm text-justify mt-4'>Planning a luxury trip is simple! Start by selecting your dream destination, decide on your ideal trip duration, and estimate your budget. Then, let us step in to craft the perfect itinerary, ensuring every detail is tailored for an exceptional travel experience.</p>
-                <Button className='px-12 mt-6 bg-primary text-white rounded-sm'>Plan trip</Button>
+                <Link href='/tailor-made'><Button className='px-12 mt-6 bg-primary text-white rounded-sm'>Plan trip</Button></Link>
             </div>
             <div className='w-1/2 p-4'>
                 <ol className="relative border-l border-primary ">

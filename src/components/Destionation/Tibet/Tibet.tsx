@@ -4,13 +4,13 @@ import { BreadcrumbItem, Breadcrumbs, Button, Tab, Tabs } from "@nextui-org/reac
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import WhyLuxury from "../SinglePackage/WhyLuxury";
+import Link from "next/link";
 import OverView from "./OverView";
 import HighLight from "./HighLight";
-import TripsInBhutan from "./TripsInBhutan";
+import TripsInTibet from "./TripsInTibet";
 import Accommodation from "./Accommodation";
-import Link from "next/link";
 
-const Bhutan = () => {
+const Tibet = () => {
     const overviewRef = useRef<HTMLDivElement | null>(null);
     const highlightsRef = useRef<HTMLDivElement | null>(null);
     const whyNepalRef = useRef<HTMLDivElement | null>(null);
@@ -63,14 +63,14 @@ const Bhutan = () => {
             <Breadcrumbs className="mb-8">
                 <BreadcrumbItem>Home</BreadcrumbItem>
                 <BreadcrumbItem>Destinations</BreadcrumbItem>
-                <BreadcrumbItem>Bhutan</BreadcrumbItem>
+                <BreadcrumbItem>Tibet</BreadcrumbItem>
             </Breadcrumbs>
             <div className="h-[700px] w-full relative">
                 <Image
                     src={
-                        "https://images.unsplash.com/photo-1729174518995-8c4546b3dd53?q=80&w=2840&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        "https://images.unsplash.com/photo-1560389959-e4e81f5dca86?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGliZXR8ZW58MHx8MHx8fDA%3D"
                     }
-                    alt="Bhutan"
+                    alt="Tibet"
                     height={1000}
                     width={1000}
                     className="object-cover h-full w-full rounded-md"
@@ -79,7 +79,7 @@ const Bhutan = () => {
                 <div className="absolute left-24 top-1/3 text-white flex flex-col gap-8">
                     <div className="text-2xl font-light">Enjoy Luxury Tours and Packages in</div>
                     <span className={`${antic.className} text-primary text-8xl tracking-wider`}>
-                        Bhutan
+                        Tibet
                     </span>
                 </div>
             </div>
@@ -117,7 +117,7 @@ const Bhutan = () => {
                     >
                         <Tab key="overview" title="Overview" />
                         <Tab key="highlights" title="Highlights" />
-                        <Tab key="whyNepal" title="Trips in Bhutan" />
+                        <Tab key="whyNepal" title="Trips in Tibet" />
                         <Tab key="featuredTrips" title="Luxury Accommodations" />
                     </Tabs>
                 </div>
@@ -128,7 +128,7 @@ const Bhutan = () => {
                     <HighLight />
                 </div>
                 <div ref={whyNepalRef} className="w-full py-16">
-                    <TripsInBhutan />
+                    <TripsInTibet />
                 </div>
                 <div ref={featuredTripsRef} className="w-full py-16">
                     <Accommodation />
@@ -137,12 +137,12 @@ const Bhutan = () => {
             <div className="w-full">
                     <h1 className={`${antic.className} text-primary text-5xl mb-8`}>Other Destinations</h1>
                     <div className="flex w-full">
-                        <Link href={`/destinations/tibet`} className="w-1/2">
+                        <Link href={`/destinations/bhutan`} className="w-1/2">
                             <section className="w-full h-[500px] relative group overflow-hidden">
                                 <div className="w-full h-full transition-transform duration-500 group-hover:scale-110">
                                     <Image
                                         src={
-                                            "https://images.unsplash.com/photo-1503641926155-5c17619b79d0?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                            "https://images.unsplash.com/photo-1729174518995-8c4546b3dd53?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGJodXRhbnxlbnwwfHwwfHx8MA%3D%3D"
                                         }
                                         alt="Tibet"
                                         height={1000}
@@ -151,7 +151,7 @@ const Bhutan = () => {
                                     />
                                 </div>
                                 <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-4">
-                                    <h3 className="text-white text-4xl font-semibold">Tibet</h3>
+                                    <h3 className="text-white text-4xl font-semibold">Bhutan</h3>
                                     <Button
                                         variant="bordered"
                                         className="text-white rounded-sm px-12 mt-4 border-white hover:bg-primary hover:text-white transition-colors"
@@ -192,4 +192,5 @@ const Bhutan = () => {
     );
 };
 
-export default Bhutan;
+export default Tibet;
+

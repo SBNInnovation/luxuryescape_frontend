@@ -35,8 +35,10 @@ const SinglePackage:React.FC<props> = ({id}) => {
         description: item.description,
         image: singleTour.data.itineraryDayPhoto[index] || "", // Use corresponding image or empty string as fallback
         hotel: {
-            name: item.accommodation && item.accommodation.length > 0 ? item.accommodation[0] : "Luxury Accommodation",
-            image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=800" // Placeholder image
+            // Extract just the accommodation title instead of using the whole object
+            name: item.accommodation && item.accommodation.length > 0 ? item.accommodation[0].accommodationTitle : "Luxury Accommodation",
+            image:  item.accommodation[0].accommodationPics[0],
+            slug: item.accommodation[0].slug
         }
     }));
 

@@ -22,6 +22,7 @@ export interface LuxuryPackage {
         hotel?: {
             name?: string;
             image?: string;
+            slug?: string
         };
     }[];
     faqs?: {

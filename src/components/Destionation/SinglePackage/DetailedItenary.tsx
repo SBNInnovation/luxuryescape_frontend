@@ -4,6 +4,7 @@ import { antic } from '@/utility/font'
 import SharedTitle from '@/shared/SharedTitle'
 import Image from 'next/image'
 import { Button, Divider } from '@nextui-org/react'
+import Link from 'next/link'
 
 const DetailedItenary: React.FC<LuxuryPackage> = ({itinerary}) => {
     // Guard against undefined or empty itinerary
@@ -42,21 +43,23 @@ const DetailedItenary: React.FC<LuxuryPackage> = ({itinerary}) => {
                         {item?.hotel && (
                             <section className=''>
                                 <h1 className={`${antic.className} text-4xl my-2 text-primary`}>Your Possible Stay</h1>
-                                <div className='flex flex-col gap-4 cursor-pointer w-[300px] mt-8'>
-                                    <div className='h-[180px] w-[300px]'>
-                                        <Image 
-                                            src={item.hotel.image || "/placeholder-hotel.jpg"} 
-                                            alt={item.hotel.name || "Luxury Accommodation"} 
-                                            width={1000} 
-                                            height={1000} 
-                                            className='w-full h-full object-cover rounded-sm shadow-md'
-                                        />
+                                <Link href={`/accommodations/${item.hotel.slug}`}>
+                                    <div className='flex flex-col gap-4 cursor-pointer w-[300px] mt-8'>
+                                        <div className='h-[180px] w-[300px]'>
+                                            <Image 
+                                                src={item.hotel.image!} 
+                                                alt={item.hotel.name!} 
+                                                width={1000} 
+                                                height={1000} 
+                                                className='w-full h-full object-cover rounded-sm shadow-md'
+                                            />
+                                        </div>
+                                        <p className='font-semibold text-lg'>{item.hotel.name}</p>
+                                        <Button variant='light' className="text-primary underline underline-offset-2 rounded-sm">
+                                            View Details
+                                        </Button>
                                     </div>
-                                    <p className='font-semibold text-lg'>{item.hotel.name}</p>
-                                    <Button variant='light' className="text-primary underline underline-offset-2 rounded-sm">
-                                        View Details
-                                    </Button>
-                                </div>
+                                </Link>
                             </section>
                         )}
                     </div>

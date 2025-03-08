@@ -8,8 +8,8 @@ import { Tour } from '@/types/types'
 const TripCard: React.FC<Tour> = ({ tourName,tourOverview,thumbnail,idealTime,cost,slug  }) => {
     const slicedDesc = tourOverview?.slice(0, 200)
     return (
-        <div className="w-full flex shadow-lg relative group overflow-hidden cursor-pointer custom-trip-card">
-            <div className="h-[250px] w-1/3 overflow-hidden relative">
+        <div className="w-full h-[250px] flex shadow-lg relative group overflow-hidden cursor-pointer custom-trip-card">
+            <div className="h-full w-1/3 overflow-hidden relative">
                 <Image
                     src={thumbnail}
                     alt="Nepal"
@@ -19,7 +19,7 @@ const TripCard: React.FC<Tour> = ({ tourName,tourOverview,thumbnail,idealTime,co
                 />
             </div>
 
-            <div className="flex flex-col gap-2 px-8 pt-10 w-2/3">
+            <div className="flex flex-col gap-2 px-8 py-8 w-2/3">
                 <h1 className={`${antic.className} text-primary text-3xl`}>{tourName}</h1>
                 <p className="my-2 text-sm">{slicedDesc}</p>
                 <p className={`${antic.className} text-xl text-primary`}>

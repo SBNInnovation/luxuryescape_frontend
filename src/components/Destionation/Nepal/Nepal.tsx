@@ -8,6 +8,7 @@ import HighLight from "./HighLight";
 import TripsInNepal from "./TripsInNepal";
 import Accommodation from "./Accommodation";
 import WhyLuxury from "../SinglePackage/WhyLuxury";
+import Link from "next/link";
 
 const Nepal = () => {
     const overviewRef = useRef<HTMLDivElement | null>(null);
@@ -136,50 +137,54 @@ const Nepal = () => {
             <div className="w-full">
                     <h1 className={`${antic.className} text-primary text-5xl mb-8`}>Other Destinations</h1>
                     <div className="flex w-full">
-                        <section className="w-1/2 h-[500px] relative group overflow-hidden">
-                            <div className="w-full h-full transition-transform duration-500 group-hover:scale-110">
-                                <Image
-                                    src={
-                                        "https://images.unsplash.com/photo-1503641926155-5c17619b79d0?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                    }
-                                    alt="Tibet"
-                                    height={1000}
-                                    width={1000}
-                                    className="w-full h-full object-cover"
-                                />
-                            </div>
-                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-4">
-                                <h3 className="text-white text-4xl font-semibold">Tibet</h3>
-                                <Button
-                                    variant="bordered"
-                                    className="text-white rounded-sm px-12 mt-4 border-white hover:bg-primary hover:text-white transition-colors"
-                                >
-                                    View Trips
-                                </Button>
-                            </div>
-                        </section>
-                        <section className="w-1/2 h-[500px] relative group overflow-hidden">
-                            <div className="w-full h-full transition-transform duration-500 group-hover:scale-110">
-                                <Image
-                                    src={
-                                        "https://images.unsplash.com/photo-1729174518995-8c4546b3dd53?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGJodXRhbnxlbnwwfHwwfHx8MA%3D%3D"
-                                    }
-                                    alt="Tibet"
-                                    height={1000}
-                                    width={1000}
-                                    className="w-full h-full object-cover"
-                                />
-                            </div>
-                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-4">
-                                <h3 className="text-white text-4xl font-semibold">Bhutan</h3>
-                                <Button
-                                    variant="bordered"
-                                    className="text-white rounded-sm px-12 mt-4 border-white hover:bg-primary hover:text-white transition-colors"
-                                >
-                                    View Trips
-                                </Button>
-                            </div>
-                        </section>
+                        <Link href={`destination/tibet`} className="w-1/2">
+                            <section className="w-full h-[500px] relative group overflow-hidden">
+                                <div className="w-full h-full transition-transform duration-500 group-hover:scale-110">
+                                    <Image
+                                        src={
+                                            "https://images.unsplash.com/photo-1503641926155-5c17619b79d0?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                        }
+                                        alt="Tibet"
+                                        height={1000}
+                                        width={1000}
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-4">
+                                    <h3 className="text-white text-4xl font-semibold">Tibet</h3>
+                                    <Button
+                                        variant="bordered"
+                                        className="text-white rounded-sm px-12 mt-4 border-white hover:bg-primary hover:text-white transition-colors"
+                                    >
+                                        View Trips
+                                    </Button>
+                                </div>
+                            </section>
+                        </Link>
+                        <Link href={`destination/tibet`} className="w-1/2">
+                            <section className="w-full h-[500px] relative group overflow-hidden">
+                                <div className="w-full h-full transition-transform duration-500 group-hover:scale-110">
+                                    <Image
+                                        src={
+                                            "https://images.unsplash.com/photo-1729174518995-8c4546b3dd53?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGJodXRhbnxlbnwwfHwwfHx8MA%3D%3D"
+                                        }
+                                        alt="Tibet"
+                                        height={1000}
+                                        width={1000}
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-4">
+                                    <h3 className="text-white text-4xl font-semibold">Bhutan</h3>
+                                    <Button
+                                        variant="bordered"
+                                        className="text-white rounded-sm px-12 mt-4 border-white hover:bg-primary hover:text-white transition-colors"
+                                    >
+                                        View Trips
+                                    </Button>
+                                </div>
+                            </section>
+                        </Link>
                     </div>
             </div>
             <WhyLuxury />

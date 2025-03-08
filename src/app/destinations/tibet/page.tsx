@@ -1,4 +1,4 @@
-import Tibet from '@/components/Destionation/Tibet'
+import Tibet from '@/components/Destionation/Tibet/Tibet'
 import React from 'react'
 
 const page = () => {

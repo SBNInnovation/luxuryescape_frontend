@@ -1,41 +1,23 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Card, CardBody, CardFooter, Chip, Badge } from '@nextui-org/react';
-import { FiCalendar, FiMapPin, FiStar } from 'react-icons/fi';
+import { Card, CardBody, CardFooter, Chip } from '@nextui-org/react';
+import { FiCalendar, FiMapPin } from 'react-icons/fi';
+import { Trek } from '@/types/types';
 
-// Define Trek interface
-interface TrekProps {
-  id: number;
-  title: string;
-  location: string;
-  duration: number;
-  rating: number;
-  price: number;
-  image: string;
-  difficulty: string;
-  description?: string;
-}
 
-interface TrekCardProps {
-  trek: TrekProps;
-}
+const TrekCard: React.FC<Trek> = ({ slug, trekName, location, duration, cost, thumbnail, difficultyLevel}) => {
 
-const TrekCard: React.FC<TrekCardProps> = ({ trek }) => {
-  const { id, title, location, duration, rating, price, image, difficulty } = trek;
-
-  const getDifficultyColor = (level: string): "success" | "warning" | "danger" | "primary" => {
+  const getDifficultyColor = (level: string) => {
     switch (level.toLowerCase()) {
       case 'easy':
         return "success";
       case 'moderate':
         return "warning";
-      case 'challenging':
-        return "primary";
-      case 'difficult':
+      case 'hard':
         return "danger";
       default:
-        return "primary";
+        return;
     }
   };
 
@@ -43,29 +25,29 @@ const TrekCard: React.FC<TrekCardProps> = ({ trek }) => {
     <Card isHoverable className="w-full">
       <div className="relative">
         <Image
-          alt={title}
+          alt={trekName}
           className="w-full object-cover h-64"
-          src={image}
+          src={thumbnail}
           width={400}
           height={300}
         />
         <div className="absolute top-3 right-3">
           <Chip color="primary" variant="shadow">
-            ${price.toLocaleString()}
+            ${cost.toLocaleString()}
           </Chip>
         </div>
         <div className="absolute text-white top-3 left-3">
           <Chip 
-            color={getDifficultyColor(difficulty)} 
+            color={getDifficultyColor(difficultyLevel)} 
             className="text-white"
           >
-            {difficulty}
+            {difficultyLevel}
           </Chip>
         </div>
       </div>
       
       <CardBody className="pb-0">
-        <h3 className="text-xl font-bold mb-2">{title}</h3>
+        <h3 className="text-xl font-bold mb-2">{trekName}</h3>
         
         <div className="flex items-center text-default-500 mb-3">
           <FiMapPin className="mr-2" />
@@ -77,16 +59,11 @@ const TrekCard: React.FC<TrekCardProps> = ({ trek }) => {
             <FiCalendar className="mr-2" />
             <span>{duration} Days</span>
           </div>
-          
-          <div className="flex items-center text-default-500">
-            <FiStar className="text-warning mr-1" />
-            <span className="font-medium">{rating}</span>
-          </div>
         </div>
       </CardBody>
       
       <CardFooter>
-        <Link href={`/treks/${id}`} className="w-full">
+        <Link href={`/luxury-treks/${slug}`} className="w-full">
           <button className="w-full py-3 px-4 bg-primary text-white rounded-lg hover:opacity-90 transition-opacity font-medium">
             View Details
           </button>

@@ -13,25 +13,25 @@ const Footer = () => {
                     </Link>
                     <ul className="flex flex-wrap items-center mb-6 text-sm font-medium  sm:mb-0 ">
                         <li>
-                        <Link href="#" className="hover:underline me-4 md:me-6">Home</Link>
+                        <Link href="/" className="hover:underline me-4 md:me-6">Home</Link>
                         </li>
                         <li>
-                        <Link href="#" className="hover:underline me-4 md:me-6">Trip Types</Link>
+                        <Link href="/trip-types" className="hover:underline me-4 md:me-6">Trip Types</Link>
                         </li>
                         <li>
-                        <Link href="#" className="hover:underline me-4 md:me-6">Tailor Made</Link>
+                        <Link href="/luxury-treks" className="hover:underline me-4 md:me-6">Luxury Treks</Link>
                         </li>
                         <li>
-                        <Link href="#" className="hover:underline me-4 md:me-6">Contact</Link>
+                        <Link href="/tailor-made" className="hover:underline me-4 md:me-6">Tailor Made</Link>
                         </li>
                         <li>
-                        <Link href="#" className="hover:underline me-4 md:me-6">About</Link>
+                        <Link href="/contact" className="hover:underline me-4 md:me-6">Contact</Link>
                         </li>
                         <li>
-                        <Link href="#" className="hover:underline me-4 md:me-6">Privacy Policy</Link>
+                        <Link href="/about" className="hover:underline me-4 md:me-6">About</Link>
                         </li>
                         <li>
-                        <Link href="#" className="hover:underline me-4 md:me-6">Terms and Conditions</Link>
+                        <Link href="blogs" className="hover:underline me-4 md:me-6">Blogs</Link>
                         </li>
                     </ul>
                     <section className='flex gap-4'>

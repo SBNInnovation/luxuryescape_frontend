@@ -1,8 +1,8 @@
 import SharedTitle from '@/shared/SharedTitle';
-import { antic } from '@/utility/font';
 import Image from 'next/image';
 import { Button } from '@nextui-org/react';
 import React from 'react';
+import Link from 'next/link';
 
 const Destination = () => {
     return (
@@ -26,12 +26,14 @@ const Destination = () => {
                     </div>
                     <div className='absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-4'>
                         <h3 className='text-white text-4xl font-semibold'>Nepal</h3>
-                        <Button 
-                                variant="bordered"
-                                className="text-white rounded-sm px-12 mt-4 border-white hover:bg-primary hover:text-white transition-colors"
-                            >
-                                View Trips
-                            </Button>
+                        <Link href={"/destinations/nepal"}>
+                            <Button 
+                                    variant="bordered"
+                                    className="text-white rounded-sm px-12 mt-4 border-white hover:bg-primary hover:text-white transition-colors"
+                                >
+                                    View Trips
+                                </Button>
+                        </Link>
                     </div>
                 </section>
 
@@ -49,12 +51,14 @@ const Destination = () => {
                         </div>
                         <div className='absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-3'>
                             <h3 className='text-white text-2xl font-semibold'>Tibet</h3>
-                            <Button 
-                                variant="bordered"
-                                className="text-white rounded-sm px-12 mt-4 border-white hover:bg-primary hover:text-white transition-colors"
-                            >
-                                View Trips
-                            </Button>
+                            <Link href={"/destinations/tibet"}>
+                                <Button 
+                                    variant="bordered"
+                                    className="text-white rounded-sm px-12 mt-4 border-white hover:bg-primary hover:text-white transition-colors"
+                                >
+                                    View Trips
+                                </Button>
+                            </Link>
                         </div>
                     </section>
 
@@ -71,12 +75,14 @@ const Destination = () => {
                         </div>
                         <div className='absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-3'>
                             <h3 className='text-white text-2xl font-semibold'>Tibet</h3>
-                            <Button 
-                                variant="bordered"
-                                className="text-white rounded-sm px-8 mt-4 border-white hover:bg-primary hover:text-white transition-colors"
-                            >
-                                View Trips
-                            </Button>
+                            <Link href={"/destinations/tibet"}>
+                                <Button 
+                                    variant="bordered"
+                                    className="text-white rounded-sm px-8 mt-4 border-white hover:bg-primary hover:text-white transition-colors"
+                                >
+                                    View Trips
+                                </Button>
+                            </Link>
                         </div>
                     </section>
 
@@ -93,12 +99,14 @@ const Destination = () => {
                         </div>
                         <div className='absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-3'>
                             <h3 className='text-white text-2xl font-semibold'>Bhutan</h3>
-                            <Button 
-                                variant="bordered"
-                                className="text-white rounded-sm px-8 mt-4 border-white hover:bg-primary hover:text-white transition-colors"
-                            >
-                                View Trips
-                            </Button>
+                            <Link href={"/destinations/bhutan"}>
+                                <Button 
+                                    variant="bordered"
+                                    className="text-white rounded-sm px-8 mt-4 border-white hover:bg-primary hover:text-white transition-colors"
+                                >
+                                    View Trips
+                                </Button>
+                            </Link>
                         </div>
                     </section>
 
@@ -115,12 +123,14 @@ const Destination = () => {
                         </div>
                         <div className='absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center gap-3'>
                             <h3 className='text-white text-2xl font-semibold'>Bhutan</h3>
-                            <Button 
-                                variant="bordered"
-                                className="text-white rounded-sm px-8 mt-4 border-white hover:bg-primary hover:text-white transition-colors"
-                            >
-                                View Trips
-                            </Button>
+                            <Link href={"/destinations/bhutan"}>
+                                <Button 
+                                    variant="bordered"
+                                    className="text-white rounded-sm px-8 mt-4 border-white hover:bg-primary hover:text-white transition-colors"
+                                >
+                                    View Trips
+                                </Button>
+                            </Link>
                         </div>
                     </section>
                 </section>

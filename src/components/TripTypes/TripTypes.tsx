@@ -94,13 +94,14 @@ const TripTypes = () => {
                                 </div>
                             </div>
 
-                            {/* Button with Rotation on Hover */}
-                            <Button 
-                                isIconOnly 
-                                className="absolute right-2 top-6 text-white -translate-y-1/2 z-30 bg-transparent group-hover:bg-primary rounded-full p-2 transition-all duration-500 transform group-hover:-rotate-45"
-                            >
-                                <FaArrowRight size={18}/>
-                            </Button>
+                            <Link href={`/search?q=${exp?.tourType}`}>
+                                <Button 
+                                    isIconOnly 
+                                    className="absolute right-2 top-6 text-white -translate-y-1/2 z-30 bg-transparent group-hover:bg-primary rounded-full p-2 transition-all duration-500 transform group-hover:-rotate-45"
+                                >
+                                    <FaArrowRight size={18}/>
+                                </Button>
+                            </Link>
                         </div>
                     ))}
                 </div>

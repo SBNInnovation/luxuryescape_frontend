@@ -48,7 +48,7 @@ const Accommodations: React.FC = () => {
   console.log(accomData);
 
   const locations = useMemo<string[]>(() => {
-    const allLocations = accomData?.data?.map(
+    const allLocations = accomData?.data?.accommodations?.map(
       (hotel: Accommodation) => hotel.accommodationLocation.toLowerCase()
     );
     return ["all", ...(allLocations ? (Array.from(new Set(allLocations)) as string[]) : [])];
@@ -56,7 +56,7 @@ const Accommodations: React.FC = () => {
 
   const filteredHotels = useMemo(() => {
     const selectedLocationValue = Array.from(selectedLocation)[0] as string;
-    return accomData?.data?.filter((hotel: Accommodation) => {
+    return accomData?.data?.accommodations?.filter((hotel: Accommodation) => {
       const matchesLocation =
         selectedLocationValue === "all" ||
         hotel.accommodationLocation.toLowerCase() === selectedLocationValue.toLowerCase();

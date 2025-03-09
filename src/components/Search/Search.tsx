@@ -7,6 +7,8 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import NoDataFound from '@/shared/NoData/NoData'
+import { antic } from '@/utility/font'
+import { Button } from '@nextui-org/react'
 
 const Search = () => {
     const searchParams = useSearchParams();
@@ -53,8 +55,8 @@ const Search = () => {
     if (isLoading) return <Loader />;
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <h1 className="text-2xl font-bold mb-4">Search Results for: "{query}"</h1>
+        <div className="container mx-auto lg:px-16 px-4 py-8">
+            <h1 className={`lg:text-3xl text-xl font-medium text-primary mb-4 ${antic.className}`}>Search Results for: "{query}"</h1>
             
             {/* Filter buttons */}
             <div className="flex flex-wrap gap-3 mb-6">
@@ -107,16 +109,16 @@ const Search = () => {
 // @ts-nocheck
 const FilterButton = ({ label, count, active, onClick }:{label:any;count:any,active:any;onClick:any}) => {
     return (
-        <button
-            onClick={onClick}
-            className={`px-4 py-2 rounded-full transition-colors ${
+        <Button
+            onPress={onClick}
+            className={`px-4 text-sm py-1 rounded-full transition-colors ${
                 active 
-                ? "bg-blue-600 text-white" 
+                ? "bg-primary text-white" 
                 : "bg-gray-200 text-gray-700 hover:bg-gray-300"
             }`}
         >
             {label} ({count})
-        </button>
+        </Button>
     );
 };
 

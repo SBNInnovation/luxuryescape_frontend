@@ -93,7 +93,7 @@ const Search = () => {
 
             {/* Results grid */}
             {filteredResults.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-8">
                     {/* @ts-nocheck */}
                     {filteredResults.map((item:any) => (
                         <ResultCard key={item._id} item={item} />
@@ -124,14 +124,13 @@ const FilterButton = ({ label, count, active, onClick }:{label:any;count:any,act
 
 // @ts-nocheck
 const ResultCard = ({ item }:{item:any}) => {
-    // Generate appropriate heading and details based on item type
     const getCardContent = () => {
         switch (item.type) {
             case 'trek':
                 return {
                     title: item.trekName,
                     subtitle: `${item.difficultyLevel} Trek`,
-                    link: `/treks/${item.slug}`,
+                    link: `/luxury-treks/${item.slug}`,
                     price: item.cost ? `$${item.cost}` : null
                 };
             case 'tour':
@@ -146,7 +145,6 @@ const ResultCard = ({ item }:{item:any}) => {
                     title: item.accommodationTitle,
                     subtitle: item.accommodationLocation,
                     link: `/accommodations/${item.slug}`,
-                    rating: item.accommodationRating
                 };
             default:
                 return {
@@ -157,40 +155,53 @@ const ResultCard = ({ item }:{item:any}) => {
         }
     };
 
-    const content = getCardContent();
+const content = getCardContent();
 
     return (
         <Link href={content.link}>
-            <div className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+            <div className="border relative rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                {/* Thumbnail Image */}
                 {item.thumbnail && (
-                    <div className="relative h-48 w-full">
-                        <img 
-                            src={item.thumbnail} 
-                            alt={content.title}
-                            className="w-full h-full object-cover"
-                        />
+                <div className="relative h-56 w-full">
+                    <Image 
+                    src={item.thumbnail} 
+                    alt={content.title}
+                    width={1000}
+                    height={1000}
+                    className="w-full h-full object-cover"
+                    />
+                    {/* Type Badge - Moved inside the image container for better positioning */}
+                    <div 
+                    className="inline-block absolute top-2 left-2 px-2 py-1 text-xs font-semibold text-white rounded-full capitalize" 
+                    style={{ backgroundColor: item.type === 'trek' ? '#4CAF50' : item.type === 'tour' ? '#2196F3' : '#FF9800' }}
+                    >
+                    {item.type}
                     </div>
+                </div>
                 )}
+                
                 <div className="p-4">
-                    <div className="inline-block px-2 py-1 mb-2 text-xs font-semibold text-white rounded-full capitalize" 
-                         style={{ backgroundColor: item.type === 'trek' ? '#4CAF50' : item.type === 'tour' ? '#2196F3' : '#FF9800' }}>
-                        {item.type}
+                <h3 className="text-lg font-semibold truncate">{content.title}</h3>
+                <p className="text-gray-600 mb-4 text-sm">{content.subtitle}</p>
+                
+                {/* Fixed layout for bottom section */}
+                <div className="flex items-center justify-between mt-4">
+                    {/* Price on the left */}
+                    <div>
+                    {content.price && (
+                        <span className="font-bold text-blue-600">{content.price}</span>
+                    )}
                     </div>
-                    <h3 className="text-lg font-semibold truncate">{content.title}</h3>
-                    <p className="text-gray-600 mb-2">{content.subtitle}</p>
                     
-                    <div className="flex justify-between items-center mt-2">
-                        {content.price && (
-                            <span className="font-bold text-blue-600">{content.price}</span>
-                        )}
-                        {content.rating && (
-                            <div className="flex items-center">
-                                {[...Array(5)].map((_, i) => (
-                                    <span key={i} className={`text-lg ${i < content.rating ? 'text-yellow-500' : 'text-gray-300'}`}>★</span>
-                                ))}
-                            </div>
-                        )}
-                    </div>
+                    {/* Button on the right */}
+                    <Button 
+                    className="text-primary text-sm" 
+                    variant="light"
+                    size="sm"
+                    >
+                    View Details
+                    </Button>
+                </div>
                 </div>
             </div>
         </Link>

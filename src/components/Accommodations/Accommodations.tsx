@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import { Select, SelectItem, Pagination, Selection } from "@nextui-org/react";
 import { motion } from "framer-motion";
@@ -39,13 +39,17 @@ const ITEMS_PER_PAGE = 6;
 const Accommodations: React.FC = () => {
   const [selectedLocation, setSelectedLocation] = useState<Selection>(new Set(["all"]));
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const firstRef = React.useRef<HTMLDivElement>(null);
 
-  const { data: accomData,isLoading } = useQuery({
-    queryKey: ["accommodations"],
-    queryFn: () => getAccoms(1, ITEMS_PER_PAGE,""),
+  // Reset page when location changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedLocation]);
+
+  const { data: accomData, isLoading } = useQuery({
+    queryKey: ["accommodations", currentPage],
+    queryFn: () => getAccoms(currentPage, ITEMS_PER_PAGE, ""),
   });
-
-  console.log(accomData);
 
   const locations = useMemo<string[]>(() => {
     const allLocations = accomData?.data?.accommodations?.map(
@@ -64,12 +68,33 @@ const Accommodations: React.FC = () => {
     });
   }, [accomData, selectedLocation]);
 
-  const totalPages = Math.ceil((filteredHotels?.length || 0) / ITEMS_PER_PAGE);
-  const currentHotels = filteredHotels?.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
+  // Calculate total pages based on filtered hotels
+  const totalFilteredItems = filteredHotels?.length || 0;
+  const totalFilteredPages = Math.ceil(totalFilteredItems / ITEMS_PER_PAGE);
 
+  const handlePageChange=(page:number)=>{
+    setCurrentPage(page)
+    firstRef?.current?.scrollIntoView({behavior:"smooth",block:"start",inline:"nearest"})
+
+  }
+  
+  // Use server pagination when showing all, use client-side pagination when filtering
+  const isFiltering = Array.from(selectedLocation)[0] !== "all";
+  const totalPages = isFiltering 
+    ? totalFilteredPages 
+    : accomData?.data?.pagination?.totalPages || 1;
+
+  // For filtered results, paginate client-side
+  const paginatedHotels = useMemo(() => {
+    if (isFiltering) {
+      return filteredHotels?.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE
+      );
+    }
+    // When showing all, use the server-paginated data directly
+    return filteredHotels;
+  }, [filteredHotels, currentPage, isFiltering]);
 
   return (
     <div className="min-h-screen">
@@ -97,23 +122,23 @@ const Accommodations: React.FC = () => {
       </div>
 
       {/* Filter Section */}
-      <div className="container mx-auto px-4 -mt-8 mb-12 relative z-10">
+      <div ref={firstRef} className="container mx-auto px-4 -mt-8 mb-12 relative z-10">
         <div className="bg-white rounded-sm shadow-lg p-6">
           <div className="flex items-center gap-4">
             <div className="w-48">
               <Select
-                  placeholder="Location"
-                  selectedKeys={selectedLocation}
-                  radius="sm"
-                  onSelectionChange={setSelectedLocation}
-                  className="w-full"
-                >
-                  {locations.map((location: string) => (
-                    <SelectItem key={location} value={location}>
-                      {location.charAt(0).toUpperCase() + location.slice(1)}
-                    </SelectItem>
-                  ))}
-                </Select>
+                placeholder="Location"
+                selectedKeys={selectedLocation}
+                radius="sm"
+                onSelectionChange={setSelectedLocation}
+                className="w-full"
+              >
+                {locations.map((location: string) => (
+                  <SelectItem key={location} value={location}>
+                    {location.charAt(0).toUpperCase() + location.slice(1)}
+                  </SelectItem>
+                ))}
+              </Select>
             </div>
           </div>
         </div>
@@ -123,7 +148,7 @@ const Accommodations: React.FC = () => {
       <div className="container mx-auto px-4 mb-8">
         {isLoading && <Loader />}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {currentHotels?.map((hotel: Accommodation) => (
+          {paginatedHotels?.map((hotel: Accommodation) => (
             <motion.div
               key={hotel._id}
               initial={{ opacity: 0, y: 20 }}
@@ -177,9 +202,11 @@ const Accommodations: React.FC = () => {
           <Pagination
             total={totalPages}
             page={currentPage}
-            onChange={(page) => setCurrentPage(page)}
+            initialPage={1}
+            onChange={handlePageChange}
             showControls
             className="overflow-visible"
+            color="primary"
           />
         </div>
       )}

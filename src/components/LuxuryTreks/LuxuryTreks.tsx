@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Image from 'next/image';
 import { antic } from '@/utility/font';
 import { 
@@ -7,7 +7,8 @@ import {
     DropdownTrigger,
     DropdownMenu,
     DropdownItem,
-    Button
+    Button,
+    Pagination
 } from '@nextui-org/react';
 import { useQuery } from '@tanstack/react-query';
 import { FiFilter, FiChevronDown, FiClock, FiMapPin } from 'react-icons/fi';
@@ -25,11 +26,19 @@ type DurationFilter = "all" | "1-7" | "8-14" | "15";
 
 type CountryFilter = "all"| "Nepal" | "Bhutan" |"Tibet"|"Multidestinations"
 
+const itemsPerPage=9
+
 const LuxuryTreks: React.FC = () => {
+    const [page,setPage]=useState (1)
+    const firstRef=useRef<HTMLDivElement>(null)
     const {data: apiTreksData, isLoading} = useQuery({
-        queryKey: ["treks"],
-        queryFn: () => getTreks(1, 9, ""),
+        queryKey: ["treks",page,itemsPerPage],
+        queryFn: () => getTreks(page, itemsPerPage, ""),
     });
+    const handlePageChange = (newPage: number) => {
+        setPage(newPage);
+        firstRef?.current?.scrollIntoView({behavior:"smooth",block:"start",inline:"nearest"})
+    };
 
     const [filterDifficulty, setFilterDifficulty] = useState<DifficultyFilter>("all");
     const [filterDuration, setFilterDuration] = useState<DurationFilter>("all");
@@ -68,7 +77,7 @@ const LuxuryTreks: React.FC = () => {
                     priority
                 />
                 <div className="absolute inset-0 bg-black/40" />
-                <div className="w-full items-center px-8 h-full flex flex-col justify-center absolute inset-0">
+                <div ref={firstRef} className="w-full items-center px-8 h-full flex flex-col justify-center absolute inset-0">
                     <h1
                         className={`${antic.className} text-6xl font-bold mb-6 text-white leading-tight text-center`}
                     >
@@ -171,8 +180,17 @@ const LuxuryTreks: React.FC = () => {
                         <TrekCard key={trek._id} {...trek} />
                     ))}
                 </div>
-
-                
+            </div>
+            <div className="pb-4 lg:px-20 px-4 w-full flex justify-center my-8">
+                {filteredTreks && filteredTreks.length > 0 && apiTreksData?.data?.pagination?.totalPages > 1 && (
+                    <Pagination 
+                        total={apiTreksData?.data?.pagination?.totalPages} 
+                        color='primary' 
+                        page={page} 
+                        initialPage={1} 
+                        onChange={handlePageChange}
+                    />
+                )}
             </div>
             <div className='lg:px-20 px-4'>
                 <WhyLuxury/>

@@ -5,7 +5,11 @@ interface ThumbnailCustom {
     isActive: boolean;
 }
 
-const widthScreen = () => window.innerWidth;
+const widthScreen = () => {
+    if(typeof window !== 'undefined') {
+        return window.innerWidth
+    }
+}
 
 export const mainSlideVariants: Variants = {
     initial: (direction: number) => ({
@@ -67,7 +71,7 @@ export const imageVariants: Variants = {
 export const thumbnailVariants: Variants = {
     initial: {
         opacity: 0,
-        y: widthScreen() < 768 ? 0 : 20,
+        y: widthScreen()! < 768 ? 0 : 20,
         filter: 'blur(4px)',
     },
     animate: ({ index, isActive }: ThumbnailCustom): TargetAndTransition => ({

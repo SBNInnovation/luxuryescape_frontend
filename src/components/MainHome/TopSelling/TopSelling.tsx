@@ -5,8 +5,8 @@ import Image from 'next/image'
 import { Button } from '@nextui-org/react'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import { antic } from '@/utility/font'
-import { mainSlideVariants, thumbnailVariants, imageVariants, textVariants, badgeVariants, buttonVariants, containerVariants, loadingVariants } from "../../../utility/animation";
-import { AnimatePresence,motion } from 'framer-motion';
+import { mainSlideVariants, thumbnailVariants, imageVariants, textVariants } from "../../../utility/animation";
+import { AnimatePresence, motion } from 'framer-motion';
 import { CiLocationOn } from 'react-icons/ci'
 
 
@@ -62,7 +62,7 @@ const TopSellingSlider = () => {
         "country": "Nepal"
     }
 ]
-        const [activeIndex, setActiveIndex] = useState(0);
+    const [activeIndex, setActiveIndex] = useState(0);
     const [direction, setDirection] = useState(0);
     const [isAnimating, setIsAnimating] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
@@ -96,7 +96,7 @@ const TopSellingSlider = () => {
 
     const getUpcomingSlides = () => {
         const upcoming = [];
-        for (let i = 1; i <=topselling.length ; i++) {
+        for (let i = 1; i <= topselling.length; i++) {
             const index = (activeIndex + i) % topselling.length;
             upcoming.push({ ...topselling[index], index });
         }
@@ -104,12 +104,13 @@ const TopSellingSlider = () => {
     };
 
     return (
-        <div className='my-16 px-16 w-full relative'
+        <div className='my-16 lg:px-16 px-4 w-full relative'
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}>
             <SharedTitle title='Explore our top selling packages' subtitle='Top selling' classname='items-start' />
             
-            <div className='relative h-[600px] overflow-hidden mb-32'>
+            {/* Modified slider container with fixed height for mobile */}
+            <div className='relative lg:h-[600px] h-[500px] overflow-hidden lg:mt-16 mt-4 lg:mb-32 mb-16'>
                 <AnimatePresence initial={false} custom={direction} onExitComplete={() => setIsAnimating(false)}>
                     <motion.div
                         key={activeIndex}
@@ -119,12 +120,14 @@ const TopSellingSlider = () => {
                         animate="animate"
                         exit="exit"
                         onAnimationStart={() => setIsAnimating(true)}
-                        className='absolute inset-0 my-12 w-full flex items-start gap-8'
+                        className='absolute inset-0 w-full flex lg:flex-row flex-col items-start gap-4 lg:gap-8'
                     >
+                        {/* Image - First on mobile, left on desktop */}
                         <motion.div 
-                            className='relative w-3/5 h-full'
+                            className='relative lg:w-3/5 w-full h-[250px] lg:h-[550px]'
                             layoutId={`image-container-${activeIndex}`}
                             variants={imageVariants}
+                            custom={direction}
                             initial="initial"
                             animate="animate"
                             exit="exit"
@@ -144,10 +147,12 @@ const TopSellingSlider = () => {
                             />
                         </motion.div>
                         
-                        <div className='w-2/5 flex flex-col justify-center px-8'>
+                        {/* Text content - Second on mobile, right on desktop */}
+                        <div className='lg:w-2/5 w-full flex flex-col justify-center lg:px-8 px-0 mt-4 lg:mt-0'>
                             <motion.h1 
-                                className={`text-3xl font-bold mb-4 ${antic.className} text-primary`}
+                                className={`lg:text-3xl text-xl font-bold mb-2 ${antic.className} text-primary`}
                                 variants={textVariants}
+                                custom={direction}
                                 initial="initial"
                                 animate="animate"
                                 exit="exit"
@@ -157,8 +162,9 @@ const TopSellingSlider = () => {
                             </motion.h1>
 
                             <motion.p 
-                                className={`text-sm text-gray-600 mb-6 `}
+                                className={`text-sm text-gray-600 mb-4`}
                                 variants={textVariants}
+                                custom={direction}
                                 initial="initial"
                                 animate="animate"
                                 exit="exit"
@@ -178,23 +184,28 @@ const TopSellingSlider = () => {
                                 <p className='font-semibold'>{topselling[activeIndex].country}</p>
                             </motion.div>
 
-                            <Button className='rounded-sm px-12 bg-primary text-white mt-12 w-fit'>View Package</Button>
+                            <Button className='rounded-sm px-12 bg-primary text-white mt-4 lg:mt-12 w-fit'>View Package</Button>
                         </div>
                     </motion.div>
                 </AnimatePresence>
             </div>
             
+            {/* Thumbnail slider - Below content on mobile, positioned at bottom on desktop */}
             <motion.div 
-                className='absolute -bottom-16 left-[50%]  flex items-center gap-4 overflow-x-hidden overflow-hidden  p-0'
+                className='lg:absolute relative lg:-bottom-16 bottom-0 left-0 right-0 lg:left-[50%] lg:flex hidden items-center justify-center lg:justify-start gap-4 overflow-x-auto py-2 px-2 mt-8 lg:mt-0'
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
+                style={{
+                    WebkitOverflowScrolling: 'touch',
+                    scrollbarWidth: 'none'
+                }}
             >
-                {getUpcomingSlides().map((item, index) => (
+                {getUpcomingSlides().slice(0, 4).map((item, index) => (
                     <motion.div 
                         key={item.title}
                         variants={thumbnailVariants}
-                        custom={{ index, isActive: item.index === activeIndex }} // Pass the custom values
+                        custom={{ index, isActive: item.index === activeIndex }}
                         initial="initial"
                         animate="animate"
                         whileHover="hover"
@@ -213,8 +224,8 @@ const TopSellingSlider = () => {
                                 height={1000}
                                 className={`object-cover rounded-lg transition-all duration-300`}
                                 style={{
-                                    height: item.index === activeIndex ? '240px' : '240px',
-                                    width: item.index === activeIndex ? '250px' : '250px'
+                                    height: item.index === activeIndex ? '180px' : '160px',
+                                    width: item.index === activeIndex ? '200px' : '180px'
                                 }}
                             />
                             <motion.div 
@@ -237,7 +248,8 @@ const TopSellingSlider = () => {
                 ))}
             </motion.div>
 
-            <div className='absolute flex gap-8 items-center left-[25%] ml-4 -bottom-8'>
+            {/* Navigation buttons - Positioned just above thumbnails on mobile, to the left on desktop */}
+            <div className='lg:absolute relative flex gap-8 items-center justify-center lg:justify-start w-full lg:w-auto lg:left-[25%] lg:ml-4 lg:-bottom-8 mb-4 lg:mb-0'>
                 <Button 
                     isIconOnly 
                     className='hover:bg-primary/70 bg-white text-primary border border-primary font-extralight rounded-full hover:text-white'

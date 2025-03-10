@@ -150,48 +150,48 @@ const Accommodations: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {paginatedHotels?.map((hotel: Accommodation) => (
             <motion.div
-              key={hotel._id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              whileHover={{ y: -5 }}
-              transition={{ duration: 0.3 }}
-              className="bg-white rounded-sm overflow-hidden shadow-lg cursor-pointer hover:shadow-xl transition-all duration-300"
-            >
-              <div className="relative h-64">
-                <Image
-                  src={hotel.accommodationPics[0]}
-                  alt={hotel.accommodationTitle}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-                <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full">
-                  <div className="flex items-center gap-1">
-                    <FaStar className="w-4 h-4 text-yellow-400" />
-                    <span className="text-sm font-semibold">{hotel.accommodationRating}</span>
-                  </div>
+            key={hotel._id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            whileHover={{ y: -5 }}
+            transition={{ duration: 0.3 }}
+            className="bg-white rounded-sm overflow-hidden relative shadow-lg cursor-pointer hover:shadow-xl transition-all duration-300 flex flex-col"
+          >
+            <div className="relative h-64">
+              <Image
+                src={hotel.accommodationPics[0]}
+                alt={hotel.accommodationTitle}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+              <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full">
+                <div className="flex items-center gap-1">
+                  <FaStar className="w-4 h-4 text-yellow-400" />
+                  <span className="text-sm font-semibold">{hotel.accommodationRating}</span>
                 </div>
               </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2">{hotel.accommodationTitle}</h3>
-                <div className="flex items-center gap-2 text-gray-600 mb-3">
-                  <FaMapMarkerAlt className="w-4 h-4" />
-                  <span className="text-sm">{hotel.accommodationLocation}</span>
-                </div>
-                <p className="text-gray-600 mb-4 line-clamp-2 text-sm">
-                  {hotel.accommodationDescription}
-                </p>
-                <div className="flex items-center justify-end">
-                  <Link href={`/accommodations/${hotel.slug}`}>
-                    <button
-                      className="bg-primary text-white rounded-sm px-4 py-2 text-sm hover:bg-primary/90 transition-colors"
-                    >
-                      View Details
-                    </button>
-                  </Link>
-                </div>
+            </div>
+            <div className="px-6 py-4 flex flex-col h-1/2">
+              <h3 className="text-xl font-semibold mb-2">{hotel.accommodationTitle}</h3>
+              <div className="flex items-center gap-2 text-gray-600 mb-3">
+                <FaMapMarkerAlt className="w-4 h-4" />
+                <span className="text-sm">{hotel.accommodationLocation}</span>
               </div>
-            </motion.div>
+              <p className="text-gray-600 mb-4 line-clamp-2 text-sm">
+                {hotel.accommodationDescription?.slice(0, 100)}
+              </p>
+              <div className="flex items-center justify-end mt-auto">
+                <Link href={`/accommodations/${hotel.slug}`}>
+                  <button
+                    className="bg-primary text-white rounded-sm px-8 py-2 text-sm hover:bg-primary/90 transition-colors"
+                  >
+                    View Details
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </motion.div>
           ))}
         </div>
       </div>

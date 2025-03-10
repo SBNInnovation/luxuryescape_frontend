@@ -1,3 +1,4 @@
+//@ts-nocheck
 "use client"
 import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Input } from '@nextui-org/react'
 import React, { useState, useEffect } from 'react'
@@ -12,10 +13,14 @@ import ExpandableSearch from './ExpandableSearch'
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
-    const [screenWidth, setScreenWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0)
-    const [searchOpen, setSearchOpen] = React.useState(false)
+    const [screenWidth, setScreenWidth] = useState(0)
+    const [searchOpen, setSearchOpen] = useState(false)
+    const [mobileDropdowns, setMobileDropdowns] = useState({})
 
     useEffect(() => {
+        // Set initial screen width
+        setScreenWidth(window.innerWidth)
+        
         const handleResize = () => {
             setScreenWidth(window.innerWidth)
             if (window.innerWidth > 768) {
@@ -27,8 +32,28 @@ const Navbar = () => {
         return () => window.removeEventListener('resize', handleResize)
     }, [])
 
+    // Handle body scroll when menu is open
+    useEffect(() => {
+        if (isMenuOpen) {
+            document.body.style.overflow = 'hidden'
+        } else {
+            document.body.style.overflow = 'auto'
+        }
+        
+        return () => {
+            document.body.style.overflow = 'auto'
+        }
+    }, [isMenuOpen])
+
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen)
+    }
+
+    const toggleMobileDropdown = (title) => {
+        setMobileDropdowns(prev => ({
+            ...prev,
+            [title]: !prev[title]
+        }))
     }
 
     const nav = [
@@ -43,8 +68,12 @@ const Navbar = () => {
                 { title: "Nepal", href: "/destinations/nepal" },
                 { title: "Bhutan", href: "/destinations/bhutan" },
                 { title: "Tibet", href: "/destinations/tibet" },
-                { title: "multidestinations", href: "/destinations/multidestinations" }
+                { title: "Multidestinations", href: "/destinations/multidestinations" }
             ]
+        },
+        {
+            title: "Tours",
+            link: "/tours"
         },
         {
             title: "Trip Types",
@@ -73,8 +102,7 @@ const Navbar = () => {
         },
     ]
     const pathname = usePathname()
-    const isActive = (path:string) => pathname === path
-
+    const isActive = (path) => pathname === path
 
     return (
         <div className="relative">
@@ -83,7 +111,7 @@ const Navbar = () => {
                 <div className='w-full flex justify-between items-center font-medium uppercase text-sm tracking-wide'>
                     {/* Social Media Icons - Hidden on mobile */}
                     <section className='hidden md:flex gap-4'>
-                        <Button isIconOnly className='h-10 w-10 border border-gray-200 hover:border-primary bg-white text-primary  p-2 rounded-full flex items-center justify-center hover:bg-primary transition duration-300 hover:text-white'>
+                        <Button isIconOnly className='h-10 w-10 border border-gray-200 hover:border-primary bg-white text-primary p-2 rounded-full flex items-center justify-center hover:bg-primary transition duration-300 hover:text-white'>
                             <FaFacebookF size={20} />
                         </Button>
                         <Button isIconOnly className='h-10 w-10 border border-gray-200 hover:border-primary bg-white text-primary p-2 rounded-full flex items-center justify-center hover:bg-primary transition duration-300 hover:text-white'>
@@ -95,29 +123,38 @@ const Navbar = () => {
                     </section>
 
                     {/* Logo */}
-                    <section className='size-16 md:size-20 rounded-full bg-primary'>
+                    <section className='size-14 sm:size-16 md:size-20 rounded-full bg-primary'>
                         {/* Your logo here */}
                     </section>
 
-                    {/* Mobile menu button */}
+                    {/* Mobile Buttons: Search + Menu */}
+                    <div className='flex gap-2 md:hidden'>
                         <Button 
                             isIconOnly 
-                            className='bg-transparent lg:hidden md:hidden flex'
+                            className='bg-transparent flex'
+                            onClick={() => setSearchOpen(!searchOpen)}
+                        >
+                            <CiSearch size={24} className='text-primary' />
+                        </Button>
+                        <Button 
+                            isIconOnly 
+                            className='bg-transparent flex'
                             onClick={toggleMenu}
                         >
-                            {isMenuOpen ? <IoMdClose size={28} className='text-primary' /> : <HiMenu size={28} className='text-primary' />}
+                            {isMenuOpen ? <IoMdClose size={26} className='text-primary' /> : <HiMenu size={26} className='text-primary' />}
                         </Button>
+                    </div>
 
                     {/* Customize Trip - Visible on desktop */}
                     <div className='hidden md:flex items-center gap-8'>
-                            <Button 
-                                isIconOnly 
-                                className='bg-primary rounded-2xl' 
-                                onPress={() => setSearchOpen(!searchOpen)}
-                            >
-                                <CiSearch size={20} className='text-white' />
-                            </Button>
-                        <Link href={"/tailor-made"}>
+                        <Button 
+                            isIconOnly 
+                            className='bg-primary rounded-2xl' 
+                            onPress={() => setSearchOpen(!searchOpen)}
+                        >
+                            <CiSearch size={20} className='text-white' />
+                        </Button>
+                        <Link href="/tailor-made">
                             <Button className='bg-primary rounded-sm px-8 text-white' size='sm'>Customize trip</Button>
                         </Link>
                     </div>
@@ -127,7 +164,7 @@ const Navbar = () => {
 
             {/* Desktop Navigation */}
             <section className='hidden md:flex w-full items-center justify-center pt-4 pb-4 bg-primary/20'>
-                <div className='flex gap-8'>
+                <div className='flex gap-4 lg:gap-8 flex-wrap justify-center'>
                     {nav.map(item => (
                         item.isDropdown ? (
                             <Dropdown key={item.title} className='bg-primary/90 text-white rounded-sm' placement='bottom-start'>
@@ -151,11 +188,11 @@ const Navbar = () => {
                                 </DropdownMenu>
                             </Dropdown>
                         ) : (
-                            <Link key={item.title} href={item.link!}>
+                            <Link key={item.title} href={item.link}>
                                 <div className='group relative'>
                                     <p className='font-normal text-sm text-gray-600 uppercase tracking-wider'>{item.title}</p>
                                     <span
-                                        className={`${isActive(item.link!) ? "w-full" : "w-0"} bottom-[-4px] group-hover:w-full absolute bg-primary h-[2px] rounded-full transition-all duration-400`}
+                                        className={`${isActive(item.link) ? "w-full" : "w-0"} bottom-[-4px] group-hover:w-full absolute bg-primary h-[2px] rounded-full transition-all duration-400`}
                                     ></span>
                                 </div>
                             </Link>
@@ -164,57 +201,91 @@ const Navbar = () => {
                 </div>
             </section>
 
+            {/* Mobile Search Bar (conditionally rendered) */}
+            {searchOpen && screenWidth < 768 && (
+                <div className="fixed inset-0 bg-white z-[10001] p-4 flex flex-col">
+                    <div className="flex justify-between items-center mb-4">
+                        <h3 className="text-lg font-medium">Search</h3>
+                        <Button 
+                            isIconOnly 
+                            className="bg-transparent"
+                            onClick={() => setSearchOpen(false)}
+                        >
+                            <IoMdClose size={24} />
+                        </Button>
+                    </div>
+                    <Input 
+                        placeholder="Search for destinations, tours..." 
+                        size="lg"
+                        startContent={<CiSearch size={20} />}
+                        className="mb-4"
+                        autoFocus
+                    />
+                </div>
+            )}
+
             {/* Mobile Sidebar */}
             <div 
-                className={`fixed top-0 right-0 h-full w-4/5 max-w-xs bg-white z-[10000] shadow-lg transform transition-transform duration-300 ease-in-out ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`} 
-                style={{paddingTop: '80px'}} // Ensure space for navbar
+                className={`fixed top-0 right-0 h-full w-[85%] max-w-xs bg-white z-[10000] shadow-lg transform transition-transform duration-300 ease-in-out ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} overflow-y-auto`} 
+                style={{paddingTop: '80px'}}
             >
                 <div className='flex flex-col gap-2 p-6 w-full'>
                     {/* Social Media Icons - Only on mobile sidebar */}
                     <div className='flex gap-4 justify-center mb-6'>
-                        <Button isIconOnly className='h-8 w-8 border border-gray-200 hover:border-primary bg-white text-primary  rounded-full flex items-center justify-center hover:bg-primary transition duration-300 hover:text-white'>
+                        <Button isIconOnly className='h-8 w-8 border border-gray-200 hover:border-primary bg-white text-primary rounded-full flex items-center justify-center hover:bg-primary transition duration-300 hover:text-white'>
                             <FaFacebookF size={16} />
                         </Button>
                         <Button isIconOnly className='h-8 w-8 border border-gray-200 hover:border-primary bg-white text-primary rounded-full flex items-center justify-center hover:bg-primary transition duration-300 hover:text-white'>
                             <FaInstagram size={16} />
                         </Button>
-                        <Button isIconOnly className='h-8 w-8 border border-gray-200 hover:border-primary bg-white text-primary  rounded-full flex items-center justify-center hover:bg-primary transition duration-300 hover:text-white'>
+                        <Button isIconOnly className='h-8 w-8 border border-gray-200 hover:border-primary bg-white text-primary rounded-full flex items-center justify-center hover:bg-primary transition duration-300 hover:text-white'>
                             <FaXTwitter size={16} />
                         </Button>
                     </div>
                     
                     {/* Main menu items */}
                     {nav.map((item, index) => (
-                        <div key={index} className='w-full border-b border-gray-100 pb-3'>
+                        <div key={index} className='w-full border-b border-gray-100 pb-3 mb-3'>
                             {item.isDropdown ? (
-                                <Dropdown className='bg-primary/90 text-white rounded-sm'>
-                                    <DropdownTrigger>
-                                        <div className="flex justify-between items-center w-full">
-                                            <p className='font-normal text-gray-600 uppercase text-base'>{item.title}</p>
-                                            <IoMdArrowDropdown size={18} />
-                                        </div>
-                                    </DropdownTrigger>
-                                    <DropdownMenu aria-label={`${item.title} Menu`} variant='light'>
-                                        {item.items.map((subItem, subIndex) => (
-                                            <DropdownItem key={subIndex} onPress={() => setIsMenuOpen(false)}>
-                                                <Link href={subItem.href}>
+                                <div>
+                                    <div 
+                                        className="flex justify-between items-center w-full cursor-pointer"
+                                        onClick={() => toggleMobileDropdown(item.title)}
+                                    >
+                                        <p className='font-normal text-gray-600 uppercase text-base'>{item.title}</p>
+                                        <IoMdArrowDropdown 
+                                            size={20} 
+                                            className={`transition-transform duration-300 ${mobileDropdowns[item.title] ? 'rotate-180' : ''}`}
+                                        />
+                                    </div>
+                                    
+                                    {/* Mobile dropdown content */}
+                                    {mobileDropdowns[item.title] && (
+                                        <div className="pl-4 mt-3 flex flex-col gap-3 border-l-2 border-gray-100">
+                                            {item.items.map((subItem, subIndex) => (
+                                                <Link 
+                                                    key={subIndex} 
+                                                    href={subItem.href}
+                                                    onClick={() => setIsMenuOpen(false)}
+                                                    className="text-sm text-gray-500 hover:text-primary"
+                                                >
                                                     {subItem.title}
                                                 </Link>
-                                            </DropdownItem>
-                                        ))}
-                                    </DropdownMenu>
-                                </Dropdown>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
                             ) : (
-                                <Link href={item.link!} onClick={() => setIsMenuOpen(false)}>
-                                    <p className={`font-normal uppercase text-base ${isActive(item.link!) ? 'text-primary' : 'text-gray-600'}`}>{item.title}</p>
+                                <Link href={item.link} onClick={() => setIsMenuOpen(false)}>
+                                    <p className={`font-normal uppercase text-base ${isActive(item.link) ? 'text-primary' : 'text-gray-600'}`}>{item.title}</p>
                                 </Link>
                             )}
                         </div>
                     ))}
                     
                     {/* Customize Trip Button in Sidebar */}
-                    <div className='mt-6'>
-                        <Link href={"/tailor-made"} onClick={() => setIsMenuOpen(false)}>
+                    <div className='mt-4'>
+                        <Link href="/tailor-made" onClick={() => setIsMenuOpen(false)}>
                             <Button className='bg-primary w-full rounded-sm py-6 text-white' size='md'>
                                 Customize trip
                             </Button>

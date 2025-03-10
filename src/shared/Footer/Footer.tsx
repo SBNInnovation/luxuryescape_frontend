@@ -5,13 +5,13 @@ import { FaXTwitter } from 'react-icons/fa6';
 
 const Footer = () => {
     return (
-        <footer className="bg-primary/10 rounded-lg text-gray-700  px-16">
+        <footer className="bg-primary/10 rounded-lg text-gray-700  lg:px-16 px-4">
             <div className="w-full mx-auto p-4 md:py-8">
                 <div className="flex flex-col gap-8 sm:items-center sm:justify-between">
                     <Link href="/" className="flex  items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse">
                         <div className="h-24 w-24 bg-primary rounded-full flex items-center justify-center"></div>
                     </Link>
-                    <ul className="flex flex-wrap items-center mb-6 text-sm font-medium  sm:mb-0 ">
+                    <ul className="flex lg:flex-row lg:gap-0 gap-2 flex-col flex-wrap lg:items-center items-start mb-6 lg:text-sm text-lg font-medium  sm:mb-0 ">
                         <li>
                         <Link href="/" className="hover:underline me-4 md:me-6">Home</Link>
                         </li>

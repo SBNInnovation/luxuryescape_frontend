@@ -8,13 +8,13 @@ const Destination = () => {
     return (
         <div className="my-12">
             <SharedTitle 
-                classname={`ml-16 my-12`} 
+                classname={`lg:ml-16 ml-4 lg:my-12 my-4`} 
                 title="Discover the Finest Luxury Destinations in the Himalayas" 
                 subtitle="Our Destinations" 
             />
-            <main className="w-full flex h-[800px]">
+            <main className="w-full lg:px-0 px-4 flex lg:flex-row flex-col lg:h-[800px] h-auto">
                 {/* Large Image Section */}
-                <section className='w-1/2 h-full relative group overflow-hidden'>
+                <section className='lg:w-1/2 w-full lg:h-full h-[40vh] relative group overflow-hidden'>
                     <div className='w-full h-full transition-transform duration-500 group-hover:scale-110'>
                         <Image 
                             src="https://images.unsplash.com/photo-1676786738622-298c2866d575?q=80&w=2811&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
@@ -37,10 +37,10 @@ const Destination = () => {
                     </div>
                 </section>
 
-                <section className='grid grid-cols-2 w-1/2 h-full'>
+                <section className='grid lg:grid-cols-2 grid-cols-1 lg:w-1/2 w-full h-full'>
                     {/* Top Left - Tibet */}
-                    <section className='w-full h-full relative group overflow-hidden'>
-                        <div className='w-full h-full transition-transform duration-500 group-hover:scale-110'>
+                    <section className='w-full hidden lg:flex h-full relative group overflow-hidden'>
+                        <div className='w-full h-full  transition-transform duration-500 group-hover:scale-110'>
                             <Image 
                                 src="https://images.unsplash.com/photo-1709866535864-93035b6208e8?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
                                 alt='Tibet Destination' 
@@ -64,7 +64,7 @@ const Destination = () => {
 
                     {/* Top Right - Tibet */}
                     <section className='w-full h-full relative group overflow-hidden'>
-                        <div className='w-full h-full transition-transform duration-500 group-hover:scale-110'>
+                        <div className='w-full  h-full transition-transform duration-500 group-hover:scale-110'>
                             <Image 
                                 src="https://images.unsplash.com/photo-1679578064614-ba0ad375c143?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
                                 alt='Tibet Destination' 
@@ -87,7 +87,7 @@ const Destination = () => {
                     </section>
 
                     {/* Bottom Left - Bhutan */}
-                    <section className='w-full h-full relative group overflow-hidden'>
+                    <section className='w-full hidden lg:flex h-full relative group overflow-hidden'>
                         <div className='w-full h-full transition-transform duration-500 group-hover:scale-110'>
                             <Image 
                                 src="https://images.unsplash.com/photo-1679572255334-08dd1c8cbdd7?q=80&w=2845&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 

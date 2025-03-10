@@ -29,14 +29,14 @@ const TripTypes = () => {
 
     return (
         <div className='w-full pb-16'>
-            <div className='px-16'>
+            <div className='lg:px-16 px-4'>
                 <SharedTitle title='Unforgettable Trips' subtitle='Dont miss out'/>
             </div>
-            <div className='flex flex-col gap-4 w-full mt-28 px-16'>
-                <section className='flex gap-4 w-full relative'>
+            <div className='flex flex-col gap-4 w-full lg:mt-28 mt-4 lg:px-16 px-4'>
+                <section className='flex lg:flex-row flex-col gap-4 w-full relative'>
                     {experienceTypeData?.allTourTypes.slice(0, itemsPerRow).map((item:Exp, index:number) => (
                         <div 
-                            className={`flex-1 cursor-pointer group overflow-hidden h-[300px] relative ${index % 2 !== 0 ? "-mt-16" : "mt-0"}`} 
+                            className={`flex-1 cursor-pointer group overflow-hidden h-[300px] relative ${index % 2 !== 0 ? "lg:-mt-16 mt-0" : "mt-0"}`} 
                             key={index}
                         >
                             <Image 
@@ -57,10 +57,10 @@ const TripTypes = () => {
                         </div>
                     ))}
                 </section>
-                <section className='flex gap-4 w-full relative'>
+                <section className='flex lg:flex-row flex-col gap-4 w-full relative'>
                     {experienceTypeData?.allTourTypes.slice(itemsPerRow).map((item:Exp, index:number) => (
                         <div 
-                            className={`flex-1 h-[300px] cursor-pointer overflow-hidden group relative ${index % 2 == 0 ? "mt-0" : "-mt-16"}`} 
+                            className={`flex-1 h-[300px] cursor-pointer overflow-hidden group relative ${index % 2 == 0 ? "mt-0" : "lg:-mt-16 mt-0"}`} 
                             key={index}
                         >
                             <Image 

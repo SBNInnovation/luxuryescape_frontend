@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client"
 import { userSearch } from '@/services/search'
 import Loader from '@/shared/Loader'
@@ -8,13 +9,14 @@ import Image from 'next/image'
 import Link from 'next/link'
 import NoDataFound from '@/shared/NoData/NoData'
 import { antic } from '@/utility/font'
-import { Button } from '@nextui-org/react'
+import { Button, Pagination } from '@nextui-org/react'
 
 const Search = () => {
     const searchParams = useSearchParams();
-    const router = useRouter();
     const query = searchParams.get("q") || "";
     const [filter, setFilter] = useState("all");
+    const [currentPage, setCurrentPage] = useState(1);
+    const ITEMS_PER_PAGE = 9; // Number of items to display per page
     
     const {data: searchData, isLoading} = useQuery({
         queryKey: ["searchData", query],
@@ -22,15 +24,29 @@ const Search = () => {
         enabled: !!query
     });
 
-    // @ts-nocheck
+    // Filter results based on the selected filter
     const filteredResults = searchData?.data?.filter((item:any) => {
         if (filter === "all") return true;
         return item.type === filter.toLowerCase();
     }) || [];
 
-    // @ts-nocheck
+    // Calculate pagination data
+    const totalItems = filteredResults.length;
+    const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, totalItems);
+    const currentItems = filteredResults.slice(startIndex, endIndex);
+
     const handleFilterChange = (newFilter:any) => {
         setFilter(newFilter);
+        // Reset to page 1 when changing filters
+        setCurrentPage(1);
+    };
+
+    const handlePageChange = (page:any) => {
+        setCurrentPage(page);
+        // Scroll to top when changing pages
+        window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
     // Get count of each type
@@ -39,11 +55,8 @@ const Search = () => {
         
         const counts = {
             all: searchData.data.length,
-            // @ts-nocheck
             trek: searchData.data.filter((item:any) => item.type === 'trek').length,
-            // @ts-nocheck
             tour: searchData.data.filter((item:any) => item.type === 'tour').length,
-            // @ts-nocheck
             accommodation: searchData.data.filter((item:any) => item.type === 'accommodation').length
         };
         
@@ -88,26 +101,45 @@ const Search = () => {
             
             {/* Results count */}
             <p className="text-gray-600 mb-6">
-                Showing {filteredResults.length} of {searchData?.data?.length || 0} results
+                Showing {startIndex + 1}-{endIndex} of {totalItems} results
+                {filter !== "all" && ` for ${filter}`}
+                {` - Page ${currentPage} of ${totalPages || 1}`}
             </p>
 
             {/* Results grid */}
-            {filteredResults.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-8">
-                    {/* @ts-nocheck */}
-                    {filteredResults.map((item:any) => (
-                        <ResultCard key={item._id} item={item} />
-                    ))}
-                </div>
+            {currentItems.length > 0 ? (
+                <>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-8">
+                        {currentItems.map((item:any) => (
+                            <ResultCard key={item._id} item={item} />
+                        ))}
+                    </div>
+                    
+                    {/* Pagination */}
+                    {totalPages > 1 && (
+                        <div className="flex justify-center mt-12">
+                            <Pagination 
+                                total={totalPages}
+                                initialPage={1}
+                                page={currentPage}
+                                onChange={handlePageChange}
+                                showControls
+                                color="primary"
+                                classNames={{
+                                    cursor: "bg-primary"
+                                }}
+                            />
+                        </div>
+                    )}
+                </>
             ) : (
-                <NoDataFound title={"No search results found."}/>
+                <NoDataFound title={"No search results found."} />
             )}
         </div>
     );
 };
 
-// @ts-nocheck
-const FilterButton = ({ label, count, active, onClick }:{label:any;count:any,active:any;onClick:any}) => {
+const FilterButton = ({ label, count, active, onClick }:{label:any; count:any; active:any; onClick:any}) => {
     return (
         <Button
             onPress={onClick}
@@ -122,7 +154,6 @@ const FilterButton = ({ label, count, active, onClick }:{label:any;count:any,act
     );
 };
 
-// @ts-nocheck
 const ResultCard = ({ item }:{item:any}) => {
     const getCardContent = () => {
         switch (item.type) {
@@ -136,14 +167,15 @@ const ResultCard = ({ item }:{item:any}) => {
             case 'tour':
                 return {
                     title: item.tourName,
-                    subtitle: 'Tour Package',
-                    link: `/tours/${item.slug}`,
+                    subtitle: item.country,
+                    link: `/destinations/${item?.country?.toLowerCase()}/${item.slug}`,
                     price: item.cost ? `$${item.cost}` : null
                 };
             case 'accommodation':
                 return {
                     title: item.accommodationTitle,
                     subtitle: item.accommodationLocation,
+                    thumbnail: item.accommodationPics && item.accommodationPics.length > 0 ? item.accommodationPics[0] : null,
                     link: `/accommodations/${item.slug}`,
                 };
             default:
@@ -155,7 +187,7 @@ const ResultCard = ({ item }:{item:any}) => {
         }
     };
 
-const content = getCardContent();
+    const content = getCardContent();
 
     return (
         <Link href={content.link}>
@@ -170,7 +202,7 @@ const content = getCardContent();
                     height={1000}
                     className="w-full h-full object-cover"
                     />
-                    {/* Type Badge - Moved inside the image container for better positioning */}
+                    {/* Type Badge */}
                     <div 
                     className="inline-block absolute top-2 left-2 px-2 py-1 text-xs font-semibold text-white rounded-full capitalize" 
                     style={{ backgroundColor: item.type === 'trek' ? '#4CAF50' : item.type === 'tour' ? '#2196F3' : '#FF9800' }}
@@ -179,7 +211,24 @@ const content = getCardContent();
                     </div>
                 </div>
                 )}
-                
+                {content.thumbnail && (
+                <div className="relative h-56 w-full">
+                    <Image 
+                    src={content.thumbnail} 
+                    alt={content.title}
+                    width={1000}
+                    height={1000}
+                    className="w-full h-full object-cover"
+                    />
+                    {/* Type Badge */}
+                    <div 
+                    className="inline-block absolute top-2 left-2 px-2 py-1 text-xs font-semibold text-white rounded-full capitalize" 
+                    style={{ backgroundColor: item.type === 'trek' ? '#4CAF50' : item.type === 'tour' ? '#2196F3' : '#FF9800' }}
+                    >
+                    {item.type}
+                    </div>
+                </div>
+                )}
                 <div className="p-4">
                 <h3 className="text-lg font-semibold truncate">{content.title}</h3>
                 <p className="text-gray-600 mb-4 text-sm">{content.subtitle}</p>

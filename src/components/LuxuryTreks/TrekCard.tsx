@@ -1,9 +1,10 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Card, CardBody, CardFooter, Chip } from '@nextui-org/react';
+import { Button, Card, CardBody, CardFooter, Chip } from '@nextui-org/react';
 import { FiCalendar, FiMapPin } from 'react-icons/fi';
 import { Trek } from '@/types/types';
+import { antic } from '@/utility/font';
 
 
 const TrekCard: React.FC<Trek> = ({ slug, trekName, location, duration, cost, thumbnail, difficultyLevel}) => {
@@ -22,7 +23,7 @@ const TrekCard: React.FC<Trek> = ({ slug, trekName, location, duration, cost, th
   };
 
   return (
-    <Card isHoverable className="w-full">
+    <Card className="w-full">
       <div className="relative">
         <Image
           alt={trekName}
@@ -47,7 +48,7 @@ const TrekCard: React.FC<Trek> = ({ slug, trekName, location, duration, cost, th
       </div>
       
       <CardBody className="pb-0">
-        <h3 className="text-xl font-bold mb-2">{trekName}</h3>
+        <h3 className={`text-xl  mb-2 ${antic.className} text-primary`}>{trekName}</h3>
         
         <div className="flex items-center text-default-500 mb-3">
           <FiMapPin className="mr-2" />
@@ -63,10 +64,10 @@ const TrekCard: React.FC<Trek> = ({ slug, trekName, location, duration, cost, th
       </CardBody>
       
       <CardFooter>
-        <Link href={`/luxury-treks/${slug}`} className="w-full">
-          <button className="w-full py-3 px-4 bg-primary text-white rounded-lg hover:opacity-90 transition-opacity font-medium">
+        <Link href={`/luxury-treks/${slug}`} className="w-full flex justify-end">
+          <Button className=" px-8 bg-primary text-sm text-white rounded-md hover:opacity-90 transition-opacity">
             View Details
-          </button>
+          </Button>
         </Link>
       </CardFooter>
     </Card>

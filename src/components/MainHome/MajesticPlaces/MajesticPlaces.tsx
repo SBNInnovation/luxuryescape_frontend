@@ -16,7 +16,7 @@ const CustomPrevArrow: React.FC<CustomArrowComponentProps> = ({ onClick }) => (
     <Button
         isIconOnly
         onClick={onClick}
-        className="absolute -left-8 top-1/2 text-white -translate-y-1/2 z-10 bg-primary hover:bg-opacity-100 rounded-full p-2 transition-all duration-300"
+        className="absolute lg:-left-8 left-4 top-1/2 text-white -translate-y-1/2 z-10 bg-primary hover:bg-opacity-100 rounded-full p-2 transition-all duration-300"
     >
         <FaChevronLeft />
     </Button>
@@ -26,7 +26,7 @@ const CustomNextArrow: React.FC<CustomArrowComponentProps> = ({ onClick }) => (
     <Button
         isIconOnly
         onClick={onClick}
-        className="absolute -right-8 top-1/2 text-white -translate-y-1/2 z-10 bg-primary hover:bg-opacity-100 rounded-full p-2 transition-all duration-300"
+        className="absolute lg:-right-8 right-4 top-1/2 text-white -translate-y-1/2 z-10 bg-primary hover:bg-opacity-100 rounded-full p-2 transition-all duration-300"
     >
         <FaChevronRight/>
     </Button>
@@ -116,8 +116,8 @@ const MajesticPlaces = () => {
         <>
         <div className='w-full py-16'>
             <section className='h-[400px] relative w-full bg-primary/20'></section>
-            <section className='relative flex z-[100] -mt-[350px] px-16 w-full'>
-                <div className='w-2/5 h-fit py-4 px-8 rounded-md z-[100]'>
+            <section className='relative flex lg:flex-row flex-col z-[100] -mt-[350px] lg:px-16 px-4 w-full'>
+                <div className='lg:w-2/5 w-full h-fit py-4 px-8 rounded-md z-[100]'>
                     <SharedTitle title='Most loved majestic places' subtitle='do not miss'/>
                     <p className='my-8 text-sm text-justify'>
                         Explore the most loved destinations and majestic places across the Himalayas, 
@@ -129,7 +129,7 @@ const MajesticPlaces = () => {
                         See More Packages
                     </Button>
                 </div>
-                <div className='w-3/5 pt-16 h-fit'>
+                <div className='lg:w-3/5 w-full lg:pt-16 pt-8 h-fit'>
                     <Slider {...settings}>
                         {topselling.map(item => (
                             <div key={item?.title} className='px-4 py-2'>

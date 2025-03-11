@@ -16,7 +16,7 @@ import WhyLuxury from '../Destionation/SinglePackage/WhyLuxury';
 import NoDataFound from '@/shared/NoData/NoData';
 import { Trek } from '@/types/types';
 import Loader from '@/shared/Loader';
-import TourCard from './TourCard';
+import TourCard, { Tour } from './TourCard';
 import { getTours } from '@/services/tours';
 
 
@@ -32,7 +32,6 @@ const Tours: React.FC = () => {
         queryFn: () => getTours(page, itemsPerPage, ""),
     });
 
-    console.log(apiTreksData)
     const handlePageChange = (newPage: number) => {
         setPage(newPage);
         firstRef?.current?.scrollIntoView({behavior:"smooth",block:"start",inline:"nearest"})
@@ -40,7 +39,7 @@ const Tours: React.FC = () => {
 
     const [filterCountry, setFilterCountry] = useState<CountryFilter>("all");
 
-    const filteredTreks = apiTreksData?.data?.treks?.filter((trek:Trek) => {
+    const filteredTreks = apiTreksData?.data?.tours?.filter((trek:Trek) => {
         if (filterCountry !== "all" && trek.country !== filterCountry) {
             return false;
         }
@@ -109,9 +108,9 @@ const Tours: React.FC = () => {
                 {filteredTreks?.length === 0 && (
                     <NoDataFound title='No Treks Found'/>
                 )}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {filteredTreks?.map((trek:Trek) => (
-                        <TourCard key={trek._id} {...trek} />
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+                    {filteredTreks?.map((tour:Tour) => (
+                        <TourCard key={tour._id} {...tour} />
                     ))}
                 </div>
             </div>

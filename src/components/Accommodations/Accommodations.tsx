@@ -1,7 +1,7 @@
 "use client";
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import Image from "next/image";
-import { Select, SelectItem, Pagination, Selection } from "@nextui-org/react";
+import { Pagination, Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import { FaMapMarkerAlt, FaStar } from "react-icons/fa";
 import { antic } from "@/utility/font";
@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getAccoms } from "@/services/accom";
 import Loader from "@/shared/Loader";
 import Link from "next/link";
+import { FiChevronDown, FiMapPin } from "react-icons/fi";
 
 export interface Accommodation {
   _id: string;
@@ -24,6 +25,7 @@ export interface Accommodation {
   createdAt: string;
   updatedAt: string;
   __v: number;
+  country:string
 }
 
 export interface Room {
@@ -34,57 +36,44 @@ export interface Room {
   roomFacilities: string[];
 }
 
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 9;
+
+type CountryFilter = "all" | "Nepal" | "Bhutan" | "Tibet"
 
 const Accommodations: React.FC = () => {
-  const [selectedLocation, setSelectedLocation] = useState<Selection>(new Set(["all"]));
+  const [filterCountry, setFilterCountry] = useState<CountryFilter>("all");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const firstRef = React.useRef<HTMLDivElement>(null);
+  const firstRef = useRef<HTMLDivElement>(null);
 
-  // Reset page when location changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedLocation]);
+  }, [filterCountry]);
 
   const { data: accomData, isLoading } = useQuery({
     queryKey: ["accommodations", currentPage],
     queryFn: () => getAccoms(currentPage, ITEMS_PER_PAGE, ""),
   });
 
-  const locations = useMemo<string[]>(() => {
-    const allLocations = accomData?.data?.accommodations?.map(
-      (hotel: Accommodation) => hotel.accommodationLocation.toLowerCase()
-    );
-    return ["all", ...(allLocations ? (Array.from(new Set(allLocations)) as string[]) : [])];
-  }, [accomData]);
-
   const filteredHotels = useMemo(() => {
-    const selectedLocationValue = Array.from(selectedLocation)[0] as string;
     return accomData?.data?.accommodations?.filter((hotel: Accommodation) => {
-      const matchesLocation =
-        selectedLocationValue === "all" ||
-        hotel.accommodationLocation.toLowerCase() === selectedLocationValue.toLowerCase();
-      return matchesLocation;
+      return filterCountry === "all" || 
+          hotel.country.includes(filterCountry);
     });
-  }, [accomData, selectedLocation]);
+  }, [accomData, filterCountry]);
 
-  // Calculate total pages based on filtered hotels
   const totalFilteredItems = filteredHotels?.length || 0;
   const totalFilteredPages = Math.ceil(totalFilteredItems / ITEMS_PER_PAGE);
 
-  const handlePageChange=(page:number)=>{
-    setCurrentPage(page)
-    firstRef?.current?.scrollIntoView({behavior:"smooth",block:"start",inline:"nearest"})
-
-  }
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    firstRef?.current?.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+  };
   
-  // Use server pagination when showing all, use client-side pagination when filtering
-  const isFiltering = Array.from(selectedLocation)[0] !== "all";
+  const isFiltering = filterCountry !== "all";
   const totalPages = isFiltering 
     ? totalFilteredPages 
     : accomData?.data?.pagination?.totalPages || 1;
 
-  // For filtered results, paginate client-side
   const paginatedHotels = useMemo(() => {
     if (isFiltering) {
       return filteredHotels?.slice(
@@ -92,13 +81,11 @@ const Accommodations: React.FC = () => {
         currentPage * ITEMS_PER_PAGE
       );
     }
-    // When showing all, use the server-paginated data directly
     return filteredHotels;
   }, [filteredHotels, currentPage, isFiltering]);
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
       <div className="relative h-[500px] overflow-hidden">
         <Image
           src="https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg"
@@ -109,7 +96,7 @@ const Accommodations: React.FC = () => {
           priority
         />
         <div className="absolute inset-0 bg-black/40" />
-        <div className="w-full items-center px-8 h-full flex flex-col justify-center absolute inset-0">
+        <div ref={firstRef} className="w-full items-center px-8 h-full flex flex-col justify-center absolute inset-0">
           <h1
             className={`${antic.className} text-6xl font-bold mb-6 text-white leading-tight text-center`}
           >
@@ -121,82 +108,91 @@ const Accommodations: React.FC = () => {
         </div>
       </div>
 
-      {/* Filter Section */}
-      <div ref={firstRef} className="container mx-auto px-4 -mt-8 mb-12 relative z-10">
-        <div className="bg-white rounded-sm shadow-lg p-6">
-          <div className="flex items-center gap-4">
-            <div className="w-48">
-              <Select
-                placeholder="Location"
-                selectedKeys={selectedLocation}
-                radius="sm"
-                onSelectionChange={setSelectedLocation}
-                className="w-full"
+      <div className="py-8 w-full lg:px-20 px-4">
+        <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+          <h2 className={`${antic.className} text-primary text-3xl font-bold`}>Featured Luxury Accommodations</h2>
+          
+          <div className="flex flex-wrap gap-4">
+            <Dropdown>
+              <DropdownTrigger>
+                <Button 
+                  variant="flat" 
+                  endContent={<FiChevronDown />}
+                  startContent={<FiMapPin />}
+                >
+                  {filterCountry === "all" ? "All Countries" : filterCountry}
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu 
+                aria-label="Country options"
+                onAction={(key) => setFilterCountry(key as CountryFilter)}
+                selectedKeys={[filterCountry]}
+                selectionMode="single"
               >
-                {locations.map((location: string) => (
-                  <SelectItem key={location} value={location}>
-                    {location.charAt(0).toUpperCase() + location.slice(1)}
-                  </SelectItem>
-                ))}
-              </Select>
-            </div>
+                <DropdownItem key="all">All Countries</DropdownItem>
+                <DropdownItem key="Nepal">Nepal</DropdownItem>
+                <DropdownItem key="Bhutan">Bhutan</DropdownItem>
+                <DropdownItem key="Tibet">Tibet</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           </div>
         </div>
       </div>
 
-      {/* Accommodations Grid */}
       <div className="container mx-auto px-4 mb-8">
         {isLoading && <Loader />}
+        {paginatedHotels?.length === 0 && (
+          <div className="flex justify-center items-center py-16">
+            <p className="text-lg text-gray-500">No accommodations found for the selected filter.</p>
+          </div>
+        )}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {paginatedHotels?.map((hotel: Accommodation) => (
             <motion.div
-            key={hotel._id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            whileHover={{ y: -5 }}
-            transition={{ duration: 0.3 }}
-            className="bg-white rounded-sm overflow-hidden relative shadow-lg cursor-pointer hover:shadow-xl transition-all duration-300 flex flex-col"
-          >
-            <div className="relative h-64">
-              <Image
-                src={hotel.accommodationPics[0]}
-                alt={hotel.accommodationTitle}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              />
-              <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full">
-                <div className="flex items-center gap-1">
-                  <FaStar className="w-4 h-4 text-yellow-400" />
-                  <span className="text-sm font-semibold">{hotel.accommodationRating}</span>
+              key={hotel._id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              whileHover={{ y: -5 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white rounded-sm overflow-hidden relative shadow-lg cursor-pointer hover:shadow-xl transition-all duration-300 flex flex-col"
+            >
+              <div className="relative h-64">
+                <Image
+                  src={hotel.accommodationPics[0]}
+                  alt={hotel.accommodationTitle}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+                <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full">
+                  <div className="flex items-center gap-1">
+                    <FaStar className="w-4 h-4 text-yellow-400" />
+                    <span className="text-sm font-semibold">{hotel.accommodationRating}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="px-6 py-4 flex flex-col h-1/2">
-              <h3 className="text-xl font-semibold mb-2">{hotel.accommodationTitle}</h3>
-              <div className="flex items-center gap-2 text-gray-600 mb-3">
-                <FaMapMarkerAlt className="w-4 h-4" />
-                <span className="text-sm">{hotel.accommodationLocation}</span>
+              <div className="px-4 pt-2 pb-4 flex flex-col h-1/2">
+                <h3 className={`${antic.className} text-primary text-xl font-semibold mb-2`}>{hotel.accommodationTitle}</h3>
+                <div className="flex items-center gap-2 text-gray-600 mb-3">
+                  <FaMapMarkerAlt className="w-4 h-4" />
+                  <span className="text-sm">{hotel.accommodationLocation}</span>
+                </div>
+                <p className="text-gray-600 mb-4 line-clamp-2 text-sm">
+                  {hotel.accommodationDescription?.slice(0, 100)}
+                </p>
+                <div className="flex items-center justify-end mt-auto">
+                  <Link href={`/accommodations/${hotel.slug}`}>
+                    <Button size='sm' className="px-4 bg-primary text-xs text-white rounded-md hover:opacity-90 transition-opacity">
+                      View Details
+                    </Button>
+                  </Link>
+                </div>
               </div>
-              <p className="text-gray-600 mb-4 line-clamp-2 text-sm">
-                {hotel.accommodationDescription?.slice(0, 100)}
-              </p>
-              <div className="flex items-center justify-end mt-auto">
-                <Link href={`/accommodations/${hotel.slug}`}>
-                  <button
-                    className="bg-primary text-white rounded-sm px-8 py-2 text-sm hover:bg-primary/90 transition-colors"
-                  >
-                    View Details
-                  </button>
-                </Link>
-              </div>
-            </div>
-          </motion.div>
+            </motion.div>
           ))}
         </div>
       </div>
 
-      {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex justify-center mb-16">
           <Pagination
@@ -214,4 +210,4 @@ const Accommodations: React.FC = () => {
   );
 };
 
-export default Accommodations;
+export default Accommodations

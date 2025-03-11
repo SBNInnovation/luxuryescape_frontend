@@ -222,10 +222,10 @@ const TopSellingSlider = () => {
                                 alt={item.title} 
                                 width={1000}
                                 height={1000}
-                                className={`object-cover rounded-lg transition-all duration-300`}
+                                className={`object-cover rounded-md transition-all duration-300`}
                                 style={{
-                                    height: item.index === activeIndex ? '180px' : '160px',
-                                    width: item.index === activeIndex ? '200px' : '180px'
+                                    height: item.index === activeIndex ? '300px' : '250px',
+                                    width: item.index === activeIndex ? '280px' : '230px'
                                 }}
                             />
                             <motion.div 

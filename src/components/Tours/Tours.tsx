@@ -27,8 +27,9 @@ const itemsPerPage=9
 const Tours: React.FC = () => {
     const [page,setPage]=useState (1)
     const firstRef=useRef<HTMLDivElement>(null)
+
     const {data: apiTreksData, isLoading} = useQuery({
-        queryKey: ["treks",page,itemsPerPage],
+        queryKey: ["tours-all-page",page,itemsPerPage],
         queryFn: () => getTours(page, itemsPerPage, ""),
     });
 

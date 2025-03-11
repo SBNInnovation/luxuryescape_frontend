@@ -27,7 +27,7 @@ const TripCard: React.FC<Tour> = ({ tourName,tourOverview,thumbnail,idealTime,co
                     ${cost} <span className="text-sm">/ per person</span>
                 </p>
                 <Link href={`/destinations/bhutan/${slug}`}>
-                    <Button className="bg-primary rounded-sm mt-4 text-white px-8" size="sm">
+                    <Button className="bg-primary rounded-sm mt-4 mb-2 text-white px-8" size="sm">
                         View Details
                     </Button>
                 </Link>

@@ -8,100 +8,68 @@ import { antic } from '@/utility/font'
 import { mainSlideVariants, thumbnailVariants, imageVariants, textVariants } from "../../../utility/animation";
 import { AnimatePresence, motion } from 'framer-motion';
 import { CiLocationOn } from 'react-icons/ci'
+import { useQuery } from '@tanstack/react-query'
+import { getTours } from '@/services/tours'
+import Loader from '@/shared/Loader'
+import Link from 'next/link'
 
 
 const TopSellingSlider = () => {
 
-    const topselling=[
-    {
-        "image": "https://images.unsplash.com/photo-1509883488717-779cd2d85976?q=80&w=2397&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "title": "Everest Base Camp Heli Tour & Luxury Retreat",
-        "description": "Experience a breathtaking helicopter ride to Everest Base Camp, followed by a luxurious stay at a premier Himalayan resort.",
-        "country": "Nepal"
-    },
-    {
-        "image": "https://images.unsplash.com/photo-1521651201144-634f700b36ef?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "title": "Chitwan National Park Luxury Safari",
-        "description": "Indulge in private wildlife safaris, glamping experiences, and cultural immersion in the enchanting jungles of Chitwan.",
-        "country": "Nepal"
-    },
-    {
-        "image": "https://images.unsplash.com/photo-1729176990188-b11bdb3d902a?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "title": "Bhutan Royal Retreat & Cultural Immersion",
-        "description": "Explore Bhutan&apos;s heritage sites with a private trek to the iconic Tiger&apos;s Nest Monastery and luxury accommodations.",
-        "country": "Bhutan"
-    },
-    {
-        "image": "https://images.unsplash.com/photo-1691735214703-310c6594c6a8?q=80&w=2946&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "title": "Tibet Spiritual Journey & Luxury Stay",
-        "description": "Immerse yourself in Tibetan culture with visits to ancient monasteries and a stay in a luxury hotel in Lhasa.",
-        "country": "Tibet"
-    },
-    {
-        "image": "https://images.unsplash.com/photo-1531719555052-632b0348c404?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "title": "Annapurna Luxury Trek & Spa Retreat",
-        "description": "Experience a guided luxury trek in the Annapurna region, complemented by spa treatments in a lavish mountain lodge.",
-        "country": "Nepal"
-    },
-    {
-        "image": "https://images.unsplash.com/photo-1516961876766-0793f061c426?q=80&w=2952&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "title": "Bhutanese Festival Experience",
-        "description": "Join an exclusive tour during a vibrant local festival, complete with luxury accommodations and guided cultural experiences.",
-        "country": "Bhutan"
-    },
-    {
-        "image": "https://images.unsplash.com/photo-1560389959-e4e81f5dca86?q=80&w=2934&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "title": "Tibet Monastery Tour & Luxury Journey",
-        "description": "Visit sacred monasteries with a private guide, enjoying luxury stays in traditional yet opulent accommodations.",
-        "country": "Tibet"
-    },
-    {
-        "image": "https://images.unsplash.com/photo-1529316275402-0462fcc4abd6?q=80&w=2942&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        "title": "Dhulikhel Luxury Mountain Retreat",
-        "description": "Unwind in a stunning mountain resort with panoramic views, offering wellness treatments and gourmet dining experiences.",
-        "country": "Nepal"
-    }
-]
     const [activeIndex, setActiveIndex] = useState(0);
     const [direction, setDirection] = useState(0);
     const [isAnimating, setIsAnimating] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
 
+    const {data: toursData, isLoading} = useQuery({
+        queryKey: ["tours-home-slider"],
+        queryFn: () => getTours(1, 9, ""),
+    });
+    
+    const tours = toursData?.data?.tours || [];
+
     useEffect(() => {
-        if (!isPaused) {
+        if (!isPaused && tours.length > 0) {
             const interval = setInterval(() => {
                 handleNext();
             }, 5000);
             return () => clearInterval(interval);
         }
-    }, [activeIndex, isPaused]);
+    }, [activeIndex, isPaused, tours.length]);
 
     const handleNext = () => {
-        if (isAnimating) return;
+        if (isAnimating || tours.length === 0) return;
         setDirection(1);
-        setActiveIndex((prev) => (prev + 1) % topselling.length);
+        setActiveIndex((prev) => (prev + 1) % tours.length);
     };
 
     const handlePrev = () => {
-        if (isAnimating) return;
+        if (isAnimating || tours.length === 0) return;
         setDirection(-1);
-        setActiveIndex((prev) => (prev - 1 + topselling.length) % topselling.length);
+        setActiveIndex((prev) => (prev - 1 + tours.length) % tours.length);
     };
 
-    const handleThumbnailClick = (index:number) => {
+    const handleThumbnailClick = (index: number) => {
         if (isAnimating) return;
         setDirection(index > activeIndex ? 1 : -1);
         setActiveIndex(index);
     };
 
     const getUpcomingSlides = () => {
+        if (tours.length === 0) return [];
+        
         const upcoming = [];
-        for (let i = 1; i <= topselling.length; i++) {
-            const index = (activeIndex + i) % topselling.length;
-            upcoming.push({ ...topselling[index], index });
+        for (let i = 1; i <= tours.length; i++) {
+            const index = (activeIndex + i) % tours.length;
+            upcoming.push({ ...tours[index], index });
         }
         return upcoming;
     };
+
+    if(isLoading) return <Loader/>
+    if(tours.length === 0) return null;
+
+    const currentTour = tours[activeIndex];
 
     return (
         <div className='my-16 lg:px-16 px-4 w-full relative'
@@ -133,8 +101,8 @@ const TopSellingSlider = () => {
                             exit="exit"
                         >
                             <Image 
-                                src={topselling[activeIndex].image} 
-                                alt={topselling[activeIndex].title} 
+                                src={currentTour?.thumbnail} 
+                                alt={currentTour?.tourName} 
                                 fill
                                 className='rounded-lg object-cover'
                                 priority
@@ -158,11 +126,11 @@ const TopSellingSlider = () => {
                                 exit="exit"
                                 transition={{ duration: 0.3, delay: 0.2 }}
                             >
-                                {topselling[activeIndex].title}
+                                {currentTour?.tourName}
                             </motion.h1>
 
                             <motion.p 
-                                className={`text-sm text-gray-600 mb-4`}
+                                className={`text-sm text-gray-600 mb-4 text-justify`}
                                 variants={textVariants}
                                 custom={direction}
                                 initial="initial"
@@ -170,7 +138,7 @@ const TopSellingSlider = () => {
                                 exit="exit"
                                 transition={{ duration: 0.3, delay: 0.3 }}
                             >
-                                {topselling[activeIndex].description}
+                                {currentTour?.tourOverview?.slice(0,200)}
                             </motion.p>
                             
                             <motion.div 
@@ -181,10 +149,11 @@ const TopSellingSlider = () => {
                                 className='flex gap-2'
                             >
                                 <CiLocationOn size={24} className='text-black'/>
-                                <p className='font-semibold'>{topselling[activeIndex].country}</p>
+                                <p className='font-semibold'>{currentTour?.country}</p>
                             </motion.div>
-
-                            <Button className='rounded-sm px-12 bg-primary text-white mt-4 lg:mt-12 w-fit'>View Package</Button>
+                            <Link href={`/destinations/${currentTour?.country?.toLowerCase()}/${currentTour?.slug || currentTour?._id}`}>
+                                <Button className='rounded-sm px-12 bg-primary text-white mt-4 lg:mt-12 w-fit'>View Package</Button>
+                            </Link>
                         </div>
                     </motion.div>
                 </AnimatePresence>
@@ -203,7 +172,7 @@ const TopSellingSlider = () => {
             >
                 {getUpcomingSlides().slice(0, 4).map((item, index) => (
                     <motion.div 
-                        key={item.title}
+                        key={item._id || index}
                         variants={thumbnailVariants}
                         custom={{ index, isActive: item.index === activeIndex }}
                         initial="initial"
@@ -218,8 +187,8 @@ const TopSellingSlider = () => {
                             layoutId={`thumbnail-${item.index}`}
                         >
                             <Image 
-                                src={item.image} 
-                                alt={item.title} 
+                                src={item?.thumbnail} 
+                                alt={item?.tourName} 
                                 width={1000}
                                 height={1000}
                                 className={`object-cover rounded-md transition-all duration-300`}
@@ -241,7 +210,7 @@ const TopSellingSlider = () => {
                                     opacity: item.index === activeIndex ? 0 : 1
                                 }}
                             >
-                                <h1 className='line-clamp-2'>{item.title}</h1>
+                                <h1 className='line-clamp-2'>{item?.tourName}</h1>
                             </motion.div>
                         </motion.div>
                     </motion.div>

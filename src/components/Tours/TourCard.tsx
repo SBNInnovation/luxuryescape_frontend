@@ -42,7 +42,7 @@ const TourCard: React.FC<Tour> = ({ slug, tourName, tourOverview,country, cost, 
       
       <CardFooter className='flex items-center justify-between'>
         <p className='font-semibold text-primary text-lg'>${cost}</p>
-        <Link href={`/luxury-treks/${slug}`} className="w-full flex justify-end">
+        <Link href={`/destinations/${country.toLocaleLowerCase()}/${slug}`} className="w-full flex justify-end">
           <Button size='sm' className=" px-4 bg-primary text-xs text-white rounded-md hover:opacity-90 transition-opacity">
             View Details
           </Button>

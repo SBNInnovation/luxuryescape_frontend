@@ -1,8 +1,14 @@
+"use client"
 import { antic } from '@/utility/font'
-import React from 'react'
+import React, { useState } from 'react'
 import AccommodationCard from './AccommodationCard';
+import { useQuery } from '@tanstack/react-query';
+import { getAccoms } from '@/services/accom';
+import Loader from '@/shared/Loader';
 
+const ITEMS_PER_PAGE=6
 const Accommodation = () => {
+    const [currentPage,setCurrentPage] = useState(1);
     const luxuryAccommodations = [
     {
         name: "Dwarika's Hotel",
@@ -47,6 +53,16 @@ const Accommodation = () => {
         description: "Nestled on the banks of the Rapti River, this lodge offers an exclusive wildlife experience with luxurious accommodations."
     }
 ];
+    const {data:accommodationData,isLoading}=useQuery({
+        queryKey: ["accommodations-bhutan", currentPage],
+        queryFn: () => getAccoms(currentPage, ITEMS_PER_PAGE, "Bhutan"),
+    })
+
+    console.log(accommodationData)
+
+    if(isLoading){
+        return <Loader/>
+    }
 
     return (
         <div className='w-full -mb-8'>

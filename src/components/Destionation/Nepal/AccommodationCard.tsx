@@ -8,8 +8,9 @@ interface AccommodationCardProps{
     image:string
     description:string
     location:string
+    slug:string
 }
-const AccommodationCard:React.FC<AccommodationCardProps> = ({name,image,description,location}) => {
+const AccommodationCard:React.FC<AccommodationCardProps> = ({name,image,description,location,slug}) => {
     const slicedDesc=description.slice(0,100)
     return (
         <div className='w-[350px] relative flex flex-col items-center justify-center group  custom-trip-card cursor-pointer'>

@@ -2,14 +2,16 @@ import React from 'react'
 import Image from 'next/image'
 import { Button } from '@nextui-org/react'
 import { antic } from '@/utility/font'
+import Link from 'next/link'
 
 interface AccommodationCardProps{
     name:string
     image:string
     description:string
     location:string
+    slug:string
 }
-const AccommodationCard:React.FC<AccommodationCardProps> = ({name,image,description,location}) => {
+const AccommodationCard:React.FC<AccommodationCardProps> = ({name,image,description,location,slug}) => {
     const slicedDesc=description.slice(0,100)
     return (
         <div className='w-[350px] relative flex flex-col items-center justify-center group  custom-trip-card cursor-pointer'>
@@ -20,7 +22,9 @@ const AccommodationCard:React.FC<AccommodationCardProps> = ({name,image,descript
                 <p className='text-primary font-semibold text-sm'>{location}</p>
                 <h1 className={`${antic.className} mt-2  text-xl `}>{name}</h1>
                 <p className='text-sm text-gray-500 text-center my-2'>{slicedDesc}...</p>
-                <Button className='rounded-sm w-fit px-8 bg-primary text-sm text-white mt-4' size='sm'>View Details</Button>
+                <Link href={`/accommodations/${slug}`}>
+                    <Button className='rounded-sm w-fit px-8 bg-primary text-sm text-white mt-4' size='sm'>View Details</Button>
+                </Link>
             </div>
         </div>
     )

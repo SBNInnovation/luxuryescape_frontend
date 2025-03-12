@@ -68,7 +68,6 @@ const Navbar = () => {
                 { title: "Nepal", href: "/destinations/nepal" },
                 { title: "Bhutan", href: "/destinations/bhutan" },
                 { title: "Tibet", href: "/destinations/tibet" },
-                { title: "Multidestinations", href: "/destinations/multidestinations" }
             ]
         },
         {

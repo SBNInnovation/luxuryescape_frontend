@@ -229,9 +229,9 @@ const ResultCard = ({ item }:{item:any}) => {
                     </div>
                 </div>
                 )}
-                <div className="p-4">
-                <h3 className="text-lg font-semibold truncate">{content.title}</h3>
-                <p className="text-gray-600 mb-4 text-sm">{content.subtitle}</p>
+                <div className="px-4 py-2">
+                <h3 className={`${antic.className} lg:text-2xl text-lg font-semibold truncate`}>{content.title}</h3>
+                <p className="text-gray-600 mb-4 mt-2 text-sm">{content.subtitle}</p>
                 
                 {/* Fixed layout for bottom section */}
                 <div className="flex items-center justify-between mt-4">

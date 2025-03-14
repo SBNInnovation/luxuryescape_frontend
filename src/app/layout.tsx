@@ -4,13 +4,27 @@ import { Provider } from "@/provider/Provider";
 import { Toaster } from "sonner";
 import Navbar from "@/shared/Navbar/Navbar";
 import ScrollToTop from "@/shared/ScrollToTop";
-import Head from "next/head";
 import { poppins } from "@/utility/font";
 import Footer from "@/shared/Footer/Footer";
 
 export const metadata: Metadata = {
-  title: "Luxury Escapes Nepal",
-  description: "Luxury Escapes Nepal",
+  title: "Luxury Escapes Nepal | Luxury Tours & Travel in Nepal, Bhutan & Tibet",
+  description: "Experience luxury travel in Nepal, Bhutan & Tibet. Discover exclusive hotels, private tours, and bespoke itineraries designed for ultimate comfort and elegance.",
+  keywords: "Luxury travel Nepal, luxury tours Nepal, luxury escapes Nepal, 5-star hotels Nepal, private tours Nepal, high-end travel Bhutan, luxury vacation Tibet",
+  openGraph: {
+    title: "Luxury Escapes Nepal | Premium Travel Experiences in the Himalayas",
+    description: "Indulge in world-class luxury travel experiences in Nepal, Bhutan, and Tibet. Stay in exclusive resorts and explore curated itineraries tailored for elite travelers.",
+    type: "website",
+    url: "https://nepalluxuryescapes.com",
+    images: [
+      {
+        url: "https://nepalluxuryescapes.com/ab2.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Luxury Escapes Nepal - Premium Travel Experiences",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -20,13 +34,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="bg-primary/5">
-      <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <meta charSet="UTF-8" />
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="description" content="Luxury Escapes Nepal" />
-        <title>Luxury Escapes Nepal</title>
-      </Head>
       <body className={poppins.className}>
         <div className="bg-primary/5">
           <div className="mx-auto max-w-[2000px]">

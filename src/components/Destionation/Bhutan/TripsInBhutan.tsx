@@ -26,11 +26,11 @@ const TripsInBhutan = () => {
     }
     
     return (
-        <div className='w-full -mb-12'>
-            <h1 className={`${antic.className} text-primary text-5xl mb-8`}>Trips in Bhutan</h1>
-            <p className='text-justify'>Nepal offers an incredible blend of adventure, culture, and luxury, making it the perfect destination for an unforgettable journey. From the bustling streets of Kathmandu rich with history and tradition to the serene lakeside charm of Pokhara, every corner of Nepal offers unique experiences. Explore the pristine wilderness of Chitwan National Park on a luxury safari, or indulge in breathtaking mountain views from Nagarkot’s exclusive retreats. Whether it’s a helicopter tour over the majestic Himalayas, guided treks through ancient trails, or peaceful moments by tranquil rivers, our tailored trips in Nepal promise a seamless blend of luxury and exploration, creating memories to last a lifetime.
+        <div className='w-full lg:-mb-12 mb-4'>
+            <h1 className={`${antic.className} text-primary lg:text-5xl text-3xl lg:mb-8 mb-4`}>Trips in Bhutan</h1>
+            <p className='text-justify lg:text-base text-sm'>Nepal offers an incredible blend of adventure, culture, and luxury, making it the perfect destination for an unforgettable journey. From the bustling streets of Kathmandu rich with history and tradition to the serene lakeside charm of Pokhara, every corner of Nepal offers unique experiences. Explore the pristine wilderness of Chitwan National Park on a luxury safari, or indulge in breathtaking mountain views from Nagarkot’s exclusive retreats. Whether it’s a helicopter tour over the majestic Himalayas, guided treks through ancient trails, or peaceful moments by tranquil rivers, our tailored trips in Nepal promise a seamless blend of luxury and exploration, creating memories to last a lifetime.
                 </p>
-            <div className='w-full px-32 flex flex-col gap-12 py-12 '>
+            <div className='w-full lg:px-32 px-4 flex flex-col lg:gap-12 gap-4 py-12 '>
                 {isLoading && <Loader/>}
                 {tourData?.data?.tours?.length===0 && <NoDataFound title='No Tours Found'/>}
                 {tourData?.data?.tours?.map((item:Tour,index:number)=>(

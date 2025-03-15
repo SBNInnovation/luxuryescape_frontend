@@ -42,7 +42,7 @@ const MainSlider: React.FC<ImagesProps> = ({ gallery = [], thumbnail }) => {
     }
 
     return (
-        <div className='relative my-12 h-[600px] w-full'>
+        <div className='relative my-12 lg:h-[600px] h-[400px] w-full'>
             {images.map((img, index) => (
                 <Image 
                     key={index}

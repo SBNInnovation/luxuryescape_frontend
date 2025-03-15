@@ -3,8 +3,6 @@ import { LuxuryPackage } from './types'
 import { antic } from '@/utility/font'
 import SharedTitle from '@/shared/SharedTitle'
 import Image from 'next/image'
-import { Button, Divider } from '@nextui-org/react'
-import Link from 'next/link'
 
 const DetailedItenary: React.FC<LuxuryPackage> = ({itinerary}) => {
     // Guard against undefined or empty itinerary
@@ -29,7 +27,7 @@ const DetailedItenary: React.FC<LuxuryPackage> = ({itinerary}) => {
                                 </div>
                                 <p className='text-justify mt-4'>{item?.description}</p>
                             </div>
-                            <div className='w-full lg:w-1/2 h-[400px]'>
+                            <div className='w-full lg:w-1/2 lg:h-[400px] h-[250px]'>
                                 <Image 
                                     src={item?.image || "/placeholder-image.jpg"} 
                                     alt={item?.title || `Day ${index + 1}`} 

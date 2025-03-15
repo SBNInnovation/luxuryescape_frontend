@@ -58,21 +58,21 @@ const TripTypes = () => {
                 />
                 <div className="absolute inset-0 bg-black/40" />
                     <div className="w-full items-center px-8 h-full flex flex-col justify-center absolute inset-0">
-                    <h1 className={`${antic.className} text-6xl font-bold mb-6 text-white leading-tight`}>
+                    <h1 className={`${antic.className} lg:text-6xl text-4xl font-bold mb-6 text-white leading-tight`}>
                         Extraordinary <span className='text-primary'>Journeys</span>
                     </h1>
-                    <p className="text-xl text-white/90 font-light">
+                    <p className="lg:text-xl text-lg text-white/90 font-light">
                         Experience the Himalayas through a lens of unparalleled luxury and authenticity
                     </p>
                 </div>
             </div>
 
-        <div className="px-4 py-24">
-                <h2 className={`text-5xl text-center mb-16 ${antic.className} text-primary`}>
+        <div className="px-4 lg:py-24 py-8">
+                <h2 className={`lg:text-5xl text-3xl text-center lg:mb-16 mb-4 ${antic.className} text-primary`}>
                     Curated Luxury Experiences
                 </h2>
                 {isLoading && <Loader/>}
-                <div className="grid grid-cols-3 gap-8 px-16">
+                <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 lg:px-16 px-4 lg:mt-0 mt-8">
                     {experienceTypeData?.allTourTypes.map((exp:Exp) => (
                         <div key={exp._id} className="group relative overflow-hidden cursor-pointer">
                             {/* Dark Overlay on Hover */}
@@ -107,8 +107,8 @@ const TripTypes = () => {
                 </div>
         </div>
 
-        <div className="container mx-auto px-4 py-24 max-w-7xl">
-            <h2 className={`text-5xl text-center text-primary mb-16 ${antic.className} text-neutral-900`}>
+        <div className="container mx-auto px-4 lg:py-24 py-8 max-w-7xl">
+            <h2 className={`lg:text-5xl text-3xl  text-center text-primary lg:mb-16 mb-8 ${antic.className} text-neutral-900`}>
             Premium Destinations
             </h2>
             <div className="grid lg:grid-cols-3 gap-8">

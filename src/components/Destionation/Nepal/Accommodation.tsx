@@ -21,9 +21,9 @@ const Accommodation = () => {
     }
     
     return (
-        <div className='w-full -mb-8'>
-            <h1 className={`${antic.className} text-primary text-5xl mb-8`}>Luxury Accommodations</h1>
-            <p className='text-justify'>Nepal offers an incredible blend of adventure, culture, and luxury, making it the perfect destination for an unforgettable journey. From the bustling streets of Kathmandu rich with history and tradition to the serene lakeside charm of Pokhara, every corner of Nepal offers unique experiences. Explore the pristine wilderness of Chitwan National Park on a luxury safari, or indulge in breathtaking mountain views from Nagarkot’s exclusive retreats. Whether it’s a helicopter tour over the majestic Himalayas, guided treks through ancient trails, or peaceful moments by tranquil rivers, our tailored trips in Nepal promise a seamless blend of luxury and exploration, creating memories to last a lifetime.
+        <div className='w-full lg:-mb-8 mb-4'>
+            <h1 className={`${antic.className} text-primary lg:text-5xl text-3xl lg:mb-8 mb-4`}>Luxury Accommodations</h1>
+            <p className='text-justify lg:text-base text-sm'>Nepal offers an incredible blend of adventure, culture, and luxury, making it the perfect destination for an unforgettable journey. From the bustling streets of Kathmandu rich with history and tradition to the serene lakeside charm of Pokhara, every corner of Nepal offers unique experiences. Explore the pristine wilderness of Chitwan National Park on a luxury safari, or indulge in breathtaking mountain views from Nagarkot’s exclusive retreats. Whether it’s a helicopter tour over the majestic Himalayas, guided treks through ancient trails, or peaceful moments by tranquil rivers, our tailored trips in Nepal promise a seamless blend of luxury and exploration, creating memories to last a lifetime.
                 </p>
             <div className='w-full flex gap-12 items-center justify-center flex-wrap mt-12'>
                 {accommodationData?.data?.formattedData?.map((item:any,index:number) => ( //eslint disable-line @typescript-eslint/no-explicit-any

@@ -20,9 +20,9 @@ const Accommodation = () => {
     }
 
     return (
-        <div className='w-full -mb-8'>
-            <h1 className={`${antic.className} text-primary text-5xl mb-8`}>Luxury Accommodations</h1>
-            <p className='text-justify'>
+        <div className='w-full lg:-mb-8 mb-4'>
+            <h1 className={`${antic.className} text-primary lg:text-5xl text-3xl lg:mb-8 mb-4`}>Luxury Accommodations</h1>
+            <p className='text-justify lg:text-base text-sm'>
                 Tibet offers a unique blend of luxury, serenity, and cultural immersion, making it an unparalleled destination for discerning travelers. Experience the finest accommodations, from five-star resorts in Lhasa with breathtaking views of the Potala Palace to secluded boutique lodges nestled in the Himalayan highlands. Indulge in world-class hospitality with personalized services, spa retreats inspired by Tibetan wellness traditions, and private suites overlooking stunning landscapes. Whether you prefer a tranquil stay near sacred monasteries, a luxury retreat with panoramic mountain vistas, or an exclusive eco-lodge near Tibet’s pristine lakes, our handpicked accommodations ensure an opulent and unforgettable journey through the Roof of the World.
             </p>
             <div className='w-full flex gap-12 items-center justify-center flex-wrap mt-12'>

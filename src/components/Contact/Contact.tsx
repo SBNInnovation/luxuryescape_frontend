@@ -174,13 +174,13 @@ const Contact: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col pl-24 pr-8 ">
+        <div className="flex flex-col px-4 sm:px-6 md:px-8 lg:pl-24 lg:pr-8">
             {/* Flex Container for Two Divs */}
-            <div className=" w-full relative mx-auto px-4 py-12 mt-12 flex flex-col md:flex-row gap-8">
+            <div className="w-full relative mx-auto py-8 lg:py-12 mt-6 lg:mt-12 flex flex-col lg:flex-row gap-8">
                 {/* Left Div with Shared Title and Image */}
-                <div className="flex flex-col w-3/5">
+                <div className="flex flex-col w-full lg:w-3/5">
                     <SharedTitle title="Need a vacation ?" subtitle="Contact us" />
-                    <div className="relative w-full h-[500px] mt-12">
+                    <div className="relative w-full h-[300px] sm:h-[400px] lg:h-[500px] mt-6 lg:mt-12">
                         <Image
                             src="https://images.unsplash.com/photo-1523496922380-91d5afba98a3?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8bHV4dXJ5fGVufDB8MHwwfHx8Mg%3D%3D"
                             alt="Vacation"
@@ -192,7 +192,7 @@ const Contact: React.FC = () => {
                 </div>
 
                 {/* Right Div with Tabs */}
-                <div className="w-1/2 relative -left-24 -top-8">
+                <div className="w-full lg:w-1/2 relative lg:-left-24 lg:-top-8 mt-8 lg:mt-0">
                     {/* NextUI Tabs */}
                     <Tabs
                         aria-label="Contact Options"
@@ -201,7 +201,7 @@ const Contact: React.FC = () => {
                         variant="underlined"
                     >
                         <Tab key="form" title="Contact Form" className="text-primary">
-                            <div className="p-6 bg-white rounded-lg shadow-md">
+                            <div className="p-4 sm:p-6 bg-white rounded-lg shadow-md">
                                 <form className="space-y-4" onSubmit={handleSubmit}>
                                     {/* Name Field */}
                                     <Input
@@ -245,10 +245,10 @@ const Contact: React.FC = () => {
                                         required
                                     />
 
-                                    {/* number Number Field */}
+                                    {/* Phone Number Field - Fixed name attribute */}
                                     <Input
                                         type="tel"
-                                        name="number6343"
+                                        name="number"
                                         label="Phone Number"
                                         placeholder="Enter your phone number"
                                         fullWidth
@@ -307,7 +307,7 @@ const Contact: React.FC = () => {
                         </Tab>
 
                         <Tab key="details" title="Contact Details" className="text-primary">
-                            <div className="p-6 bg-white rounded-lg shadow-md">
+                            <div className="p-4 sm:p-6 bg-white rounded-lg shadow-md">
                                 <div className="space-y-4">
                                     <h3 className="text-xl font-bold">Our Office</h3>
                                     <p>123 Vacation Lane, Paradise City, PC 12345</p>
@@ -321,38 +321,32 @@ const Contact: React.FC = () => {
             </div>
 
             {/* Flex Grid for Stats */}
-            <div className="grid grid-cols-4 gap-4 my-16 mt-28 relative pr-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 my-12 lg:my-16 lg:mt-28 relative px-4 lg:pr-12">
                 {details.map((detail, index) => (
                     <div
                         key={detail.title}
-                        className="p-8 relative group"
+                        className="p-6 lg:p-8 relative group border-b sm:border-b-0 sm:border-r last:border-r-0 border-gray-200"
                     >
                         {/* Background Number (Subtitle) */}
                         <h1
-                            className={`text-9xl absolute inset-0 text-gray-300 flex items-center justify-center ${antic.className}`}
+                            className={`text-7xl sm:text-8xl lg:text-9xl absolute inset-0 text-gray-300 flex items-center justify-center ${antic.className}`}
                         >
                             {detail.subtitle}
                         </h1>
 
                         {/* Title */}
                         <h1
-                            className={`${antic.className} text-gray text-2xl font-light absolute inset-0 flex items-center justify-center z-10`}
+                            className={`${antic.className} text-gray text-xl sm:text-2xl font-light absolute inset-0 flex items-center justify-center z-10`}
                         >
                             {detail.title}
                         </h1>
 
-                        {/* Divider Line (Using :after pseudo-element) */}
-                        {index < details.length - 1 && (
-                            <div
-                                className="absolute top-0 bottom-0 right-0 w-[2px] bg-gray-200"
-                                style={{ right: "-1rem" }} // Adjust position based on gap
-                            ></div>
-                        )}
+                        {/* Removed divider lines as we're using borders instead */}
                     </div>
                 ))}
             </div>
 
-            <div className="w-full lg:h-[90vh] h-[70vh] my-24 pr-12">
+            <div className="w-full h-[50vh] sm:h-[60vh] lg:h-[90vh] my-12 lg:my-24 px-4 lg:pr-12">
                 <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3531.9927385581045!2d85.32190857546776!3d27.717510476176777!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb19da434dc251%3A0x9f38fff86882064b!2sGoing%20Nepal%20Pvt%20Ltd%2C%20Tailor-Made%20Luxury%20DMC!5e0!3m2!1sen!2snp!4v1728413039018!5m2!1sen!2snp"
                     width="100%"

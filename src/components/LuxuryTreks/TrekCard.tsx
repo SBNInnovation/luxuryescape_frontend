@@ -23,7 +23,7 @@ const TrekCard: React.FC<Trek> = ({ slug, trekName, location, duration, cost, th
   };
 
   return (
-    <Card className="w-full">
+    <Card className="w-full rounded-sm">
       <div className="relative">
         <Image
           alt={trekName}

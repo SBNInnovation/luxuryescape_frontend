@@ -16,7 +16,7 @@ const CustomPrevArrow: React.FC<CustomArrowComponentProps> = ({ onClick }) => (
     <Button
         isIconOnly
         onClick={onClick}
-        className="absolute -left-8 top-1/2 text-white -translate-y-1/2 z-10 bg-primary hover:bg-opacity-100 rounded-full p-2 transition-all duration-300"
+        className="absolute lg:-left-8 left-4 top-1/2 text-white -translate-y-1/2 z-10 bg-primary hover:bg-opacity-100 rounded-full p-2 transition-all duration-300"
     >
         <FaChevronLeft />
     </Button>
@@ -26,7 +26,7 @@ const CustomNextArrow: React.FC<CustomArrowComponentProps> = ({ onClick }) => (
     <Button
         isIconOnly
         onClick={onClick}
-        className="absolute -right-8 top-1/2 text-white -translate-y-1/2 z-10 bg-primary hover:bg-opacity-100 rounded-full p-2 transition-all duration-300"
+        className="absolute lg:-right-8 right-4 top-1/2 text-white -translate-y-1/2 z-10 bg-primary hover:bg-opacity-100 rounded-full p-2 transition-all duration-300"
     >
         <FaChevronRight />
     </Button>
@@ -85,10 +85,10 @@ const HighlightCarousel: React.FC = () => {
 
     return (
         <div className='w-full h-[80vh]'>
-            <h1 className={`${antic.className} text-primary text-5xl mb-8`}>Highlights</h1>
+            <h1 className={`${antic.className} text-primary lg:text-5xl text-3xl lg:mb-8 mb-4`}>Highlights</h1>
             <div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 py-4'>
                 {highlights.map((highlight, index) => (
-                    <div key={index} className='flex gap-2 text-xl font-medium items-center'>
+                    <div key={index} className='flex gap-2 lg:text-xl text-sm font-medium items-center'>
                         <AiFillFire className='text-primary'/>
                         <h1>{highlight}</h1>
                     </div> 
@@ -99,7 +99,7 @@ const HighlightCarousel: React.FC = () => {
                     {images.map((item, index) => (
                     <div className='py-16 mx-4 relative'>
                             <div
-                                className={`px-4 w-[90%] h-[280px]`}
+                                className={`px-4 w-[90%] lg:h-[300px] h-[200px]`}
                                 key={index}
                             >
                                 <Image src={item} alt={item} width={1000} height={1000} className='w-full h-full object-cover rounded-sm scale-[.95] transition duration-700' />

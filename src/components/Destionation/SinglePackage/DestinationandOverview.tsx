@@ -14,7 +14,7 @@ const DestinationandOverview: React.FC<LuxuryPackage> = ({description}) => {
     return (
         <>
             <h1 className={`text-3xl ${antic.className} font-semibold text-primary mt-20 mb-8 `}>Trip Overview</h1>
-            <p className="text-justify font-light leading-9">
+            <p className="text-justify font-light lg:leading-9 leading-6">
                 {expanded ? description : `${description?.slice(0, 800)}...`}
             </p>
             <Button onClick={toggleExpanded} variant='light' className="text-primary underline underline-offset-2 rounded-sm my-4">

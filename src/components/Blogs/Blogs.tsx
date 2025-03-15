@@ -63,10 +63,10 @@ const BlogsPage = () => {
               />
               <div className="absolute inset-0 bg-black/40" />
               <div className="w-full items-center px-8 h-full flex flex-col justify-center absolute inset-0">
-                <h1 className={`${antic.className} text-6xl font-bold mb-6 text-white leading-tight text-center`}>
+                <h1 className={`${antic.className} lg:text-6xl text-4xl font-bold mb-6 text-white leading-tight text-center`}>
                   Luxury Travel <span className='text-primary'>Stories</span> from Nepal
                 </h1>
-                <p className="text-xl text-white/90 font-light text-center max-w-2xl">
+                <p className="lg:text-xl text-lg text-white/90 font-light text-center max-w-2xl">
                   Discover exclusive experiences and hidden gems in the land of the Himalayas
                 </p>
               </div>
@@ -115,11 +115,6 @@ const BlogsPage = () => {
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute top-4 left-4 z-10">
-                    <span className="bg-primary text-white px-4 py-1 rounded-full text-sm">
-                      {blog.category.tourType}
-                    </span>
-                  </div>
                 </div>
                 <div className="p-6">
                   <div className="flex items-center text-sm text-gray-500 mb-3">
@@ -160,11 +155,6 @@ const BlogsPage = () => {
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-300"
                 />
-                <div className="absolute top-4 left-4 z-10">
-                  <span className="bg-primary text-white px-3 py-1 rounded-full text-sm">
-                    {blog.category.tourType}
-                  </span>
-                </div>
               </div>
               <div className="p-6">
                 <div className="flex items-center text-sm text-gray-500 mb-3">

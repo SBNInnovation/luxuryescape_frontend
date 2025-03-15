@@ -59,13 +59,13 @@ const Tibet = () => {
     }, []);
 
     return (
-        <div className="w-full px-16 mb-8 py-12">
+        <div className="w-full lg:px-16 px-4 mb-8 lg:py-12 py-4">
             <Breadcrumbs className="mb-8">
                 <BreadcrumbItem>Home</BreadcrumbItem>
                 <BreadcrumbItem>Destinations</BreadcrumbItem>
                 <BreadcrumbItem>Tibet</BreadcrumbItem>
             </Breadcrumbs>
-            <div className="h-[700px] w-full relative">
+            <div className="lg:h-[700px] h-[400px] w-full relative">
                 <Image
                     src={
                         "https://images.unsplash.com/photo-1560389959-e4e81f5dca86?w=800&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dGliZXR8ZW58MHx8MHx8fDA%3D"
@@ -76,15 +76,15 @@ const Tibet = () => {
                     className="object-cover h-full w-full rounded-md"
                 />
                 <div className="bg-black/30 inset-0 absolute rounded-md"></div>
-                <div className="absolute left-24 top-1/3 text-white flex flex-col gap-8">
-                    <div className="text-2xl font-light">Enjoy Luxury Tours and Packages in</div>
-                    <span className={`${antic.className} text-primary text-8xl tracking-wider`}>
-                        Tibet
-                    </span>
-                </div>
+                <div className="absolute lg:left-24 left-4 top-1/3 text-white flex flex-col lg:gap-8 gap-4">
+                                    <div className="lg:text-2xl text-xl font-light">Enjoy Luxury Tours and Packages in</div>
+                                    <span className={`${antic.className} text-primary lg:text-8xl text-4xl tracking-wider`}>
+                                        Tibet
+                                    </span>
+                                </div>
             </div>
             <section className="relative w-full mt-4">
-                <div className="flex w-full flex-col items-center justify-center sticky top-0 bg-[#FDFBF7] z-10">
+                <div className="lg:flex hidden w-full flex-col items-center justify-center sticky top-0 bg-[#FDFBF7] z-10">
                     <Tabs
                         aria-label="Options"
                         color="primary"
@@ -121,24 +121,24 @@ const Tibet = () => {
                         <Tab key="featuredTrips" title="Luxury Accommodations" />
                     </Tabs>
                 </div>
-                <div ref={overviewRef} className="w-full py-16">
+                <div ref={overviewRef} className="w-full lg:py-16 py-4">
                     <OverView />
                 </div>
-                <div ref={highlightsRef} className="w-full py-16">
+                <div ref={highlightsRef} className="w-full lg:py-16 py-4">
                     <HighLight />
                 </div>
-                <div ref={whyNepalRef} className="w-full py-16">
+                <div ref={whyNepalRef} className="w-full lg:py-16 py-4">
                     <TripsInTibet />
                 </div>
-                <div ref={featuredTripsRef} className="w-full py-16">
+                <div ref={featuredTripsRef} className="w-full lg:py-16 py-4">
                     <Accommodation />
                 </div>
             </section>
             <div className="w-full">
-                    <h1 className={`${antic.className} text-primary text-5xl mb-8`}>Other Destinations</h1>
-                    <div className="flex w-full">
-                        <Link href={`/destinations/bhutan`} className="w-1/2">
-                            <section className="w-full h-[500px] relative group overflow-hidden">
+                    <h1 className={`${antic.className} text-primary lg:text-5xl text-3xl lg:mb-8 mb-4`}>Other Destinations</h1>
+                    <div className="flex lg:flex-row flex-col w-full">
+                        <Link href={`/destinations/bhutan`} className="lg:w-1/2 w-full">
+                            <section className="w-full lg:h-[500px] h-[250px] relative group overflow-hidden">
                                 <div className="w-full h-full transition-transform duration-500 group-hover:scale-110">
                                     <Image
                                         src={
@@ -161,8 +161,8 @@ const Tibet = () => {
                                 </div>
                             </section>
                         </Link>
-                        <Link href={`/destinations/nepal`} className="w-1/2">
-                            <section className="w-full h-[500px] relative group overflow-hidden">
+                        <Link href={`/destinations/nepal`} className="lg:w-1/2 w-full">
+                            <section className="w-full lg:h-[500px] h-[250px] relative group overflow-hidden">
                                 <div className="w-full h-full transition-transform duration-500 group-hover:scale-110">
                                     <Image
                                         src={

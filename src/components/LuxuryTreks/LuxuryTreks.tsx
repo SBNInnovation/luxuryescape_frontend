@@ -79,11 +79,11 @@ const LuxuryTreks: React.FC = () => {
                 <div className="absolute inset-0 bg-black/40" />
                 <div ref={firstRef} className="w-full items-center px-8 h-full flex flex-col justify-center absolute inset-0">
                     <h1
-                        className={`${antic.className} text-6xl font-bold mb-6 text-white leading-tight text-center`}
+                        className={`${antic.className} lg:text-6xl text-4xl font-bold mb-6 text-white leading-tight text-center`}
                     >
                         Luxury <span className="text-primary">Treks</span> in Nepal
                     </h1>
-                    <p className="text-xl text-white/90 font-light text-center max-w-2xl">
+                    <p className="lg:text-xl text-lg text-white/90 font-light text-center max-w-2xl">
                         Experience unparalleled thrilling adventures in the heart of the Himalayas
                     </p>
                 </div>

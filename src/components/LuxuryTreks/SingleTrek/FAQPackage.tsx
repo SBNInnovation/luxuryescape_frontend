@@ -40,7 +40,7 @@ const FAQPackage: React.FC<FAQProps> = ({ faqs = [] }) => {
     return (
         <>
             <h1 className={`text-3xl ${antic.className} font-semibold text-primary my-8 `}>Frequently Asked Questions</h1>
-            <div className="relative mt-12 px-20">
+            <div className="relative mt-12 lg:px-20 px-0">
                 <Button 
                     onClick={handleExpandAll}
                     className="mb-4 text-primary bg-transparent absolute right-0 -top-[4.5rem]"

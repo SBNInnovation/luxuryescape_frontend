@@ -35,10 +35,10 @@ const Tailor = () => {
             <div className="absolute inset-0 bg-black/60" />
             {/* Text Content */}
             <div className=" max-w-7xl mx-auto px-8 h-full flex flex-col justify-center absolute inset-0">
-                <h1 className={`${antic.className} text-6xl font-bold mb-6 text-white leading-tight`}>
+                <h1 className={`${antic.className} lg:text-6xl text-3xl font-bold mb-6 text-white leading-tight`}>
                     Craft Your <span className="text-primary">Perfect</span> Journey
                 </h1>
-                <p className="text-2xl text-white/90 max-w-2xl">
+                <p className="lg:text-2xl text-lg text-white/90 max-w-2xl">
                     Where luxury meets authenticity. Experience handcrafted journeys designed exclusively for the discerning traveler.
                 </p>
                 <div className="mt-12 flex gap-4">

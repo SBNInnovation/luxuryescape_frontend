@@ -26,12 +26,12 @@ const TripsInBhutan = () => {
     }
 
     return (
-        <div className='w-full -mb-12'>
-            <h1 className={`${antic.className} text-primary text-5xl mb-8`}>Trips in Tibet</h1>
-            <p ref={first} className='text-justify'>
+        <div className='w-full lg:-mb-12 mb-4'>
+            <h1 className={`${antic.className} text-primary lg:text-5xl text-3xl lg:mb-8 mb-4`}>Trips in Tibet</h1>
+            <p ref={first} className='text-justify lg:text-base text-sm'>
                 Tibet offers an extraordinary fusion of adventure, spirituality, and luxury, making it a truly unique destination. From the sacred city of Lhasa, home to the iconic Potala Palace and Jokhang Temple, to the tranquil beauty of Yamdrok Lake, every corner of Tibet promises an enriching experience. Journey through the vast Tibetan Plateau on a private guided tour, or marvel at the breathtaking views of Mount Everest’s northern face from a luxury retreat. Whether it’s a scenic drive through high-altitude passes, immersive visits to ancient monasteries, or serene moments in remote spiritual sanctuaries, our bespoke tours in Tibet ensure a perfect balance of luxury and exploration, creating memories to last a lifetime.
             </p>
-            <div className='w-full px-32 flex flex-col gap-12 py-12 '>
+            <div className='w-full lg:px-32 px-4 flex flex-col lg:gap-12 gap-4 py-12 '>
                 {isLoading && <Loader/>}
                 {tourData?.data?.tours?.length===0 && <NoDataFound title='No Tours Found'/>}
                 {tourData?.data?.tours?.map((item:Tour,index:number)=>(

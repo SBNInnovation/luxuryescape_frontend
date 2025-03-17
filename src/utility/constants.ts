@@ -17,10 +17,6 @@ export const selectDestinations: Destination[] = [
         { value: "nepal", label: "Nepal"},
         { value: "bhutan", label: "Bhutan"},
         { value: "tibet", label: "Tibet"},
-        { value: "nepal-bhutan", label: "Nepal-Bhutan" },
-        { value: "nepal-tibet", label: "Nepal-Tibet" },
-        { value: "bhutan-tibet", label: "Bhutan-Tibet"},
-        { value: "nepal-bhutan-tibet", label: "Nepal-Bhutan-Tibet" },
     ];
 
 export    const months: Month[] = [

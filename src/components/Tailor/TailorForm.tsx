@@ -78,7 +78,7 @@ const TailorForm: React.FC = () => {
     const [childrenCount, setChildrenCount] = useState<number>(0);
     const [isDateFixed, setIsDateFixed] = useState<boolean>(true);
     const [formErrors, setFormErrors] = useState<FormErrors>({});
-    const [budgetValue, setBudgetValue] = useState<number[]>([10000, 30000]);
+    const [budgetValue, setBudgetValue] = useState<number[]>([5000, 30000]);
     
     const { data: countries, isLoading } = useQuery({
         queryKey: ["countries"],
@@ -544,9 +544,8 @@ const TailorForm: React.FC = () => {
                             <span className="font-medium">Meal Preferences</span>
                         </div>
                         <RadioGroup name="mealPlan" label="Meal Plan">
-                            <Radio value="all-inclusive">All Inclusive</Radio>
-                            <Radio value="full-board">Full Board (3 meals)</Radio>
-                            <Radio value="half-board">Half Board (Breakfast + Dinner)</Radio>
+                            <Radio value="all-inclusive">All Inclusive + Soft drinks</Radio>
+                            <Radio value="half-board">Half Board (Breakfast + Dinner/Lunch)</Radio>
                             <Radio value="bed-breakfast">Bed & Breakfast Only</Radio>
                         </RadioGroup>
                     </div>
@@ -561,7 +560,7 @@ const TailorForm: React.FC = () => {
                             label="Budget"
                             step={1000}
                             maxValue={50000}
-                            minValue={5000}
+                            minValue={500}
                             value={budgetValue}
                             onChange={handleBudgetChange}
                             className="max-w-md"
@@ -590,7 +589,7 @@ const TailorForm: React.FC = () => {
                     <Button
                         type="submit"
                         size="lg"
-                        className="w-full bg-primary text-white hover:bg-primary/90"
+                        className="w-full bg-primary rounded-sm text-white hover:bg-primary/90"
                         endContent={<FaPaperPlane />}
                         disabled={isPending}
                     >

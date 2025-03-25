@@ -12,12 +12,15 @@ import QuoteModal from './QuoteModal'
 import { useQuery } from '@tanstack/react-query'
 import { getTourBySlug } from '@/services/tours'
 import Loader from '@/shared/Loader'
+import { saveBookingDetails } from '@/utility/BookingStorageHandler'
+import { useRouter } from 'next/navigation'
 
 interface props{
     id:string
 }
 const SinglePackage:React.FC<props> = ({id}) => {
     const [isOpen,setIsOpen] = React.useState(false)
+    const router=useRouter()
 
     const {data:singleTour,isLoading}=useQuery({
         queryKey:["singleTour",id],
@@ -26,16 +29,15 @@ const SinglePackage:React.FC<props> = ({id}) => {
 
     const activitiesWithImages = singleTour?.data?.tourHighlights?.map((activity:any, index:number) => ({
         activity: activity,
-        image: singleTour.data.highlightPicture[index] || "" // Use corresponding image or empty string as fallback
+        image: singleTour.data.highlightPicture[index] || ""
     }));
 
     const itineraryWithImages = singleTour?.data?.tourItinerary?.map((item:any, index:number) => ({
         days: `Day ${item.day}`,
         title: item.title,
         description: item.description,
-        image: singleTour.data.itineraryDayPhoto[index] || "", // Use corresponding image or empty string as fallback
+        image: singleTour.data.itineraryDayPhoto[index] || "",
         hotel: {
-            // Extract just the accommodation title instead of using the whole object
             name: item.accommodation && item.accommodation.length > 0 ? item.accommodation[0].accommodationTitle : "Luxury Accommodation",
             image:  item.accommodation[0].accommodationPics[0],
             slug: item.accommodation[0].slug
@@ -53,6 +55,23 @@ const SinglePackage:React.FC<props> = ({id}) => {
         "itinerary": itineraryWithImages,
         "faqs": singleTour?.data?.faq,
     }
+
+        const handleBookNow = () => {
+        
+        // Create booking details object
+        const bookingDetails = {
+            adventureId: singleTour?.data?._id,
+            adventureName: trip.title,
+            adventureSlug: singleTour?.data?.slug,
+            price: trip.price,
+            quantity: 1,
+            adventureType: "Tour" as const,
+        };
+        
+        saveBookingDetails(bookingDetails);
+        
+        router.push('/checkout');
+    };
 
     if(isLoading)return <Loader/>
 
@@ -78,7 +97,7 @@ const SinglePackage:React.FC<props> = ({id}) => {
                     </div>
                     <div className='flex flex-col gap-2 lg:mt-0 mt-8'>
                         <Button onPress={()=>setIsOpen(true)} variant='bordered' className='border border-primary rounded-sm px-8 py-0 text-primary'>Get Customized Quote</Button>
-                        <Button className='bg-primary rounded-sm px-8 py-0 text-white'>Book with us</Button>
+                        <Button onPress={handleBookNow} className='bg-primary rounded-sm px-8 py-0 text-white'>Book with us</Button>
                     </div>
                 </section>
             </div>

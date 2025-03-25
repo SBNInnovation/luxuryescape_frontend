@@ -12,12 +12,15 @@ import { useQuery } from '@tanstack/react-query'
 import Loader from '@/shared/Loader'
 import { getTrekBySlug } from '@/services/trek'
 import WhyLuxury from '@/components/Destionation/SinglePackage/WhyLuxury'
+import { saveBookingDetails } from '@/utility/BookingStorageHandler'
+import { useRouter } from 'next/navigation'
 
 interface props{
     id:string
 }
 const SingleTrek:React.FC<props> = ({id}) => {
     const [isOpen,setIsOpen] = React.useState(false)
+    const router=useRouter()
 
     const {data:singleTrek,isLoading}=useQuery({
         queryKey:["singleTrek",id],
@@ -48,6 +51,22 @@ const SingleTrek:React.FC<props> = ({id}) => {
         "faqs": singleTrek?.data?.faq,
     }
 
+    const handleBookNow = () => {
+            
+            const bookingDetails = {
+                adventureId: singleTrek?.data?._id,
+                adventureName: trip.title,
+                adventureSlug: singleTrek?.data?.slug,
+                price: trip.price,
+                quantity: 1,
+                adventureType: "Trekking" as const,
+            };
+            
+            saveBookingDetails(bookingDetails);
+            
+            router.push('/checkout');
+        };
+
     if(isLoading)return <Loader/>
 
     return (
@@ -72,7 +91,7 @@ const SingleTrek:React.FC<props> = ({id}) => {
                                         </div>
                                         <div className='flex flex-col gap-2 lg:mt-0 mt-8'>
                                             <Button onPress={()=>setIsOpen(true)} variant='bordered' className='border border-primary rounded-sm px-8 py-0 text-primary'>Get Customized Quote</Button>
-                                            <Button className='bg-primary rounded-sm px-8 py-0 text-white'>Book with us</Button>
+                                            <Button onPress={handleBookNow} className='bg-primary rounded-sm px-8 py-0 text-white'>Book with us</Button>
                                         </div>
                 </section>
             </div>

@@ -310,9 +310,9 @@ const Contact: React.FC = () => {
                             <div className="p-4 sm:p-6 bg-white rounded-lg shadow-md">
                                 <div className="space-y-4">
                                     <h3 className="text-xl font-bold">Our Office</h3>
-                                    <p>123 Vacation Lane, Paradise City, PC 12345</p>
-                                    <p>Email: info@vacation.com</p>
-                                    <p>Phone: +1 (123) 456-7890</p>
+                                    <p>Kathmandu Metropolitan-2 Uttardhoka, Lazimpat, Nepal</p>
+                                    <p>Email: info@goingnepal.com, goingnepal@gmail.com, ceo@goingnepal.com</p>
+                                    <p>Phone: +977 1-4519145 / 01-4517230 / +977 9851032961</p>
                                 </div>
                             </div>
                         </Tab>

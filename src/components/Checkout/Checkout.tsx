@@ -10,11 +10,11 @@ import { FaPhone } from 'react-icons/fa';
 import { CiLocationOn } from 'react-icons/ci';
 import { useRouter } from 'next/navigation';
 import { BookingDetails, clearBookingDetails, getBookingDetails } from '@/utility/BookingStorageHandler';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import Loader from '@/shared/Loader';
 import { toast } from 'sonner';
 import { createBookingCheckout } from '@/services/checkout';
-import { DatePicker } from '@nextui-org/react';
+import { Autocomplete, AutocompleteItem, DatePicker } from '@nextui-org/react';
 import { CalendarDate } from '@internationalized/date';
 
 interface FormData {
@@ -28,7 +28,7 @@ export default function CheckoutPage() {
   const router = useRouter();
   const [bookingDetails, setBookingDetails] = useState<BookingDetails | null>(null);
   const [loading, setLoading] = useState(true);
-  
+  const [country, setCountry] = useState<string>('');                               
   const [errors, setErrors] = useState<Partial<FormData>>({});
   const [formData, setFormData] = useState<FormData>({
     fullName: '',
@@ -40,11 +40,33 @@ export default function CheckoutPage() {
   // State for selected date
   const [selectedDate, setSelectedDate] = useState<CalendarDate | null>(null);
 
+  const { data: countries, isLoading } = useQuery({
+          queryKey: ["countries"],
+          queryFn: async () => {
+              const response = await fetch("https://restcountries.com/v3.1/all");
+              const data = await response.json();
+              return data.map((country: any) => country.name.common);
+          },
+      });
+
+  const onSelectionChange = (key: React.Key | null) => {
+          if (key) {
+              setCountry(String(key));
+          }
+      };
+
   const {mutate:checkoutMutation}=useMutation({
     mutationFn:(data:any)=>createBookingCheckout(data), //eslint-disable-line @typescript-eslint/no-explicit-any
     onSuccess:()=>{
       toast.success('Your booking has been submitted successfully.')
-      
+      setFormData({
+        fullName: '',
+        email: '',
+        phone: '',
+        address: '',       
+      })
+      clearBookingDetails();
+      router.push('/')
     },
     onError:()=>{
       toast.error('Failed to submit your booking.')
@@ -182,6 +204,8 @@ export default function CheckoutPage() {
     }
     
     const jsDate = selectedDate ? calendarDateToDate(selectedDate) : null;
+
+    const finalTotalPrice = bookingDetails.quantity! * bookingDetails.price!;
     
     // Prepare data for the POST request, excluding quantity
     const checkoutData = {
@@ -190,22 +214,20 @@ export default function CheckoutPage() {
       adventureType: bookingDetails.adventureType,
       adventureId: bookingDetails.adventureId,
       adventureSlug: bookingDetails.adventureSlug,
-      totalPrice: bookingDetails.totalPrice,
-      bookingDate: jsDate?.toISOString()
+      totalPrice: finalTotalPrice,
+      numberOfPerson: bookingDetails.quantity,
+      country:country,
+      bookingDate: jsDate?.toISOString().split('T')[0],
     };
+
+    if(!country || country === ''){
+      toast.error('Please select a country');
+    }
     
     checkoutMutation(checkoutData);
-    setFormData({
-        fullName: '',
-        email: '',
-        phone: '',
-        address: '',       
-      })
-      clearBookingDetails();
-      router.push('/')
+    
   };
 
-  // Get today's date as CalendarDate for minDate
   const today = dateToCalendarDate(new Date());
 
   return (
@@ -269,6 +291,27 @@ export default function CheckoutPage() {
                   startContent={<CiLocationOn className="text-gray-400" size={16} />}
                 />
 
+                <div className="flex flex-col gap-2 sm:col-span-2">
+                        <h1 className="text-sm text-gray-500">Select your country</h1>
+                        <Autocomplete
+                            name="country"
+                            label="Select a country"
+                            radius="none"
+                            isClearable={false}
+                            className='max-w-sm'
+                            value={country}
+                            selectedKey={country || undefined}
+                            onSelectionChange={onSelectionChange}
+                        >
+                            {!isLoading &&
+                            countries?.map((country: string) => (
+                                <AutocompleteItem key={country} value={country}>
+                                    {country}
+                                </AutocompleteItem>
+                            ))}
+                        </Autocomplete>
+                    </div>
+
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Booking Date</label>
                   <DatePicker 
@@ -322,7 +365,7 @@ export default function CheckoutPage() {
               <CardBody className="space-y-4">
                 <div>
                   <h3 className="text-xl font-semibold">{bookingDetails.adventureName}</h3>
-                  <p className="text-gray-600">Booking Type: {bookingDetails.adventureType === 'Trek' ? 'Trek' : 'Tour'}</p>
+                  <p className="text-gray-600">Booking Type: {bookingDetails.adventureType === 'Trekking' ? 'Trek' : 'Tour'}</p>
                   <p className="text-gray-600">Booking Date: {bookingDetails.bookingDate ? formatDate(bookingDetails.bookingDate) : 'Select a date'}</p>
                   <p className="text-gray-600">Number of Persons: {bookingDetails.quantity}</p>
                 </div>

@@ -34,7 +34,7 @@ const CustomNextArrow: React.FC<CustomArrowComponentProps> = ({ onClick }) => (
     </Button>
 )
 
-const TrekHighlights: React.FC<LuxuryPackage> = ({activities, inclusions}) => {
+const TrekHighlights: React.FC<LuxuryPackage> = ({activities, inclusions, exclusions}) => {
     const settings = {
         infinite: true,
         speed: 500,
@@ -103,6 +103,22 @@ const TrekHighlights: React.FC<LuxuryPackage> = ({activities, inclusions}) => {
                     <h1 className={`text-3xl ${antic.className} font-semibold text-primary my-8 `}>Trek inclusions</h1>
                     <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-4 mt-12'>
                         {inclusions.map((item, index) => (
+                            <div key={index} className='w-full'>
+                                <div className='flex items-center gap-4'>
+                                    <FaRegDotCircle className='text-primary' size={14}/>
+                                    <h2 className='font-medium '>{item}</h2>
+                                </div>
+                                <Divider className='my-2'/>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+            {exclusions && exclusions.length > 0 && (
+                <div className='mt-16 w-full'>
+                    <h1 className={`text-3xl ${antic.className} font-semibold text-primary my-8 `}>Trek exclusions</h1>
+                    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-4 mt-12'>
+                        {exclusions.map((item, index) => (
                             <div key={index} className='w-full'>
                                 <div className='flex items-center gap-4'>
                                     <FaRegDotCircle className='text-primary' size={14}/>

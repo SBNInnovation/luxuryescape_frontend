@@ -27,36 +27,37 @@ const SingleTrek:React.FC<props> = ({id}) => {
         queryFn:()=>getTrekBySlug(id)
     })
 
-    const activitiesWithImages = singleTrek?.data?.trekHighlights?.map((activity:any, index:number) => ({
+    const activitiesWithImages = singleTrek?.data?.specificTrek?.trekHighlights?.map((activity:any, index:number) => ({
         activity: activity,
-        image: singleTrek.data.highlightPicture[index] || ""
+        image: singleTrek.data.specificTrek?.highlightPicture[index] || ""
     }));
 
-    const itineraryWithImages = singleTrek?.data?.trekItinerary?.map((item:any, index:number) => ({
+    const itineraryWithImages = singleTrek?.data?.specificTrek?.trekItinerary?.map((item:any, index:number) => ({
         days: `Day ${item.day}`,
         title: item.title,
         description: item.description,
-        image: singleTrek.data.itineraryDayPhoto[index] || "",
+        image: singleTrek.data.specificTrek?.itineraryDayPhoto[index] || "",
     }));
 
     const trip = {
-        "title": singleTrek?.data?.trekName,
-        "totalDays": singleTrek?.data?.duration,
-        "ideal_date": singleTrek?.data?.idealTime?.join(', '),
-        "price": singleTrek?.data?.cost,
-        "description": singleTrek?.data?.trekOverview,
+        "title": singleTrek?.data?.specificTrek?.trekName,
+        "totalDays": singleTrek?.data?.specificTrek?.duration,
+        "ideal_date": singleTrek?.data?.specificTrek?.idealTime?.join(', '),
+        "price": singleTrek?.data?.specificTrek?.cost,
+        "description": singleTrek?.data?.specificTrek?.trekOverview,
         "activities": activitiesWithImages,
-        "inclusions": singleTrek?.data?.trekInclusion,
+        "inclusions": singleTrek?.data?.specificTrek?.trekInclusion,
+        "exclusions": singleTrek?.data?.specificTrek?.trekExclusion,
         "itinerary": itineraryWithImages,
-        "faqs": singleTrek?.data?.faq,
+        "faqs": singleTrek?.data?.specificTrek?.faq,
     }
 
     const handleBookNow = () => {
             
             const bookingDetails = {
-                adventureId: singleTrek?.data?._id,
+                adventureId: singleTrek?.data?.specificTrek?._id,
                 adventureName: trip.title,
-                adventureSlug: singleTrek?.data?.slug,
+                adventureSlug: singleTrek?.data?.specificTrek?.slug,
                 price: trip.price,
                 quantity: 1,
                 adventureType: "Trekking" as const,
@@ -95,10 +96,10 @@ const SingleTrek:React.FC<props> = ({id}) => {
                                         </div>
                 </section>
             </div>
-            <QuoteModal isOpen={isOpen} onClose={()=>setIsOpen(false)} Title={trip.title} type={singleTrek?.data?.type} tourId={singleTrek?.data?._id}/>
-            <MainSlider gallery={singleTrek.data.gallery} thumbnail={singleTrek.data.thumbnail} />
+            <QuoteModal isOpen={isOpen} onClose={()=>setIsOpen(false)} Title={trip.title} type={singleTrek?.data?.specificTrek?.type} tourId={singleTrek?.data?.specificTrek?._id}/>
+            <MainSlider gallery={singleTrek.data.specificTrek?.gallery} thumbnail={singleTrek.data.specificTrek?.thumbnail} />
             <DestinationandOverview description={trip.description} />
-            <TripHighlights activities={trip.activities} inclusions={trip.inclusions}/>
+            <TripHighlights activities={trip.activities} inclusions={trip.inclusions} exclusions={trip.exclusions}/>
             <DetailedItenary itinerary={trip.itinerary}/>
             <FAQPackage faqs={trip.faqs} />
             <WhyLuxury/>

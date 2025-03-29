@@ -14,6 +14,7 @@ export interface LuxuryPackage {
         image?: string;
     }[];
     inclusions?: string[];
+    exclusions?: string[];
     itinerary?: {
         days?: string;
         description?: string;

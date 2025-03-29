@@ -71,7 +71,7 @@ const Tours: React.FC = () => {
                     </p>
                 </div>
             </div>
-            {isLoading && <Loader/>}
+            
             <div className="py-8 w-full lg:px-20 px-4">
                 <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
                     <h2 className={`${antic.className} text-primary text-3xl font-bold`}>Featured Luxury Tours</h2>
@@ -104,7 +104,7 @@ const Tours: React.FC = () => {
                     </div>
                 </div>
             </div>
-
+            {isLoading && <Loader/>}
             <div className="pb-4 lg:px-20 px-4 w-full">
                 {filteredTreks?.length === 0 && (
                     <NoDataFound title='No Treks Found'/>

@@ -27,42 +27,43 @@ const SinglePackage:React.FC<props> = ({id}) => {
         queryFn:()=>getTourBySlug(id)
     })
 
-    const activitiesWithImages = singleTour?.data?.tourHighlights?.map((activity:any, index:number) => ({
+    const activitiesWithImages = singleTour?.data?.specificTour?.tourHighlights?.map((activity:any, index:number) => ({
         activity: activity,
-        image: singleTour.data.highlightPicture[index] || ""
+        image: singleTour.data.specificTour?.highlightPicture[index] || ""
     }));
 
-    const itineraryWithImages = singleTour?.data?.tourItinerary?.map((item:any, index:number) => ({
+    const itineraryWithImages = singleTour?.data?.specificTour?.tourItinerary?.map((item:any, index:number) => ({
         days: `Day ${item.day}`,
         title: item.title,
         description: item.description,
-        image: singleTour.data.itineraryDayPhoto[index] || "",
+        image: singleTour.data.specificTour?.itineraryDayPhoto[index] || "",
         hotel: {
-            name: item.accommodation && item.accommodation.length > 0 ? item.accommodation[0].accommodationTitle : "Luxury Accommodation",
-            image:  item.accommodation[0].accommodationPics[0],
-            slug: item.accommodation[0].slug
+            name: item.accommodation && item.accommodation?.length > 0 ? item.accommodation[0]?.accommodationTitle : "Luxury Accommodation",
+            image:  item.accommodation[0]?.accommodationPics[0],
+            slug: item.accommodation[0]?.slug
         }
     }));
 
     const trip = {
-        "title": singleTour?.data?.tourName,
-        "totalDays": singleTour?.data?.duration,
-        "ideal_date": singleTour?.data?.idealTime?.join(', '),
-        "price": singleTour?.data?.cost,
-        "description": singleTour?.data?.tourOverview,
+        "title": singleTour?.data?.specificTour?.tourName,
+        "totalDays": singleTour?.data?.specificTour?.duration,
+        "ideal_date": singleTour?.data?.specificTour?.idealTime?.join(', '),
+        "price": singleTour?.data?.specificTour?.cost,
+        "description": singleTour?.data?.specificTour?.tourOverview,
         "activities": activitiesWithImages,
-        "inclusions": singleTour?.data?.tourInclusion,
+        "inclusions": singleTour?.data?.specificTour?.tourInclusion,
+        "exclusions": singleTour?.data?.specificTour?.tourExclusion,
         "itinerary": itineraryWithImages,
-        "faqs": singleTour?.data?.faq,
+        "faqs": singleTour?.data?.specificTour?.faq,
     }
 
         const handleBookNow = () => {
         
         // Create booking details object
         const bookingDetails = {
-            adventureId: singleTour?.data?._id,
+            adventureId: singleTour?.data?.specificTour?._id,
             adventureName: trip.title,
-            adventureSlug: singleTour?.data?.slug,
+            adventureSlug: singleTour?.data?.specificTour?.slug,
             price: trip.price,
             quantity: 1,
             adventureType: "Tour" as const,
@@ -102,9 +103,9 @@ const SinglePackage:React.FC<props> = ({id}) => {
                 </section>
             </div>
             <QuoteModal isOpen={isOpen} onClose={()=>setIsOpen(false)} Title={trip.title} type={singleTour?.data?.type} tourId={singleTour?.data?._id}/>
-            <MainSlider gallery={singleTour.data.gallery} thumbnail={singleTour.data.thumbnail} />
+            <MainSlider gallery={singleTour.data.specificTour?.gallery} thumbnail={singleTour.data.specificTour?.thumbnail} />
             <DestinationandOverview description={trip.description} />
-            <TripHighlights activities={trip.activities} inclusions={trip.inclusions}/>
+            <TripHighlights activities={trip.activities} inclusions={trip.inclusions} exclusions={trip.exclusions}/>
             <DetailedItenary itinerary={trip.itinerary}/>
             <FAQPackage faqs={trip.faqs} />
             <WhyLuxury/>

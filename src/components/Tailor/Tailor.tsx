@@ -12,6 +12,7 @@ import Image from 'next/image';
 import WhyLuxury from '../Destionation/SinglePackage/WhyLuxury';
 import { Button } from "@nextui-org/react";
 import TailorForm from './TailorForm';
+import Link from 'next/link';
 
 const Tailor = () => {
     const destinations = [
@@ -67,16 +68,16 @@ const Tailor = () => {
                     </h3>
                     <div className="space-y-2">
                     {[
-                        { icon: <FaPhone />, text: "+1 (555) 123-4567" },
-                        { icon: <FaEnvelope />, text: "luxury@travel.com" },
-                        { icon: <FaMapMarkerAlt />, text: "123 Luxury Ave, NY" },
+                        { icon: <FaPhone />, text: "+977 1-4519145 / 01-4517230 / +977 9851032961" },
+                        { icon: <FaEnvelope />, text: "info@goingnepal.com, goingnepal@gmail.com, ceo@goingnepal.com" },
+                        { icon: <FaMapMarkerAlt />, text: "Kathmandu Metropolitan-2 Uttardhoka, Lazimpat, Nepal" },
                         { icon: <FaClock />, text: "24/7 Concierge Service" }
                     ].map((item, index) => (
                         <div key={index} className="flex items-center gap-4 group hover:bg-gray-50 p-3 rounded-xl transition-all">
                         <div className="bg-primary/10 p-3 rounded-xl group-hover:bg-primary/20 transition-all">
                             <span className="text-primary text-lg">{item.icon}</span>
                         </div>
-                        <span className="text-gray-700">{item.text}</span>
+                        <span className="text-gray-700 text-sm">{item.text}</span>
                         </div>
                     ))}
                     </div>
@@ -89,21 +90,23 @@ const Tailor = () => {
                     </h3>
                     <div className="space-y-4">
                     {destinations.slice(0, 3).map((dest, index) => (
-                        <div key={index} className="group cursor-pointer">
-                        <div className="relative h-24 rounded-2xl overflow-hidden mb-3">
-                            <Image
-                            src={dest.image} 
-                            alt={dest.label}
-                            height={1000}
-                            width={1000}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                            <div className="absolute bottom-4 left-4 text-white flex items-center gap-2">
-                            <span className="font-medium">{dest.label}</span>
-                            </div>
-                        </div>
-                        </div>
+                        <Link key={index} href={`/destinations/${dest.label.toLocaleLowerCase()}`}>
+                                            <div className="group cursor-pointer">
+                                            <div className="relative h-24 rounded-2xl overflow-hidden mb-3">
+                                                <Image
+                                                src={dest.image} 
+                                                alt={dest.label}
+                                                height={1000}
+                                                width={1000}
+                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                                                />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                                                <div className="absolute bottom-4 left-4 text-white flex items-center gap-2">
+                                                <span className="font-medium">{dest.label}</span>
+                                                </div>
+                                            </div>
+                                            </div>
+                        </Link>
                     ))}
                     </div>
                 </div>

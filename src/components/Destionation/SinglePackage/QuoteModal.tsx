@@ -35,6 +35,8 @@ const QuoteModal: React.FC<modalProps> = ({ isOpen, onClose, Title, type, tourId
         }
     })
 
+    console.log(tourId)
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         

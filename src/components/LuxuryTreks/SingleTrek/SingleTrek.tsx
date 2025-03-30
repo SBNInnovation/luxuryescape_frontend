@@ -96,7 +96,7 @@ const SingleTrek:React.FC<props> = ({id}) => {
                                         </div>
                 </section>
             </div>
-            <QuoteModal isOpen={isOpen} onClose={()=>setIsOpen(false)} Title={trip.title} type={singleTrek?.data?.specificTrek?.type} tourId={singleTrek?.data?.specificTrek?._id}/>
+            <QuoteModal isOpen={isOpen} onClose={()=>setIsOpen(false)} Title={trip.title} type={singleTrek?.data?.specificTrek?.type} trekId={singleTrek?.data?.specificTrek?._id}/>
             <MainSlider gallery={singleTrek.data.specificTrek?.gallery} thumbnail={singleTrek.data.specificTrek?.thumbnail} />
             <DestinationandOverview description={trip.description} />
             <TripHighlights activities={trip.activities} inclusions={trip.inclusions} exclusions={trip.exclusions}/>

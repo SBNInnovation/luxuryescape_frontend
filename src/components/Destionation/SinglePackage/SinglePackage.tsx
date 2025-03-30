@@ -102,7 +102,7 @@ const SinglePackage:React.FC<props> = ({id}) => {
                     </div>
                 </section>
             </div>
-            <QuoteModal isOpen={isOpen} onClose={()=>setIsOpen(false)} Title={trip.title} type={singleTour?.data?.type} tourId={singleTour?.data?._id}/>
+            <QuoteModal isOpen={isOpen} onClose={()=>setIsOpen(false)} Title={trip.title} type={singleTour?.data?.specificTour?.type} tourId={singleTour?.data?.specificTour?._id}/>
             <MainSlider gallery={singleTour.data.specificTour?.gallery} thumbnail={singleTour.data.specificTour?.thumbnail} />
             <DestinationandOverview description={trip.description} />
             <TripHighlights activities={trip.activities} inclusions={trip.inclusions} exclusions={trip.exclusions}/>

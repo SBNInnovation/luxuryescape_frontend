@@ -14,7 +14,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import Loader from '@/shared/Loader';
 import { toast } from 'sonner';
 import { createBookingCheckout } from '@/services/checkout';
-import { Autocomplete, AutocompleteItem, DatePicker } from '@nextui-org/react';
+import { Autocomplete, AutocompleteItem, DatePicker, Checkbox, Radio, RadioGroup } from '@nextui-org/react';
 import { CalendarDate } from '@internationalized/date';
 
 interface FormData {
@@ -23,6 +23,9 @@ interface FormData {
   phone: string;
   address: string;
 }
+
+// Define accommodation types
+type AccommodationType = "Standard" | "5 Star" | "Luxury" | "Ultra Luxury";
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -39,6 +42,23 @@ export default function CheckoutPage() {
 
   // State for selected date
   const [selectedDate, setSelectedDate] = useState<CalendarDate | null>(null);
+  
+  // State for accommodation type
+  const [accommodationType, setAccommodationType] = useState<AccommodationType>("Standard");
+  
+  // State for single supplementary room
+  const [singleSupplementary, setSingleSupplementary] = useState<boolean>(false);
+  
+  // Accommodation prices (additional costs per person)
+  const accommodationPrices = {
+    "Standard": 0, // No additional cost for standard
+    "5 Star": 50,
+    "Luxury": 100,
+    "Ultra Luxury": 200
+  };
+  
+  // Single supplementary room cost (flat fee)
+  const singleSupplementaryCost = 75;
 
   const { data: countries, isLoading } = useQuery({
           queryKey: ["countries"],
@@ -189,11 +209,34 @@ export default function CheckoutPage() {
     };
     
     setBookingDetails(updatedDetails);
+    
+    // If quantity becomes 1, disable single supplementary option
+    if (newQuantity === 1) {
+      setSingleSupplementary(false);
+    }
   };
 
   // Handle date change from DatePicker
   const handleDateChange = (date: CalendarDate | null) => {
     setSelectedDate(date);
+  };
+  
+  // Calculate the total price including accommodation upgrades and supplements
+  const calculateTotalPrice = (): number => {
+    if (!bookingDetails) return 0;
+    
+    // Base price
+    let total = bookingDetails.quantity! * bookingDetails.price!;
+    
+    // Add accommodation upgrade costs
+    total += bookingDetails.quantity! * accommodationPrices[accommodationType];
+    
+    // Add single supplementary room cost if selected
+    if (singleSupplementary && bookingDetails.quantity! > 1) {
+      total += singleSupplementaryCost;
+    }
+    
+    return total;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -205,9 +248,9 @@ export default function CheckoutPage() {
     
     const jsDate = selectedDate ? calendarDateToDate(selectedDate) : null;
 
-    const finalTotalPrice = bookingDetails.quantity! * bookingDetails.price!;
+    const finalTotalPrice = calculateTotalPrice();
     
-    // Prepare data for the POST request, excluding quantity
+    // Prepare data for the POST request
     const checkoutData = {
       ...formData,
       adventureName: bookingDetails.adventureName,
@@ -216,16 +259,18 @@ export default function CheckoutPage() {
       adventureSlug: bookingDetails.adventureSlug,
       totalPrice: finalTotalPrice,
       numberOfPerson: bookingDetails.quantity,
-      country:country,
+      country: country,
       bookingDate: jsDate?.toISOString().split('T')[0],
+      accommodationType: accommodationType,
+      singleSupplementary: singleSupplementary,
     };
 
     if(!country || country === ''){
       toast.error('Please select a country');
+      return;
     }
     
     checkoutMutation(checkoutData);
-    
   };
 
   const today = dateToCalendarDate(new Date());
@@ -292,25 +337,25 @@ export default function CheckoutPage() {
                 />
 
                 <div className="flex flex-col gap-2 sm:col-span-2">
-                        <h1 className="text-sm text-gray-500">Select your country</h1>
-                        <Autocomplete
-                            name="country"
-                            label="Select a country"
-                            radius="none"
-                            isClearable={false}
-                            className='max-w-sm'
-                            value={country}
-                            selectedKey={country || undefined}
-                            onSelectionChange={onSelectionChange}
-                        >
-                            {!isLoading &&
-                            countries?.map((country: string) => (
-                                <AutocompleteItem key={country} value={country}>
-                                    {country}
-                                </AutocompleteItem>
-                            ))}
-                        </Autocomplete>
-                    </div>
+                  <h1 className="text-sm text-gray-500">Select your country</h1>
+                  <Autocomplete
+                    name="country"
+                    label="Select a country"
+                    radius="none"
+                    isClearable={false}
+                    className='max-w-sm'
+                    value={country}
+                    selectedKey={country || undefined}
+                    onSelectionChange={onSelectionChange}
+                  >
+                    {!isLoading &&
+                      countries?.map((country: string) => (
+                        <AutocompleteItem key={country} value={country}>
+                          {country}
+                        </AutocompleteItem>
+                      ))}
+                  </Autocomplete>
+                </div>
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Booking Date</label>
@@ -352,6 +397,35 @@ export default function CheckoutPage() {
                     </Button>
                   </div>
                 </div>
+                
+                {/* Accommodation Options */}
+                <div className="space-y-3">
+                  <label className="text-sm font-medium">Accommodation Type</label>
+                  <RadioGroup
+                    value={accommodationType}
+                    onValueChange={(value) => setAccommodationType(value as AccommodationType)}
+                  >
+                    <Radio value="Standard">Standard (Included)</Radio>
+                    <Radio value="5 Star">5 Star (+${accommodationPrices["5 Star"]} per person)</Radio>
+                    <Radio value="Luxury">Luxury (+${accommodationPrices["Luxury"]} per person)</Radio>
+                    <Radio value="Ultra Luxury">Ultra Luxury (+${accommodationPrices["Ultra Luxury"]} per person)</Radio>
+                  </RadioGroup>
+                </div>
+                
+                {/* Single Supplementary Option - only show if more than 1 person */}
+                {bookingDetails.quantity! > 1 && (
+                  <div className="space-y-2">
+                    <Checkbox
+                      isSelected={singleSupplementary}
+                      onValueChange={setSingleSupplementary}
+                    >
+                      Add Single Supplementary Room (+${singleSupplementaryCost})
+                    </Checkbox>
+                    <p className="text-xs text-gray-500 ml-6">
+                      Get a private room for one person in your group
+                    </p>
+                  </div>
+                )}
               </CardBody>
             </Card>
           </div>
@@ -368,21 +442,41 @@ export default function CheckoutPage() {
                   <p className="text-gray-600">Booking Type: {bookingDetails.adventureType === 'Trekking' ? 'Trek' : 'Tour'}</p>
                   <p className="text-gray-600">Booking Date: {bookingDetails.bookingDate ? formatDate(bookingDetails.bookingDate) : 'Select a date'}</p>
                   <p className="text-gray-600">Number of Persons: {bookingDetails.quantity}</p>
+                  <p className="text-gray-600">Accommodation: {accommodationType}</p>
+                  {singleSupplementary && bookingDetails.quantity! > 1 && (
+                    <p className="text-gray-600">Single Supplementary Room: Yes</p>
+                  )}
                 </div>
 
                 <Divider />
                 <div className="space-y-2">
                   <div className="flex justify-between">
                     <span>Base Price ({bookingDetails.quantity} x ${bookingDetails.price})</span>
-                    <span>${bookingDetails.quantity!>1? bookingDetails.totalPrice:bookingDetails.price}</span>
+                    <span>${bookingDetails.quantity! * bookingDetails.price!}</span>
                   </div>
+                  
+                  {/* Show accommodation costs if not standard */}
+                  {accommodationType !== "Standard" && (
+                    <div className="flex justify-between">
+                      <span>{accommodationType} Accommodation ({bookingDetails.quantity} x ${accommodationPrices[accommodationType]})</span>
+                      <span>+${bookingDetails.quantity! * accommodationPrices[accommodationType]}</span>
+                    </div>
+                  )}
+                  
+                  {/* Show single supplementary cost if selected */}
+                  {singleSupplementary && bookingDetails.quantity! > 1 && (
+                    <div className="flex justify-between">
+                      <span>Single Supplementary Room</span>
+                      <span>+${singleSupplementaryCost}</span>
+                    </div>
+                  )}
                 </div>
 
                 <Divider />
 
                 <div className="flex justify-between text-xl font-bold">
                   <span>Total</span>
-                  <span>${bookingDetails.quantity!>1? bookingDetails.totalPrice:bookingDetails.price}</span>
+                  <span>${calculateTotalPrice()}</span>
                 </div>
 
                 <Button 
@@ -391,7 +485,7 @@ export default function CheckoutPage() {
                   className="w-full rounded-sm"
                   type="submit"
                 >
-                  Pay ${bookingDetails.quantity!>1? bookingDetails.totalPrice:bookingDetails.price}
+                  Pay ${calculateTotalPrice()}
                 </Button>
               </CardBody>
             </Card>

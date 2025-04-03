@@ -16,6 +16,8 @@ const Navbar = () => {
     const [screenWidth, setScreenWidth] = useState(0)
     const [searchOpen, setSearchOpen] = useState(false)
     const [mobileDropdowns, setMobileDropdowns] = useState({})
+    const [searchQuery, setSearchQuery] = useState('')
+    const router = useRouter()
 
     useEffect(() => {
         // Set initial screen width
@@ -54,6 +56,21 @@ const Navbar = () => {
             ...prev,
             [title]: !prev[title]
         }))
+    }
+
+    const handleSearch = () => {
+        if (searchQuery.trim()) {
+            // Navigate to search results page
+            router.push(`/search?q=${encodeURIComponent(searchQuery)}`)
+            setSearchOpen(false)
+            setSearchQuery('')
+        }
+    }
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            handleSearch()
+        }
     }
 
     const nav = [
@@ -219,13 +236,26 @@ const Navbar = () => {
                             <IoMdClose size={24} />
                         </Button>
                     </div>
-                    <Input 
-                        placeholder="Search for destinations, tours..." 
-                        size="lg"
-                        startContent={<CiSearch size={20} />}
-                        className="mb-4"
-                        autoFocus
-                    />
+                    <div className="flex flex-col w-full gap-2">
+                        <Input 
+                            placeholder="Search for destinations, tours..." 
+                            size="lg"
+                            startContent={<CiSearch size={20} />}
+                            className="mb-4 flex-1"
+                            autoFocus
+                            radius='sm'
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            onKeyPress={handleKeyPress}
+                        />
+                        <Button 
+                            className="bg-primary text-white mb-4 rounded-sm"
+                            onClick={handleSearch}
+                            size='sm'
+                        >
+                            Search
+                        </Button>
+                    </div>
                 </div>
             )}
 

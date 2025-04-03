@@ -110,15 +110,21 @@ const Navbar = () => {
                 <div className='w-full flex justify-between items-center font-medium uppercase text-sm tracking-wide'>
                     {/* Social Media Icons - Hidden on mobile */}
                     <section className='hidden md:flex gap-4'>
-                        <Button isIconOnly className='h-10 w-10 border border-gray-200 hover:border-primary bg-white text-primary p-2 rounded-full flex items-center justify-center hover:bg-primary transition duration-300 hover:text-white'>
-                            <FaFacebookF size={20} />
-                        </Button>
+                        <Link href={"https://www.facebook.com/going2nepal/"} target='_blank'>
+                            <Button isIconOnly className='h-10 w-10 border border-gray-200 hover:border-primary bg-white text-primary p-2 rounded-full flex items-center justify-center hover:bg-primary transition duration-300 hover:text-white'>
+                                <FaFacebookF size={20} />
+                            </Button>
+                        </Link>
+                        <Link href={"https://www.instagram.com/goingnepal/"} target='_blank'>
                         <Button isIconOnly className='h-10 w-10 border border-gray-200 hover:border-primary bg-white text-primary p-2 rounded-full flex items-center justify-center hover:bg-primary transition duration-300 hover:text-white'>
                             <FaInstagram size={20} />
                         </Button>
+                        </Link>
+                        <Link href={"https://www.linkedin.com/in/liladhar-bhandari-1b4832140/?originalSubdomain=np"} target='_blank'>
                         <Button isIconOnly className='h-10 w-10 border border-gray-200 bg-white text-primary hover:border-primary p-2 rounded-full flex items-center justify-center hover:bg-primary transition duration-300 hover:text-white'>
                             <FaXTwitter size={20} />
                         </Button>
+                        </Link>
                     </section>
 
                     {/* Logo */}

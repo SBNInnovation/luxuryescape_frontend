@@ -6,6 +6,7 @@ import Navbar from "@/shared/Navbar/Navbar";
 import ScrollToTop from "@/shared/ScrollToTop";
 import { poppins } from "@/utility/font";
 import Footer from "@/shared/Footer/Footer";
+import Whatsapp from "@/shared/Whatsapp/Whatsapp";
 
 export const metadata: Metadata = {
   title: "Luxury Escapes Nepal | Luxury Tours & Travel in Nepal, Bhutan & Tibet",
@@ -39,6 +40,7 @@ export default function RootLayout({
           <div className="mx-auto max-w-[2000px]">
             <Provider>
               <Navbar />
+              <Whatsapp/>
               <Toaster richColors/>
               <main className={`${poppins.className}`}>
                 {children}

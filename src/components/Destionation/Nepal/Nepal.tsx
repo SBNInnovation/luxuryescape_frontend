@@ -61,7 +61,7 @@ const Nepal = () => {
     return (
         <div className="w-full lg:px-16 px-4 mb-8 lg:py-12 py-4">
             <Breadcrumbs className="mb-8">
-                <BreadcrumbItem>Home</BreadcrumbItem>
+                <BreadcrumbItem href="/">Home</BreadcrumbItem>
                 <BreadcrumbItem>Destinations</BreadcrumbItem>
                 <BreadcrumbItem>Nepal</BreadcrumbItem>
             </Breadcrumbs>

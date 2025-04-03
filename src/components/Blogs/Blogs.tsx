@@ -5,9 +5,9 @@ import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
 import { getBlogs } from '@/services/blogs';
 import Loader from '@/shared/Loader';
-import NoDataFound from '@/shared/NoData/NoData';
 import { formatDateToReadableDate } from '@/utility/date';
 import parse from "html-react-parser"
+import Link from 'next/link';
 
 interface Blog {
   isFeature: boolean;
@@ -45,7 +45,6 @@ const BlogsPage = () => {
     return selectedCategory === "All" || blog?.category?.tourType === selectedCategory;
   });
 
-  const featuredBlogs = blogsData?.data?.blogs?.filter((blog:Blog) => blog.isFeature);
 
   if(isLoading) return <Loader/>
 
@@ -95,48 +94,7 @@ const BlogsPage = () => {
         </div>
       </div>
 
-      {/* Featured Posts Section */}
-      {selectedCategory === "All" && (
-        <div className="container mx-auto px-4 mb-16">
-          <h2 className={`text-3xl mb-8 ${antic.className}`}>Featured Stories</h2>
-          {featuredBlogs?.length===0?
-          <NoDataFound title="No Featured Blogs Found"/>
-          :
-          <div className="grid md:grid-cols-2 gap-8">
-            {featuredBlogs?.map((blog:Blog) => (
-              <div
-                key={blog._id}
-                className="group bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
-              >
-                <div className="relative h-64 overflow-hidden">
-                  <Image
-                    src={blog.thumbnail}
-                    alt={blog.title}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <div className="p-6">
-                  <div className="flex items-center text-sm text-gray-500 mb-3">
-                    <span>{formatDateToReadableDate(blog.createdAt)}</span>
-                    <span className="mx-2">•</span>
-                    <span>{blog.readTime}</span>
-                  </div>
-                  <h3 className={`text-2xl mb-3 group-hover:text-primary transition-colors ${antic.className}`}>
-                    {blog.title}
-                  </h3>
-                  <p className="text-gray-600">{parse(blog.description.slice(0,100))}</p>
-                  <button className="mt-4 text-primary font-semibold hover:underline">
-                    Read More →
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-          }
-        </div>
-      )}
-
+     
       {/* All Posts Grid */}
       <div className="container mx-auto px-4 pb-16">
         <h2 className={`text-3xl mb-8 ${antic.className}`}>
@@ -166,9 +124,11 @@ const BlogsPage = () => {
                   {blog.title}
                 </h3>
                 <p className="text-gray-600 text-sm">{parse(blog.description?.slice(0,100))}...</p>
-                <button className="mt-4 text-primary font-semibold hover:underline">
-                  Read More →
-                </button>
+                <Link href={`/blogs/${blog.slug}`}>
+                  <button className="mt-4 text-primary font-semibold hover:underline">
+                    Read More →
+                  </button>
+                </Link>
               </div>
             </div>
           ))}

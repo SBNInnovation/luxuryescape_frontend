@@ -86,7 +86,7 @@ const HighlightCarousel: React.FC = () => {
     };
 
     return (
-        <div className='w-full h-[80vh]'>
+        <div className='w-full h-auto'>
             <h1 className={`${antic.className} text-primary lg:text-5xl text-3xl lg:mb-8 mb-4`}>Highlights</h1>
             <div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 py-4'>
                 {highlights.map((highlight, index) => (

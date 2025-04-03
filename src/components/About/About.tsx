@@ -7,6 +7,7 @@ import { FaArrowRight } from 'react-icons/fa'
 import {GiTempleGate} from 'react-icons/gi'
 import {MdHotel} from 'react-icons/md'
 import WhyLuxury from '../Destionation/SinglePackage/WhyLuxury'
+import Link from 'next/link'
 
 const About = () => {
   const destinations = [
@@ -104,7 +105,7 @@ With a passion for excellence and a dedication to sustainability, Luxury Escapes
                 </div>
 
                 {/* Vertical Country Name (horizontal on mobile, vertical on desktop) */}
-                <div className='absolute top-1/2 left-4 md:-rotate-90 transition-rotate duration-500'>
+                <div className='absolute top-1/2 left-4 group-hover:rotate-0 -rotate-90 transition-rotate duration-500'>
                   <p className='text-white text-3xl md:text-4xl font-extralight tracking-widest'>
                     {destination.name}
                   </p>
@@ -112,9 +113,11 @@ With a passion for excellence and a dedication to sustainability, Luxury Escapes
 
                 {/* View Destination Button (always visible on mobile, hover on desktop) */}
                 <div className='absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity'>
-                  <Button variant='light' className='px-6 md:px-12 text-white ' endContent={<FaArrowRight />}>
-                    View Destination
-                  </Button>
+                  <Link href={`/destinations/${destination.name.toLowerCase()}`}>
+                    <Button variant='light' className='px-6 md:px-12 text-white ' endContent={<FaArrowRight />}>
+                      View Destination
+                    </Button>
+                  </Link>
                 </div>
               </div>
             ))}

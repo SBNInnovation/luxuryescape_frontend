@@ -42,16 +42,6 @@ const Tailor = () => {
                 <p className="lg:text-2xl text-lg text-white/90 max-w-2xl">
                     Where luxury meets authenticity. Experience handcrafted journeys designed exclusively for the discerning traveler.
                 </p>
-                <div className="mt-12 flex gap-4">
-                    <Button
-                        size="lg"
-                        variant="bordered"
-                        className="text-white border-white hover:bg-white/10"
-                        startContent={<FaPlane />}
-                    >
-                        View Destinations
-                    </Button>
-                </div>
             </div>
         </div>
 

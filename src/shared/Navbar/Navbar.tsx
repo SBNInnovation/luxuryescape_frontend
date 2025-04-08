@@ -88,7 +88,7 @@ const Navbar = () => {
             ]
         },
         {
-            title: "Tours",
+            title: "Luxury Tours",
             link: "/tours"
         },
         {
@@ -108,7 +108,7 @@ const Navbar = () => {
             link: "/tailor-made"
         },
         {
-            title: "Others",
+            title: "Resources",
             isDropdown: true,
             items: [
                 { title: "About", href: "/about" },

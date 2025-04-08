@@ -68,7 +68,7 @@ const TrekHighlights: React.FC<LuxuryPackage> = ({activities, inclusions, exclus
         <div className='my-12'>
             <h1 className={`text-3xl ${antic.className} font-semibold text-primary my-8 `}>Trek Highlights</h1>
             
-            {activities && activities.length > 0 && (
+            {activities && activities.length > 3 ? (
                 <div className="w-full my-16 relative">
                     <Slider {...settings}>
                         {activities.map((item, index) => (
@@ -95,7 +95,21 @@ const TrekHighlights: React.FC<LuxuryPackage> = ({activities, inclusions, exclus
                         ))}
                     </Slider>
                 </div>
-            )}
+            ):
+            <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 relative'>
+                                    {activities?.map(item=>{
+                                        return(
+                                            <div key={item.activity} className='w-full h-[260px] rounded-md relative'>
+                                                <Image src={item.image!} alt='Image' height={1000} width={1000} className='object-cover h-full w-full rounded-md shadow-md'/>
+                                                <div className="z-[10] flex gap-4 items-center rounded-b-sm absolute bottom-0 w-full px-4 py-4 bg-black/60 text-white">
+                                                    <CiLocationOn size={20} className='text-primary'/>
+                                                    <h1>{item.activity}</h1>
+                                                </div>
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+            }
 
             {/* Only render the inclusions section if there are inclusions */}
             {inclusions && inclusions.length > 0 && (

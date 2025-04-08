@@ -23,7 +23,7 @@ const TripCard: React.FC<Tour> = ({ tourName,tourOverview,thumbnail,idealTime,co
                         <h1 className={`${antic.className} text-primary lg:text-3xl text-xl`}>{tourName}</h1>
                         <p className="lg:my-2 my-1 lg:text-sm text-xs">{slicedDesc}</p>
                         <p className={`${antic.className} text-xl text-primary`}>
-                            ${cost} <span className="text-sm">/ per person</span>
+                        <span>Starting from</span> ${cost} <span className="text-sm">/ per person</span>
                         </p>
                         <Link href={`/destinations/nepal/${slug}`}>
                             <Button className="bg-primary rounded-sm mt-4 text-white px-8" size="sm">

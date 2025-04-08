@@ -92,7 +92,7 @@ const SinglePackage:React.FC<props> = ({id}) => {
                             <p>{trip.ideal_date}</p>
                         </main>
                         <main className=''>
-                            <h1 className={` font-semibold tracking-wide lg:text-base text-sm`}>Total Cost</h1>
+                            <h1 className={` font-semibold tracking-wide lg:text-base text-sm`}>Starting from</h1>
                             <p>{trip.price} <span className='text-gray-500'>/per person</span></p>
                         </main>
                     </div>

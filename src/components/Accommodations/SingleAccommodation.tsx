@@ -76,7 +76,7 @@ const SingleAccommodation:React.FC<props> = ({id}) => {
                     </div>
                     <div className="flex items-center gap-1 bg-primary/10 px-3 py-1 rounded-full">
                         <FaStar className="w-4 h-4 text-primary" />
-                        <span className="font-semibold text-primary text-sm sm:text-base">{hotel?.data?.accommodationRating}/5</span>
+                        <span className="font-semibold text-primary text-sm sm:text-base">{hotel?.data?.accommodationRating} Star Standard</span>
                     </div>
                 </div>
             </div>

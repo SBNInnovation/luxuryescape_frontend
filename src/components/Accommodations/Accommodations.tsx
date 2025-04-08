@@ -25,7 +25,7 @@ export interface Accommodation {
   createdAt: string;
   updatedAt: string;
   __v: number;
-  country:string
+  country: string;
 }
 
 export interface Room {
@@ -38,16 +38,19 @@ export interface Room {
 
 const ITEMS_PER_PAGE = 9;
 
-type CountryFilter = "all" | "Nepal" | "Bhutan" | "Tibet"
+type CountryFilter = "all" | "Nepal" | "Bhutan" | "Tibet";
+
+type StarRatingFilter = "all" | "3" | "4" | "5";
 
 const Accommodations: React.FC = () => {
   const [filterCountry, setFilterCountry] = useState<CountryFilter>("all");
+  const [filterStarRating, setFilterStarRating] = useState<StarRatingFilter>("all");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const firstRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [filterCountry]);
+  }, [filterCountry, filterStarRating]);
 
   const { data: accomData, isLoading } = useQuery({
     queryKey: ["accommodations", currentPage],
@@ -56,10 +59,15 @@ const Accommodations: React.FC = () => {
 
   const filteredHotels = useMemo(() => {
     return accomData?.data?.accommodations?.filter((hotel: Accommodation) => {
-      return filterCountry === "all" || 
-          hotel.country.includes(filterCountry);
+      const matchesCountry = filterCountry === "all" || hotel.country.includes(filterCountry);
+      
+      // Convert string rating from filter to number for comparison
+      const starRatingNumber = filterStarRating === "all" ? "all" : parseInt(filterStarRating);
+      const matchesStarRating = starRatingNumber === "all" || hotel.accommodationRating === starRatingNumber;
+      
+      return matchesCountry && matchesStarRating;
     });
-  }, [accomData, filterCountry]);
+  }, [accomData, filterCountry, filterStarRating]);
 
   const totalFilteredItems = filteredHotels?.length || 0;
   const totalFilteredPages = Math.ceil(totalFilteredItems / ITEMS_PER_PAGE);
@@ -69,7 +77,7 @@ const Accommodations: React.FC = () => {
     firstRef?.current?.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
   };
   
-  const isFiltering = filterCountry !== "all";
+  const isFiltering = filterCountry !== "all" || filterStarRating !== "all";
   const totalPages = isFiltering 
     ? totalFilteredPages 
     : accomData?.data?.pagination?.totalPages || 1;
@@ -84,6 +92,7 @@ const Accommodations: React.FC = () => {
     return filteredHotels;
   }, [filteredHotels, currentPage, isFiltering]);
 
+  
   return (
     <div className="min-h-screen">
       <div className="relative h-[500px] overflow-hidden">
@@ -113,6 +122,41 @@ const Accommodations: React.FC = () => {
           <h2 className={`${antic.className} text-primary text-3xl font-bold`}>Featured Luxury Accommodations</h2>
           
           <div className="flex flex-wrap gap-4">
+            {/* Country Filter Dropdown */}
+            <Dropdown>
+              <DropdownTrigger>
+                <Button 
+                  variant="flat" 
+                  endContent={<FiChevronDown />}
+                >
+                  {filterStarRating === "all" ? "All Star Standard" : `${filterStarRating} Star`}
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu 
+                aria-label="Star rating options"
+                onAction={(key) => setFilterStarRating(key as StarRatingFilter)}
+                selectedKeys={[filterStarRating.toString()]}
+                selectionMode="single"
+              >
+                <DropdownItem key="all">All Star Ratings</DropdownItem>
+                <DropdownItem key="5">
+                  <div className="flex items-center gap-1">
+                    <span>5 Star Standard</span>
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="4">
+                  <div className="flex items-center gap-1">
+                    <span>4 Star Standard</span>
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="3">
+                  <div className="flex items-center gap-1">
+                    <span>3 Star Standard</span>
+                  </div>
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+
             <Dropdown>
               <DropdownTrigger>
                 <Button 
@@ -135,15 +179,40 @@ const Accommodations: React.FC = () => {
                 <DropdownItem key="Tibet">Tibet</DropdownItem>
               </DropdownMenu>
             </Dropdown>
+
+            {/* Star Rating Filter Dropdown */}
+            
+            
+            {filterCountry==="Nepal"&&
+            <Dropdown>
+              <DropdownTrigger>
+                <Button 
+                  variant="flat" 
+                  endContent={<FiChevronDown />}
+                  startContent={<FiMapPin />}
+                >
+                  Destinations in Nepal
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu 
+                aria-label="Nepal destinations"
+                onAction={(key) => setFilterCountry(key as CountryFilter)}
+                selectedKeys={[filterCountry]}
+                selectionMode="single"
+              >
+                <DropdownItem key="all">Kathmandu</DropdownItem>
+                <DropdownItem key="Nepal">Chandragiri</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>}
           </div>
         </div>
       </div>
 
       <div className="container mx-auto px-4 mb-8">
         {isLoading && <Loader />}
-        {paginatedHotels?.length === 0 && (
+        {!isLoading && (!filteredHotels || filteredHotels.length === 0) && (
           <div className="flex justify-center items-center py-16">
-            <p className="text-lg text-gray-500">No accommodations found for the selected filter.</p>
+            <p className="text-lg text-gray-500">No accommodations found for the selected filters.</p>
           </div>
         )}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -166,8 +235,7 @@ const Accommodations: React.FC = () => {
                 />
                 <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full">
                   <div className="flex items-center gap-1">
-                    <FaStar className="w-4 h-4 text-yellow-400" />
-                    <span className="text-sm font-semibold">{hotel.accommodationRating}</span>
+                    <span className="text-sm font-semibold text-primary">{hotel.accommodationRating} Star Standard</span>
                   </div>
                 </div>
               </div>
@@ -210,4 +278,4 @@ const Accommodations: React.FC = () => {
   );
 };
 
-export default Accommodations
+export default Accommodations;

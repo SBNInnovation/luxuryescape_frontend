@@ -47,6 +47,7 @@ const SingleExplore:React.FC<props> = ({id}) => {
           </div>
           <p className='lg:text-base text-sm text-center lg:leading-8 leading-7'>{singleExplore?.data?.description}</p>
       </div>
+      {accomData?.data?.formattedData?.length>0 && 
       <div className='lg:px-32 px-4 py-8'>
         <h1 className={`${antic.className} lg:text-4xl text-2xl text-primary`}>Accommodations in {singleExplore?.data?.title}</h1>
         <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 py-8'>
@@ -94,6 +95,8 @@ const SingleExplore:React.FC<props> = ({id}) => {
           ))}
         </div>
       </div>
+      }
+      
     </>
   )
 }

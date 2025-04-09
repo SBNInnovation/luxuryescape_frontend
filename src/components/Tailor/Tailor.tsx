@@ -13,6 +13,8 @@ import WhyLuxury from '../Destionation/SinglePackage/WhyLuxury';
 import { Button } from "@nextui-org/react";
 import TailorForm from './TailorForm';
 import Link from 'next/link';
+import { useQuery } from '@tanstack/react-query';
+import { getContactData } from '@/services/form';
 
 const Tailor = () => {
     const destinations = [
@@ -20,6 +22,11 @@ const Tailor = () => {
         { label: "Bhutan", value: "Bhutan", image: "https://images.unsplash.com/photo-1729174518995-8c4546b3dd53?q=80&w=2840&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
         { label: "Tibet", value: "Tibet", image: "https://images.unsplash.com/photo-1709866535864-93035b6208e8?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" },
     ];
+
+    const {data:contactData}=useQuery({
+            queryKey:["contact"],
+            queryFn:()=>getContactData()
+        })
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
@@ -58,9 +65,9 @@ const Tailor = () => {
                     </h3>
                     <div className="space-y-2">
                     {[
-                        { icon: <FaPhone />, text: "+977 1-4519145 / 01-4517230 / +977 9851032961" },
-                        { icon: <FaEnvelope />, text: "info@goingnepal.com, goingnepal@gmail.com, ceo@goingnepal.com" },
-                        { icon: <FaMapMarkerAlt />, text: "Kathmandu Metropolitan-2 Uttardhoka, Lazimpat, Nepal" },
+                        { icon: <FaPhone />, text: `${contactData?.data?.contactNumbers?.join(", ")}` || "9843218281"},
+                        { icon: <FaEnvelope />, text: `${contactData?.data?.contactEmails?.join(", ")}` || "goingnepal@gmail.com" },
+                        { icon: <FaMapMarkerAlt />, text: `${contactData?.data?.location}`|| "Uttardhoka, Kathmandu"},
                         { icon: <FaClock />, text: "24/7 Concierge Service" }
                     ].map((item, index) => (
                         <div key={index} className="flex items-center gap-4 group hover:bg-gray-50 p-3 rounded-xl transition-all">

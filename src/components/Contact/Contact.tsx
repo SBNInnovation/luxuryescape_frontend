@@ -4,8 +4,8 @@ import { Tabs, Tab, Input, Textarea, Button, Checkbox, Divider } from "@nextui-o
 import Image from "next/image";
 import SharedTitle from "@/shared/SharedTitle";
 import { antic } from "@/utility/font";
-import { useMutation } from "@tanstack/react-query";
-import { postContact } from "@/services/form";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getContactData, postContact } from "@/services/form";
 import { toast } from "sonner";
 
 // Interface for form values
@@ -102,6 +102,11 @@ const Contact: React.FC = () => {
             console.error("Contact form submission error:", error);
         }
     });
+
+    const {data:contactData}=useQuery({
+            queryKey:["contact"],
+            queryFn:()=>getContactData()
+        })
 
     // Handle input changes
     const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -310,9 +315,9 @@ const Contact: React.FC = () => {
                             <div className="p-4 sm:p-6 bg-white rounded-lg shadow-md">
                                 <div className="space-y-4">
                                     <h3 className="text-xl font-bold">Our Office</h3>
-                                    <p>Kathmandu Metropolitan-2 Uttardhoka, Lazimpat, Nepal</p>
-                                    <p>Email: info@goingnepal.com, goingnepal@gmail.com, ceo@goingnepal.com</p>
-                                    <p>Phone: +977 1-4519145 / 01-4517230 / +977 9851032961</p>
+                                    <p>{contactData?.data?.location}</p>
+                                    <p>Email: {contactData?.data?.contactEmails.join(", ")}</p>
+                                    <p>Phone: {contactData?.data?.contactNumbers.join(", ")}</p>
                                 </div>
                             </div>
                         </Tab>

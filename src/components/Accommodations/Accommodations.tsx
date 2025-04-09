@@ -61,7 +61,6 @@ const Accommodations: React.FC = () => {
     return accomData?.data?.accommodations?.filter((hotel: Accommodation) => {
       const matchesCountry = filterCountry === "all" || hotel.country.includes(filterCountry);
       
-      // Convert string rating from filter to number for comparison
       const starRatingNumber = filterStarRating === "all" ? "all" : parseInt(filterStarRating);
       const matchesStarRating = starRatingNumber === "all" || hotel.accommodationRating === starRatingNumber;
       

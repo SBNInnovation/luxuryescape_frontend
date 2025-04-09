@@ -10,6 +10,8 @@ import { IoMdArrowDropdown, IoMdClose } from "react-icons/io"
 import { HiMenu } from "react-icons/hi"
 import { CiSearch } from 'react-icons/ci'
 import ExpandableSearch from './ExpandableSearch'
+import { useQuery } from '@tanstack/react-query'
+import { getContactData } from '@/services/form'
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -18,6 +20,11 @@ const Navbar = () => {
     const [mobileDropdowns, setMobileDropdowns] = useState({})
     const [searchQuery, setSearchQuery] = useState('')
     const router = useRouter()
+
+    const {data:contactData}=useQuery({
+        queryKey:["contact"],
+        queryFn:()=>getContactData()
+    })
 
     useEffect(() => {
         // Set initial screen width
@@ -92,8 +99,8 @@ const Navbar = () => {
             link: "/tours"
         },
         {
-            title: "Trip Types",
-            link: "/trip-types"
+            title: "Explore Nepal",
+            link: "/explore-nepal"
         },
         {
             title: "Luxury Treks",
@@ -127,17 +134,17 @@ const Navbar = () => {
                 <div className='w-full flex justify-between items-center font-medium uppercase text-sm tracking-wide'>
                     {/* Social Media Icons - Hidden on mobile */}
                     <section className='hidden md:flex gap-4'>
-                        <Link href={"https://www.facebook.com/going2nepal/"} target='_blank'>
+                        <Link href={contactData?.data?.facebookLink || "#"} target='_blank'>
                             <Button isIconOnly className='h-10 w-10 border border-gray-200 hover:border-primary bg-white text-primary p-2 rounded-full flex items-center justify-center hover:bg-primary transition duration-300 hover:text-white'>
                                 <FaFacebookF size={20} />
                             </Button>
                         </Link>
-                        <Link href={"https://www.instagram.com/goingnepal/"} target='_blank'>
+                        <Link href={contactData?.data?.instagramLink || "#"} target='_blank'>
                         <Button isIconOnly className='h-10 w-10 border border-gray-200 hover:border-primary bg-white text-primary p-2 rounded-full flex items-center justify-center hover:bg-primary transition duration-300 hover:text-white'>
                             <FaInstagram size={20} />
                         </Button>
                         </Link>
-                        <Link href={"https://www.linkedin.com/in/liladhar-bhandari-1b4832140/?originalSubdomain=np"} target='_blank'>
+                        <Link href={contactData?.data?.twitterLink || "#"} target='_blank'>
                         <Button isIconOnly className='h-10 w-10 border border-gray-200 bg-white text-primary hover:border-primary p-2 rounded-full flex items-center justify-center hover:bg-primary transition duration-300 hover:text-white'>
                             <FaXTwitter size={20} />
                         </Button>

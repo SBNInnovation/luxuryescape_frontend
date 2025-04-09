@@ -10,6 +10,15 @@ export const postContact = async (data: any) => { //eslint disable line @typescr
     }
 }
 
+export const getContactData=async()=>{
+    try{
+        const res=await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/profile/get/67e6ceb9a96701a607af52ef`)
+        return res.data
+    }catch(err){
+        console.log(err)
+    }
+}
+
 export const postQuote = async (data: any) => { //eslint disable line @typescript-eslint/no-explicit-any
     try{
         const res=await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/quote/customize`,data)

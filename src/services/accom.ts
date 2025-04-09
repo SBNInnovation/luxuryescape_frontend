@@ -8,6 +8,15 @@ export const getAccoms = async (page:number, limit:number,location:string) => {
         console.log(err)
     }
 }
+
+export const getAccomsByDestinations = async (destination:string) => {
+    try{
+        const res=await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/get-selected-data?destination=${destination}&sort=asc`)
+        return res.data
+    }catch(err){
+        console.log(err)
+    }
+}
 export const getAccomsByCountry = async (page:number, limit:number,location:string) => {
     try{
         const res=await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/get-selected-data?page=${page}&limit=${limit}&search=&location=${location}&sort=asc`)
@@ -25,3 +34,5 @@ export const getAccomBySlug = async (slug:string) => {
         console.log(err)
     }
 }
+
+

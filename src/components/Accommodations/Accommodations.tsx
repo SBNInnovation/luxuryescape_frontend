@@ -178,31 +178,7 @@ const Accommodations: React.FC = () => {
                 <DropdownItem key="Tibet">Tibet</DropdownItem>
               </DropdownMenu>
             </Dropdown>
-
-            {/* Star Rating Filter Dropdown */}
-            
-            
-            {filterCountry==="Nepal"&&
-            <Dropdown>
-              <DropdownTrigger>
-                <Button 
-                  variant="flat" 
-                  endContent={<FiChevronDown />}
-                  startContent={<FiMapPin />}
-                >
-                  Destinations in Nepal
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu 
-                aria-label="Nepal destinations"
-                onAction={(key) => setFilterCountry(key as CountryFilter)}
-                selectedKeys={[filterCountry]}
-                selectionMode="single"
-              >
-                <DropdownItem key="all">Kathmandu</DropdownItem>
-                <DropdownItem key="Nepal">Chandragiri</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>}
+                  
           </div>
         </div>
       </div>

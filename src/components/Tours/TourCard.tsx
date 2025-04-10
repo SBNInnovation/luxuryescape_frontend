@@ -41,8 +41,11 @@ const TourCard: React.FC<Tour> = ({ slug, tourName, tourOverview,country, cost, 
       </CardBody>
       
       <CardFooter className='flex items-center justify-between'>
-        <p className='font-semibold text-primary text-lg'>${cost}</p>
-        <Link href={`/destinations/${country.toLocaleLowerCase()}/${slug}`} className="w-full flex justify-end">
+        <div className='flex flex-col gap-1 w-fit'>
+          <p className='text-xs'>Starting from</p>
+          <p className='font-semibold text-primary text-lg'>${cost} <span className='text-xs text-gray-400'>/ per person</span></p>
+        </div>
+        <Link href={`/destinations/${country.toLocaleLowerCase()}/${slug}`} className="flex justify-end">
           <Button size='sm' className=" px-4 bg-primary text-xs text-white rounded-md hover:opacity-90 transition-opacity">
             View Details
           </Button>

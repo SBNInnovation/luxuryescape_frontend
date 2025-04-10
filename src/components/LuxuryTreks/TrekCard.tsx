@@ -34,7 +34,7 @@ const TrekCard: React.FC<Trek> = ({ slug, trekName, location, duration, cost, th
         />
         <div className="absolute top-3 right-3">
           <Chip color="primary" variant="shadow">
-            ${cost.toLocaleString()}
+            From ${cost.toLocaleString()}
           </Chip>
         </div>
         <div className="absolute text-white top-3 left-3">

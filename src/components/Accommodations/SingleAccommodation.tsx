@@ -3,21 +3,41 @@ import { getAccomBySlug } from '@/services/accom'
 import { useQuery } from '@tanstack/react-query'
 import React, { useState } from 'react'
 import Image from 'next/image'
-import { FaMapMarkerAlt, FaStar } from 'react-icons/fa'
+import { FaCross, FaEye, FaMapMarkerAlt, FaStar } from 'react-icons/fa'
 import { Room } from './Accommodations'
+import "yet-another-react-lightbox/styles.css";
+import "yet-another-react-lightbox/plugins/counter.css";
+import Counter from "yet-another-react-lightbox/plugins/counter";
 import Loader from '@/shared/Loader'
+import Lightbox, { SlideImage, useController } from 'yet-another-react-lightbox'
+import NextJsImage from './NextJsImage'
+import { Button } from '@nextui-org/react'
 
 interface props{
     id:string
 }
 const SingleAccommodation:React.FC<props> = ({id}) => {
     const [selectedGalleryImage, setSelectedGalleryImage] = useState<string | null>(null);
+    const [open, setOpen] = useState(false);
+    const [selectedRoomIndex, setSelectedRoomIndex] = useState<number | null>(null);
+    const [index, setIndex] = useState(0);
 
     const {data:hotel,isLoading}=useQuery({
         queryKey:["singleAccommodation",id],
         queryFn:()=>getAccomBySlug(id)
     })
-    console.log(hotel)
+
+    const openLightbox = (roomIndex: number, imageIndex: number) => {
+        setSelectedRoomIndex(roomIndex);
+        setIndex(imageIndex);
+        setOpen(true);
+    }
+
+    const closeLightbox = () => {
+        setOpen(false);
+        setSelectedRoomIndex(null);
+        setIndex(0);
+    }
 
     if(isLoading) return <Loader/>
     return (
@@ -114,19 +134,53 @@ const SingleAccommodation:React.FC<props> = ({id}) => {
 
             {/* Room Types */}
             <div className="space-y-6">
+                
                 <h3 className="text-xl sm:text-2xl font-semibold">Available Rooms</h3>
-                <div className="space-y-4">
-                    {hotel?.data?.rooms.map((room: Room, index: number) => (
-                        <div key={index} className="border rounded-lg p-4 hover:border-primary transition-colors">
-                            <div className="flex flex-col sm:flex-row gap-4">
-                                <div className="relative w-full sm:w-40 h-32 rounded-lg overflow-hidden">
+                <div className="grid grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 gap-6">
+                    {hotel?.data?.rooms.map((room: Room, roomIndex: number) => (
+                        <div key={roomIndex} className="border rounded-lg p-4 hover:border-primary transition-colors">
+                            <div className="flex flex-col gap-4">
+                                <div className="relative h-64 rounded-lg overflow-hidden cursor-pointer" 
+                                     onClick={() => openLightbox(roomIndex, 0)}>
                                     <Image
                                         src={room.roomPhotos[0]}
                                         alt={room.roomTitle}
                                         fill
                                         className="object-cover"
                                     />
+                                    <Button onPress={() => openLightbox(roomIndex, 0)} size='sm' variant='shadow' className='bg-primary text-xs absolute top-4 right-4 rounded-sm text-white flex items-center justify-center size-16'>
+                                        View
+                                    </Button>
                                 </div>
+                                {selectedRoomIndex === roomIndex && (
+                                    <Lightbox
+                                        open={open}
+                                        close={closeLightbox}
+                                        slides={
+                                            room.roomPhotos.map((image) => ({
+                                                src: image,
+                                                width: 1000,
+                                                height: 1000,
+                                            })) as SlideImage[]
+                                        }
+                                        render={{ slide: NextJsImage }}
+                                        plugins={[Counter]}
+                                        counter={{
+                                            container: {
+                                                style: {
+                                                    top: "0px",
+                                                    left: "50%",
+                                                    transform: "translateX(-50%)",
+                                                    color: "white",
+                                                    fontSize: "16px",
+                                                    fontWeight: 500,
+                                                    zIndex: 20,
+                                                },
+                                            },
+                                        }}
+                                        index={index}
+                                    />
+                                )}
                                 <div className="flex-1">
                                     <h4 className="text-lg font-semibold mb-2">{room.roomTitle}</h4>
                                     <p className="text-gray-600 text-sm mb-3">{room.roomDescription}</p>
@@ -149,6 +203,7 @@ const SingleAccommodation:React.FC<props> = ({id}) => {
                 </div>
             </div>
                         </div>
+                        
     )
 }
 

@@ -77,37 +77,38 @@ const ExploreNepal = () => {
                     Explore Destinations in Nepal
                 </h2>
                 {isLoading && <Loader/>}
-                <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 lg:px-16 px-4 lg:mt-0 mt-8">
+                <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 lg:px-16 px-4 lg:mt-0 mt-8">
                     {destinationsData?.data?.map((exp:Exp) => (
-                        <div key={exp._id} className="group relative overflow-hidden cursor-pointer">
-                            {/* Dark Overlay on Hover */}
-                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-500 z-20" />
+                        <Link key={exp._id}  href={`/explore-nepal/${exp?._id}`}>
+                            <div className="group relative overflow-hidden cursor-pointer">
+                                {/* Dark Overlay on Hover */}
+                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-500 z-20" />
 
-                            <div className="bg-white rounded-lg shadow-xl overflow-hidden">
-                                <div className="relative h-36">
-                                    <Image 
-                                        src={exp.thumbnail}
-                                        alt={exp.title}
-                                        height={1000}
-                                        width={1000}
-                                        className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                                    <div className="absolute bottom-2 left-2 text-white z-[100]">
-                                        <h3 className={`${antic.className} text-xl`}>{exp.title}</h3>
+                                <div className="bg-white rounded-lg shadow-xl overflow-hidden">
+                                    <div className="relative h-[250px]">
+                                        <Image 
+                                            src={exp.thumbnail}
+                                            alt={exp.title}
+                                            height={1000}
+                                            width={1000}
+                                            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                                        <div className="absolute bottom-2 left-2 text-white z-[100]">
+                                            <h3 className={`${antic.className} text-xl`}>{exp.title}</h3>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <Link href={`/explore-nepal/${exp?._id}`}>
-                                <Button 
-                                    isIconOnly 
-                                    className="absolute right-2 top-6 text-white -translate-y-1/2 z-30 bg-transparent group-hover:bg-primary rounded-full p-2 transition-all duration-500 transform group-hover:-rotate-45"
-                                >
-                                    <FaArrowRight size={18}/>
-                                </Button>
-                            </Link>
-                        </div>
+                                
+                                    <Button 
+                                        isIconOnly 
+                                        className="absolute right-2 top-6 text-white -translate-y-1/2 z-30 bg-transparent group-hover:bg-primary rounded-full p-2 transition-all duration-500 transform group-hover:-rotate-45"
+                                    >
+                                        <FaArrowRight size={18}/>
+                                    </Button>
+                            </div>
+                        </Link>
                     ))}
                 </div>
         </div>

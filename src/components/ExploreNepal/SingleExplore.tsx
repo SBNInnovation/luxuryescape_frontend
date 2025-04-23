@@ -11,6 +11,11 @@ import { motion } from 'framer-motion'
 import { FaMapMarkerAlt } from 'react-icons/fa'
 import Link from 'next/link'
 import { Button } from '@nextui-org/react'
+import Slider, { CustomArrowProps } from 'react-slick';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { CiLocationOn } from 'react-icons/ci'
+import { settings } from '../Destionation/SinglePackage/TrekHighlights'
 
 interface props{
     id:string
@@ -29,7 +34,9 @@ const SingleExplore:React.FC<props> = ({id}) => {
     enabled:!!singleExplore
   })
 
-  console.log(accomData)
+  const activities=singleExplore?.data?.destinations
+
+
   if(isLoading) return <Loader/>
   return (
     <>
@@ -37,16 +44,61 @@ const SingleExplore:React.FC<props> = ({id}) => {
           <h1 className={`${antic.className} lg:text-5xl text-2xl text-primary`}>{singleExplore?.data?.title}</h1>
           <div className='w-full lg:h-[600px] h-[300px] lg:py-8 py-4'>
             <Image
-            src={singleExplore?.data?.image}
+            src={singleExplore?.data?.thumbnail}
             alt={singleExplore?.data?.title}
             width={1000}
             height={1000}
             className='w-full h-full object-cover rounded-xl'
             />
-
           </div>
+          <div className='pb-8'>
+            {activities && activities.length > 3 ? (
+                  <div className="w-full my-16 relative">
+                      <Slider {...settings}>
+                          {activities.map((item:{caption:string,image:string}, index:number) => (
+                              <div
+                                  className={`w-full sm:w-1/2 md:w-1/3 cursor-pointer h-[350px] px-4 relative ${
+                                      index % 2 === 0 ? 'mt-16' : 'mt-0'
+                                  }`}
+                                  key={index}
+                              >
+                                  <div className="h-full relative">
+                                      <Image
+                                          src={item.image!}
+                                          alt={item.caption || "Tour highlight"}
+                                          height={1000}
+                                          width={1000}
+                                          className="w-full h-full object-cover rounded-sm"
+                                      />
+                                      <div className="z-[10] flex gap-4 items-center rounded-b-sm absolute bottom-0 w-full px-4 py-4 bg-black/60 text-white">
+                                          <CiLocationOn size={20} className='text-primary'/>
+                                          <h1>{item.caption}</h1>
+                                      </div>
+                                  </div>
+                              </div>
+                          ))}
+                      </Slider>
+                  </div>
+              ):
+              <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 relative'>
+                          {activities?.map((item:{caption:string,image:string})=>{
+                              return(
+                                  <div key={item.caption} className='w-full h-[260px] rounded-md relative'>
+                                      <Image src={item.image!} alt='Image' height={1000} width={1000} className='object-cover h-full w-full rounded-md shadow-md'/>
+                                      <div className="z-[10] flex gap-4 items-center rounded-b-sm absolute bottom-0 w-full px-4 py-4 bg-black/60 text-white">
+                                          <CiLocationOn size={20} className='text-primary'/>
+                                          <h1>{item.caption}</h1>
+                                      </div>
+                                  </div>
+                              )
+                          })}
+                      </div>
+              }
+          </div>
+          
           <p className='lg:text-base text-sm text-justify lg:leading-8 leading-7'>{singleExplore?.data?.description}</p>
       </div>
+      {accomLoading && <Loader/>}
       {accomData?.data?.formattedData?.length>0 && 
       <div className='lg:px-32 px-4 py-8'>
         <h1 className={`${antic.className} lg:text-4xl text-2xl text-primary`}>Accommodations in {singleExplore?.data?.title}</h1>

@@ -16,6 +16,7 @@ interface Exp{
     image:string
     description:string;
     _id:string
+    thumbnail:string
 }
 
 const ExploreNepal = () => {
@@ -85,7 +86,7 @@ const ExploreNepal = () => {
                             <div className="bg-white rounded-lg shadow-xl overflow-hidden">
                                 <div className="relative h-36">
                                     <Image 
-                                        src={exp.image}
+                                        src={exp.thumbnail}
                                         alt={exp.title}
                                         height={1000}
                                         width={1000}

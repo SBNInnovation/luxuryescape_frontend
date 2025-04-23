@@ -14,7 +14,7 @@ interface CustomArrowComponentProps extends CustomArrowProps {
     onClick?: () => void;
 }
 
-const CustomPrevArrow: React.FC<CustomArrowComponentProps> = ({ onClick }) => (
+export const CustomPrevArrow: React.FC<CustomArrowComponentProps> = ({ onClick }) => (
     <Button
         isIconOnly
         onClick={onClick}
@@ -24,7 +24,7 @@ const CustomPrevArrow: React.FC<CustomArrowComponentProps> = ({ onClick }) => (
     </Button>
 )
 
-const CustomNextArrow: React.FC<CustomArrowComponentProps> = ({ onClick }) => (
+export const CustomNextArrow: React.FC<CustomArrowComponentProps> = ({ onClick }) => (
     <Button
         isIconOnly
         onClick={onClick}
@@ -33,6 +33,35 @@ const CustomNextArrow: React.FC<CustomArrowComponentProps> = ({ onClick }) => (
         <FaChevronRight/>
     </Button>
 )
+
+export const settings = {
+        infinite: true,
+        speed: 500,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        prevArrow: <CustomPrevArrow />,
+        nextArrow: <CustomNextArrow />,
+        autoplay: true,
+        pauseOnHover: true,
+        centerPadding: '60px',
+        autoplaySpeed: 4000,
+        responsive: [
+            {
+                breakpoint: 1280,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                }
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            }
+        ]
+    };
 
 const TrekHighlights: React.FC<LuxuryPackage> = ({activities, inclusions, exclusions}) => {
     const settings = {

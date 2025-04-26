@@ -10,6 +10,7 @@ import { getAccoms } from "@/services/accom";
 import Loader from "@/shared/Loader";
 import Link from "next/link";
 import { FiChevronDown, FiMapPin } from "react-icons/fi";
+import Affiliates from "@/shared/Affiliates";
 
 export interface Accommodation {
   _id: string;
@@ -249,6 +250,10 @@ const Accommodations: React.FC = () => {
           />
         </div>
       )}
+      <div className="container mx-auto px-4 pb-8">
+
+        <Affiliates/>
+      </div>
     </div>
   );
 };

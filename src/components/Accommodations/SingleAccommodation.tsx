@@ -12,6 +12,9 @@ import Loader from '@/shared/Loader'
 import Lightbox, { SlideImage, useController } from 'yet-another-react-lightbox'
 import NextJsImage from './NextJsImage'
 import { Button } from '@nextui-org/react'
+import { antic } from '@/utility/font'
+import Link from 'next/link'
+import Affiliates from '@/shared/Affiliates'
 
 interface props{
     id:string
@@ -88,7 +91,7 @@ const SingleAccommodation:React.FC<props> = ({id}) => {
                              <div className="border-b pb-6">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
                     <div>
-                        <h2 className="text-2xl sm:text-3xl font-bold mb-2">{hotel?.data?.accommodationTitle}</h2>
+                        <h2 className={`text-2xl sm:text-3xl font-medium text-primary mb-2 ${antic.className}`}>{hotel?.data?.accommodationTitle}</h2>
                         <div className="flex items-center gap-2 text-gray-600 text-sm sm:text-base">
                             <FaMapMarkerAlt className="w-4 h-4" />
                             <span>{hotel?.data?.accommodationLocation}</span>
@@ -202,6 +205,8 @@ const SingleAccommodation:React.FC<props> = ({id}) => {
                     ))}
                 </div>
             </div>
+
+            <Affiliates/>
                         </div>
                         
     )

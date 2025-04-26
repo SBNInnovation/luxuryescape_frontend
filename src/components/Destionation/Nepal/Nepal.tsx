@@ -137,7 +137,7 @@ const Nepal = () => {
             <div className="w-full">
                     <h1 className={`${antic.className} text-primary lg:text-5xl text-3xl lg:mb-8 mb-4`}>Other Destinations</h1>
                     <div className="flex lg:flex-row flex-col w-full">
-                        <Link href={`destination/tibet`} className="lg:w-1/2 w-full">
+                        <Link href={`/destinations/tibet`} className="lg:w-1/2 w-full">
                             <section className="w-full lg:h-[500px] h-[250px] relative group overflow-hidden">
                                 <div className="w-full h-full transition-transform duration-500 group-hover:scale-110">
                                     <Image
@@ -161,7 +161,7 @@ const Nepal = () => {
                                 </div>
                             </section>
                         </Link>
-                        <Link href={`destination/tibet`} className="lg:w-1/2 w-full">
+                        <Link href={`/destinations/bhutan`} className="lg:w-1/2 w-full">
                             <section className="w-full lg:h-[500px] h-[250px] relative group overflow-hidden">
                                 <div className="w-full h-full transition-transform duration-500 group-hover:scale-110">
                                     <Image

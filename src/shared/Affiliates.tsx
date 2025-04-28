@@ -19,8 +19,8 @@ const Affiliates = () => {
                 {affiliates?.data?.data?.map((item: {affiliatedAccommodation: string, link: string, thumbnail: string}) => (
                         item?.link ? (
                             <Link href={item.link} key={item.affiliatedAccommodation} target='_blank'>
-                                <div className="flex flex-col gap-4 border border-gray-300 rounded-xl hover:border-primary duration-150">
-                                    <div className="w-full h-28 p-2">
+                                <div className="flex flex-col gap-4 border border-gray-300 rounded-xl items-center justify-center hover:border-primary duration-150 p-2">
+                                    <div className="w-full h-28">
                                         <Image
                                             src={item?.thumbnail}
                                             alt={item.affiliatedAccommodation}
@@ -29,6 +29,7 @@ const Affiliates = () => {
                                             className="w-full h-full object-cover rounded-md"
                                         />
                                     </div>
+                                    <p className={`${antic.className} text-primary max-lg:text-2xl max-md:text-xl max-sm:text-base text-center `}>{item?.affiliatedAccommodation}</p>
                                 </div>
                             </Link>
                         ) : null

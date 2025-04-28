@@ -6,7 +6,6 @@ import { AiFillEdit } from 'react-icons/ai'
 import { FaArrowRight } from 'react-icons/fa'
 import {GiTempleGate} from 'react-icons/gi'
 import {MdHotel} from 'react-icons/md'
-import WhyLuxury from '../Destionation/SinglePackage/WhyLuxury'
 import Link from 'next/link'
 
 const About = () => {
@@ -124,10 +123,7 @@ With a passion for excellence and a dedication to sustainability, Luxury Escapes
           </div>
         </div>
 
-        {/* Fifth section - Why Luxury */}
-        <div className='px-4 sm:px-8 md:px-12 lg:px-24 -mt-4 md:-mt-8 lg:-mt-12 w-full'>
-          <WhyLuxury/>
-        </div>
+        
     </div>
   )
 }

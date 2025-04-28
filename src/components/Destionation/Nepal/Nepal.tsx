@@ -7,7 +7,6 @@ import OverView from "./OverView";
 import HighLight from "./HighLight";
 import TripsInNepal from "./TripsInNepal";
 import Accommodation from "./Accommodation";
-import WhyLuxury from "../SinglePackage/WhyLuxury";
 import Link from "next/link";
 
 const Nepal = () => {
@@ -187,7 +186,6 @@ const Nepal = () => {
                         </Link>
                     </div>
             </div>
-            <WhyLuxury />
         </div>
     );
 };

@@ -12,7 +12,6 @@ import {
 } from '@nextui-org/react';
 import { useQuery } from '@tanstack/react-query';
 import { FiChevronDown, FiMapPin } from 'react-icons/fi';
-import WhyLuxury from '../Destionation/SinglePackage/WhyLuxury';
 import NoDataFound from '@/shared/NoData/NoData';
 import { Trek } from '@/types/types';
 import Loader from '@/shared/Loader';
@@ -237,9 +236,6 @@ const Tours: React.FC = () => {
             ))}
             </div>
         </div>
-            <div className='lg:px-20 px-4'>
-                <WhyLuxury/>
-            </div>
         </main>
     );
 };

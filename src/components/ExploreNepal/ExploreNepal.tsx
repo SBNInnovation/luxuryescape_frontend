@@ -8,7 +8,6 @@ import { antic } from '@/utility/font';
 import Link from 'next/link';
 import { FaArrowRight } from 'react-icons/fa6';
 import { Button } from '@nextui-org/react';
-import WhyLuxury from '../Destionation/SinglePackage/WhyLuxury';
 import { getDestinations } from '@/services/destinations';
 
 interface Exp{
@@ -149,7 +148,6 @@ const ExploreNepal = () => {
             </div>
         </div>
         <div className='lg:px-20 px-4'>
-                <WhyLuxury/>
             </div>
         </div>
   )

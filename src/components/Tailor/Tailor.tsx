@@ -9,8 +9,6 @@ import {
 } from "react-icons/fa";
 import { antic } from '@/utility/font';
 import Image from 'next/image';
-import WhyLuxury from '../Destionation/SinglePackage/WhyLuxury';
-import { Button } from "@nextui-org/react";
 import TailorForm from './TailorForm';
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
@@ -115,7 +113,6 @@ const Tailor = () => {
                 <TailorForm />
             </div>
             </div>
-            <WhyLuxury/>
         </div>
         </div>
     );

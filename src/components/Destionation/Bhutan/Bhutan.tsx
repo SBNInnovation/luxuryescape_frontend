@@ -3,7 +3,6 @@ import { antic } from "@/utility/font";
 import { BreadcrumbItem, Breadcrumbs, Button, Tab, Tabs } from "@nextui-org/react";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
-import WhyLuxury from "../SinglePackage/WhyLuxury";
 import OverView from "./OverView";
 import HighLight from "./HighLight";
 import TripsInBhutan from "./TripsInBhutan";
@@ -187,7 +186,6 @@ const Bhutan = () => {
                         </Link>
                     </div>
             </div>
-            <WhyLuxury />
         </div>
     );
 };

@@ -7,7 +7,6 @@ import DestinationandOverview from './DestinationandOverview'
 import TripHighlights from './TrekHighlights'
 import DetailedItenary from './DetailedItenary'
 import FAQPackage from './FAQPackage'
-import WhyLuxury from './WhyLuxury'
 import QuoteModal from './QuoteModal'
 import { useQuery } from '@tanstack/react-query'
 import { getTourBySlug } from '@/services/tours'
@@ -108,7 +107,6 @@ const SinglePackage:React.FC<props> = ({id}) => {
             <TripHighlights activities={trip.activities} inclusions={trip.inclusions} exclusions={trip.exclusions}/>
             <DetailedItenary itinerary={trip.itinerary}/>
             <FAQPackage faqs={trip.faqs} />
-            <WhyLuxury/>
 
             <div className='bg-primary/10 w-full my-16 gap-4 flex flex-col items-center justify-center py-12'>
                 <h1 className={` lg:text-5xl text-3xl tracking-wide ${antic.className}`}>Customize Your Trip</h1>

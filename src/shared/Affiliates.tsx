@@ -15,12 +15,12 @@ const Affiliates = () => {
     <div>
       {isAffiliatesLoading && <Loader/>}
             <p className={`text-primary text-3xl max-sm:text-2xl mt-12 ${antic.className}`}>Our Affiliates</p>
-            <div className='grid grid-cols-6 max-md:grid-cols-5 max-sm:grid-cols-3 gap-4 mt-8'>    
+            <div className='grid grid-cols-8 max-md:grid-cols-6 max-sm:grid-cols-5 gap-4 mt-8'>    
                 {affiliates?.data?.data?.map((item: {affiliatedAccommodation: string, link: string, thumbnail: string}) => (
                         item?.link ? (
                             <Link href={item.link} key={item.affiliatedAccommodation} target='_blank'>
                                 <div className="flex flex-col gap-4 border border-gray-300 rounded-xl items-center justify-center hover:border-primary duration-150 p-2">
-                                    <div className="w-full h-28">
+                                    <div className="w-full h-20 max-md:h-16 max-sm:h-12">
                                         <Image
                                             src={item?.thumbnail}
                                             alt={item.affiliatedAccommodation}
@@ -29,7 +29,6 @@ const Affiliates = () => {
                                             className="w-full h-full object-cover rounded-md"
                                         />
                                     </div>
-                                    <p className={`${antic.className} text-primary max-lg:text-2xl max-md:text-xl max-sm:text-base text-center `}>{item?.affiliatedAccommodation}</p>
                                 </div>
                             </Link>
                         ) : null

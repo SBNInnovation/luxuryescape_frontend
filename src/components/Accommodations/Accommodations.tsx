@@ -191,7 +191,7 @@ const Accommodations: React.FC = () => {
             <p className="text-lg text-gray-500">No accommodations found for the selected filters.</p>
           </div>
         )}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 gap-8">
           {paginatedHotels?.map((hotel: Accommodation) => (
             <motion.div
               key={hotel._id}

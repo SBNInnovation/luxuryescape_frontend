@@ -14,7 +14,7 @@ const Affiliates = () => {
   return (
     <div>
       {isAffiliatesLoading && <Loader/>}
-            <p className={`text-primary text-3xl max-sm:text-2xl mt-12 ${antic.className}`}>Our Affiliates</p>
+            <p className={`text-primary text-3xl max-sm:text-2xl mt-12 ${antic.className}`}>Our Recommended Hotels</p>
             <div className='grid grid-cols-8 max-md:grid-cols-6 max-sm:grid-cols-5 gap-4 mt-8'>    
                 {affiliates?.data?.data?.map((item: {affiliatedAccommodation: string, link: string, thumbnail: string}) => (
                         item?.link ? (

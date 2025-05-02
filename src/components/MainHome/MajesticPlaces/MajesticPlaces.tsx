@@ -91,13 +91,21 @@ const MajesticPlaces = () => {
                     </Link>
                 </div>
                 <div className='lg:w-3/5 w-full lg:pt-16 pt-8 h-fit'>
-                    <Slider {...settings}>
+                {toursData?.data?.tours?.length >2 ?<Slider {...settings}>
                         {toursData?.data?.tours?.map((item:any) => ( //eslint-disable-line @typescript-eslint/no-explicit-any
                             <div key={item?.tourName} className='px-4 py-2'>
                                 <Card {...item}/>
                             </div>
                         ))}
-                    </Slider>
+                    </Slider>:
+                    <div className='grid grid-cols-2 max-sm:grid-cols-1 gap-4'>
+                        {toursData?.data?.tours?.map((item:any) => ( //eslint-disable-line @typescript-eslint/no-explicit-any
+                            <div key={item?.tourName} className='px-4 py-2'>
+                                <Card {...item}/>
+                            </div>
+                        ))}
+                        </div>}
+                    
                 </div>
             </section>
         </div>

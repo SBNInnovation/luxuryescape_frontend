@@ -84,7 +84,7 @@ const ExploreNepal = () => {
                                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-500 z-20" />
 
                                 <div className="bg-white rounded-lg shadow-xl overflow-hidden">
-                                    <div className="relative h-[250px]">
+                                    <div className="relative h-[300px]">
                                         <Image 
                                             src={exp.thumbnail}
                                             alt={exp.title}

@@ -80,10 +80,10 @@ const SingleExplore:React.FC<props> = ({id}) => {
                       </Slider>
                   </div>
               ):
-              <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 relative'>
+              <div className='grid w-full lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 relative'>
                           {activities?.map((item:{caption:string,image:string})=>{
                               return(
-                                  <div key={item.caption} className='w-full h-[260px] rounded-md relative'>
+                                  <div key={item.caption} className='w-full h-[240px] rounded-md relative'>
                                       <Image src={item.image!} alt='Image' height={1000} width={1000} className='object-cover h-full w-full rounded-md shadow-md'/>
                                       <div className="z-[10] flex gap-4 items-center rounded-b-sm absolute bottom-0 w-full px-4 py-4 bg-black/60 text-white">
                                           <CiLocationOn size={20} className='text-primary'/>
@@ -101,7 +101,7 @@ const SingleExplore:React.FC<props> = ({id}) => {
       {accomLoading && <Loader/>}
       {accomData?.data?.formattedData?.length>0 && 
       <div className='lg:px-32 px-4 py-8'>
-        <h1 className={`${antic.className} lg:text-4xl text-2xl text-primary`}>Accommodations in {singleExplore?.data?.title}</h1>
+        <h1 className={`${antic.className} lg:text-4xl text-2xl text-primary`}>Recommended Accommodations in {singleExplore?.data?.title}</h1>
         <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 py-8'>
           {accomData?.data?.formattedData?.map((hotel:Accommodation)=>(
             <motion.div

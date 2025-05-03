@@ -111,10 +111,6 @@ const Navbar = () => {
             link: "/accommodations"
         },
         {
-            title: "Tailor Made",
-            link: "/tailor-made"
-        },
-        {
             title: "Resources",
             isDropdown: true,
             items: [

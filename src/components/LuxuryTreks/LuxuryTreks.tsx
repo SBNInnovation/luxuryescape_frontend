@@ -17,6 +17,7 @@ import { getTreks } from '@/services/trek';
 import NoDataFound from '@/shared/NoData/NoData';
 import { Trek } from '@/types/types';
 import Loader from '@/shared/Loader';
+import Customize from '@/shared/Customize';
 
 
 type DifficultyFilter = "all" | "easy" | "moderate" | "hard";
@@ -190,6 +191,9 @@ const LuxuryTreks: React.FC = () => {
                         onChange={handlePageChange}
                     />
                 )}
+            </div>
+            <div className='px-20'>
+                <Customize/>
             </div>
         </main>
     );

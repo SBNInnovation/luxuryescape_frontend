@@ -11,6 +11,7 @@ import Loader from "@/shared/Loader";
 import Link from "next/link";
 import { FiChevronDown, FiMapPin } from "react-icons/fi";
 import Affiliates from "@/shared/Affiliates";
+import { generateStars } from '../../utility/generateStars';
 
 export interface Accommodation {
   _id: string;
@@ -23,6 +24,7 @@ export interface Accommodation {
   accommodationFeatures: string[];
   accommodationAmenities: string[];
   rooms: Room[];
+  isPremium: boolean;
   createdAt: string;
   updatedAt: string;
   __v: number;
@@ -141,17 +143,17 @@ const Accommodations: React.FC = () => {
                 <DropdownItem key="all">All Star Ratings</DropdownItem>
                 <DropdownItem key="5">
                   <div className="flex items-center gap-1">
+                    <span>Premium 5 Star</span>
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="5">
+                  <div className="flex items-center gap-1">
                     <span>5 Star Standard</span>
                   </div>
                 </DropdownItem>
                 <DropdownItem key="4">
                   <div className="flex items-center gap-1">
                     <span>4 Star Standard</span>
-                  </div>
-                </DropdownItem>
-                <DropdownItem key="3">
-                  <div className="flex items-center gap-1">
-                    <span>3 Star Standard</span>
                   </div>
                 </DropdownItem>
               </DropdownMenu>
@@ -211,9 +213,16 @@ const Accommodations: React.FC = () => {
                 />
                 <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full">
                   <div className="flex items-center gap-1">
-                    <span className="text-sm font-semibold text-primary">{hotel.accommodationRating} Star Standard</span>
+                    <span className="text-sm font-semibold flex tems-xs gap-1 text-primary">{generateStars(hotel.accommodationRating)}</span>
                   </div>
                 </div>
+                {hotel?.isPremium &&
+                 <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full">
+                  <div className="flex items-center gap-1">
+                    <span className="text-sm font-semibold flex tems-xs gap-1 text-primary">Premium</span>
+                  </div>
+                </div>}
+               
               </div>
               <div className="px-4 pt-2 pb-4 flex flex-col h-1/2">
                 <h3 className={`${antic.className} text-primary text-xl font-semibold mb-2`}>{hotel.accommodationTitle}</h3>

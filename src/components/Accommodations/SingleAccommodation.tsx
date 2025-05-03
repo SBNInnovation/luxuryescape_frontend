@@ -129,7 +129,7 @@ const SingleAccommodation:React.FC<props> = ({id}) => {
             {/* Room Types */}
             <div className="space-y-6">
                 
-                <h3 className="text-xl sm:text-2xl font-semibold">Available Rooms</h3>
+                <h3 className="text-xl sm:text-2xl font-semibold">Room Categories</h3>
                 <div className="grid grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 gap-6">
                     {hotel?.data?.rooms.map((room: Room, roomIndex: number) => (
                         <div key={roomIndex} className="border rounded-lg p-4 hover:border-primary transition-colors">

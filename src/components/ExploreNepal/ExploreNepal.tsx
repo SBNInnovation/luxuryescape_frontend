@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { FaArrowRight } from 'react-icons/fa6';
 import { Button } from '@nextui-org/react';
 import { getDestinations } from '@/services/destinations';
+import Customize from '@/shared/Customize';
 
 interface Exp{
    title:string
@@ -112,7 +113,7 @@ const ExploreNepal = () => {
                 </div>
         </div>
 
-        <div className="container mx-auto px-4 lg:py-12 py-8 max-w-7xl">
+        <div className="container mx-auto max-md:px-4 lg:py-12 py-8 max-w-7xl">
             <h2 className={`lg:text-4xl text-3xl  text-center text-primary lg:mb-16 mb-8 ${antic.className} text-neutral-900`}>
             Premium Countries
             </h2>
@@ -148,6 +149,7 @@ const ExploreNepal = () => {
             </div>
         </div>
         <div className='lg:px-20 px-4'>
+            <Customize/>
             </div>
         </div>
   )

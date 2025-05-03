@@ -19,6 +19,7 @@ import TourCard, { Tour } from './TourCard';
 import { getTours, getTourTypes } from '@/services/tours';
 import { FaArrowRight } from 'react-icons/fa6';
 import Link from 'next/link';
+import Customize from '@/shared/Customize';
 
 interface Exp{
     tourType:string
@@ -201,7 +202,7 @@ const Tours: React.FC = () => {
                 </div>
         </div>
 
-        <div className="container mx-auto px-4 lg:py-24 py-8 max-w-7xl">
+        <div className="container mx-auto max-sm:px-4 lg:py-24 py-8 max-w-7xl">
             <h2 className={`lg:text-5xl text-3xl  text-center text-primary lg:mb-16 mb-8 ${antic.className} text-neutral-900`}>
             Premium Destinations
             </h2>
@@ -236,6 +237,9 @@ const Tours: React.FC = () => {
             ))}
             </div>
         </div>
+        <div className='px-20 max-md:px-4'>
+                <Customize/>
+            </div>
         </main>
     );
 };

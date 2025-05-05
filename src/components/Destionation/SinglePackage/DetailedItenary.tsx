@@ -11,6 +11,8 @@ const DetailedItenary: React.FC<LuxuryPackage> = ({itinerary}) => {
     if (!itinerary || itinerary.length === 0) {
         return null;
     }
+
+    console.log(itinerary)
     
     return (
         <div className='w-full my-16'>
@@ -39,28 +41,28 @@ const DetailedItenary: React.FC<LuxuryPackage> = ({itinerary}) => {
                                 />
                             </div>
                         </div>
-                        <Divider className=''/>
-                        {item?.hotel && (
-                            <section className=''>
-                                <h1 className={`${antic.className} text-4xl my-2 text-primary`}>Your Possible Stay</h1>
-                                <Link href={`/accommodations/${item.hotel.slug}`}>
-                                    <div className='flex flex-col gap-4 cursor-pointer w-[300px] mt-8'>
-                                        <div className='h-[180px] w-[300px]'>
-                                            <Image 
-                                                src={item.hotel.image!} 
-                                                alt={item.hotel.name!} 
-                                                width={1000} 
-                                                height={1000} 
-                                                className='w-full h-full object-cover rounded-sm shadow-md'
-                                            />
+                        {index !== itinerary.length - 1 && <Divider className=''/>}                        
+                        {item?.hotel && index !== itinerary.length - 1 && (
+                                <section className='' key={index}>
+                                    <h1 className={`${antic.className} text-4xl my-2 text-primary`}>Your Possible Stay</h1>
+                                    <Link href={`/accommodations/${item?.hotel.slug}`}>
+                                        <div className='flex flex-col gap-4 cursor-pointer w-[300px] mt-8'>
+                                            <div className='h-[180px] w-[300px]'>
+                                                <Image 
+                                                    src={item?.hotel?.image!} 
+                                                    alt={item?.hotel?.name!} 
+                                                    width={1000} 
+                                                    height={1000} 
+                                                    className='w-full h-full object-cover rounded-sm shadow-md'
+                                                />
+                                            </div>
+                                            <p className='font-semibold text-lg'>{item?.hotel?.name}</p>
+                                            <Button variant='light' className="text-primary underline underline-offset-2 rounded-sm">
+                                                View Details
+                                            </Button>
                                         </div>
-                                        <p className='font-semibold text-lg'>{item.hotel.name}</p>
-                                        <Button variant='light' className="text-primary underline underline-offset-2 rounded-sm">
-                                            View Details
-                                        </Button>
-                                    </div>
-                                </Link>
-                            </section>
+                                    </Link>
+                                </section>
                         )}
                     </div>
                 ))}

@@ -78,7 +78,7 @@ const ExploreNepal = () => {
                 </h2>
                 {isLoading && <Loader/>}
                 <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 lg:px-16 px-4 lg:mt-0 mt-8">
-                    {destinationsData?.data?.map((exp:Exp) => (
+                    {destinationsData?.data?.destinations?.map((exp:Exp) => (
                         <Link key={exp._id}  href={`/explore-nepal/${exp?._id}`}>
                             <div className="group relative overflow-hidden cursor-pointer">
                                 {/* Dark Overlay on Hover */}

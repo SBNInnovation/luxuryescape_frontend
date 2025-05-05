@@ -92,7 +92,7 @@ const SinglePackage:React.FC<props> = ({id}) => {
                         </main>
                         <main className=''>
                             <h1 className={` font-semibold tracking-wide lg:text-base text-sm`}>Starting from</h1>
-                            <p>${trip.price} <span className='text-gray-500'>/ solo price</span></p>
+                            <p>${trip.price} <span className='text-gray-500'>/ person</span></p>
                         </main>
                     </div>
                     <div className='flex flex-col gap-2 lg:mt-0 mt-8'>
@@ -102,7 +102,7 @@ const SinglePackage:React.FC<props> = ({id}) => {
                 </section>
             </div>
             <QuoteModal isOpen={isOpen} onClose={()=>setIsOpen(false)} Title={trip.title} type={singleTour?.data?.specificTour?.type} tourId={singleTour?.data?.specificTour?._id}/>
-            <MainSlider gallery={singleTour.data.specificTour?.gallery} thumbnail={singleTour.data.specificTour?.thumbnail} />
+            <MainSlider gallery={singleTour?.data?.specificTour?.gallery} thumbnail={singleTour?.data?.specificTour?.thumbnail} />
             <DestinationandOverview description={trip.description} />
             <TripHighlights activities={trip.activities} inclusions={trip.inclusions} exclusions={trip.exclusions}/>
             <DetailedItenary itinerary={trip.itinerary}/>

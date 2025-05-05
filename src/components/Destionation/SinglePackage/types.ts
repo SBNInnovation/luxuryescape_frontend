@@ -24,7 +24,7 @@ export interface LuxuryPackage {
             name?: string;
             image?: string;
             slug?: string
-        };
+        }
     }[];
     faqs?: {
         question:string

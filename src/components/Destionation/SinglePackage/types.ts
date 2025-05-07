@@ -20,11 +20,7 @@ export interface LuxuryPackage {
         description?: string;
         title:string;
         image?: string;
-        hotel?: {
-            name?: string;
-            image?: string;
-            slug?: string
-        }
+        hotels?:any //eslint-disable-line @typescript-eslint/no-explicit-any
     }[];
     faqs?: {
         question:string

@@ -24,11 +24,11 @@ const TripTypes = () => {
     if(isLoading)return <Loader/>
 
     return (
-        <div className='w-full pb-16'>
+        <div className='w-full pb-8'>
             <div className='lg:px-16 px-4'>
                 <SharedTitle title='Unforgettable Trips' subtitle='Dont miss out'/>
             </div>
-            <div className='flex flex-col gap-4 w-full lg:mt-28 mt-4 lg:px-16 px-4'>
+            <div className='flex flex-col gap-4 w-full lg:mt-12 mt-4 lg:px-16 px-4'>
                 <section className='grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 flex-col gap-4 w-full relative'>
                     {experienceTypeData?.allTourTypes?.map((item:Exp, index:number) => (
                         <div 
@@ -42,7 +42,7 @@ const TripTypes = () => {
                                 width={1000} 
                                 className='object-cover group-hover:scale-[1.1] transition duration-300 h-full w-full rounded-sm'
                             />
-                            <div className='z-[10] flex justify-between items-center absolute bottom-0 w-full px-4 py-4 bg-black/60 text-white'>
+                            <div className='z-[10] flex gap-4 justify-between items-center absolute bottom-0 w-full px-4 py-4 bg-black/60 text-white'>
                                 <div className='flex flex-col'>       
                                     <h1>{item.tourType}</h1>
                                 </div>

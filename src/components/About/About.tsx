@@ -18,7 +18,7 @@ const About = () => {
     <div className='w-full flex items-center justify-center flex-col'>
         {/* First section - About intro */}
         <div className='flex flex-col items-center justify-center px-4 sm:px-8 md:px-12 lg:px-24 my-8 md:my-12 lg:my-16 w-full'>
-            <h1 className={`${antic.className} text-2xl md:text-3xl text-primary text-center lg:text-left`}>About Luxury Escapes Nepal</h1>
+            <h1 className={`${antic.className} text-2xl md:text-3xl text-primary text-center lg:text-left`}>About Nepal Luxury Escapes</h1>
             <Divider className='my-4 w-full'/>
             <div className='flex flex-col lg:flex-row items-center justify-center w-full gap-8 lg:gap-12'>
                 <div className='w-full lg:w-1/2 h-[300px] md:h-[400px] lg:h-[500px]'>
@@ -26,11 +26,11 @@ const About = () => {
                 </div>
                 <div className='flex items-center flex-col justify-center w-full lg:w-1/2 mt-6 lg:mt-0'>
                   <p className='text-justify px-0 sm:px-4 lg:px-12 font-light'>
-At Luxury Escapes Nepal, we specialize in crafting exceptional journeys that redefine the art of travel. Our mission is to provide discerning travelers with unforgettable experiences in Nepal, Bhutan, and Tibet, combining opulence, adventure, and cultural immersion. From private helicopter tours over the Himalayas to luxury safaris in pristine jungles and serene mountain retreats, every detail of our itineraries is tailored to perfection.  
+At Nepal Luxury Escapes, we specialize in crafting exceptional journeys that redefine the art of travel. Our mission is to provide discerning travelers with unforgettable experiences in Nepal, Bhutan, and Tibet, combining opulence, adventure, and cultural immersion. From private helicopter tours over the Himalayas to luxury safaris in pristine jungles and serene mountain retreats, every detail of our itineraries is tailored to perfection.  
 
 We pride ourselves on our commitment to quality and personalized service, offering curated stays at the finest accommodations, guided tours with expert local professionals, and exclusive activities that reflect the authentic charm of the Himalayas. Whether you seek thrilling adventures, tranquil getaways, or cultural discoveries, we ensure your journey is seamless, indulgent, and truly one-of-a-kind.  
 
-With a passion for excellence and a dedication to sustainability, Luxury Escapes Nepal invites you to explore the wonders of the Himalayas in unparalleled comfort and style. Let us create your dream luxury escape, where every moment is crafted to inspire, delight, and leave lasting memories.
+With a passion for excellence and a dedication to sustainability, Nepal Luxury Escapes invites you to explore the wonders of the Himalayas in unparalleled comfort and style. Let us create your dream luxury escape, where every moment is crafted to inspire, delight, and leave lasting memories.
                   </p>
                 </div>
             </div>
@@ -41,7 +41,7 @@ With a passion for excellence and a dedication to sustainability, Luxury Escapes
           <div className='w-full md:w-1/2 lg:w-1/3'>
             <h1 className={`text-2xl md:text-3xl ${antic.className} text-primary mb-4`}>Crafting Exceptional Luxury Experiences Across the Himalayas</h1>
             <p className='text-justify text-gray-600 text-sm'>
-              At Luxury Escapes Nepal, we go beyond standard travel planning to create exceptional journeys tailored to your unique desires. With a focus on luxury, authenticity, and personalized service, we ensure every aspect of your trip reflects the highest standards. Whether you're exploring the cultural wonders of Bhutan, the majestic Himalayas of Nepal, or the serene landscapes of Tibet, our expertise guarantees an unforgettable experience.
+              At Nepal Luxury Escapes, we go beyond standard travel planning to create exceptional journeys tailored to your unique desires. With a focus on luxury, authenticity, and personalized service, we ensure every aspect of your trip reflects the highest standards. Whether you're exploring the cultural wonders of Bhutan, the majestic Himalayas of Nepal, or the serene landscapes of Tibet, our expertise guarantees an unforgettable experience.
             </p>
           </div>
           <div className='w-full md:w-1/2 lg:w-1/3 flex items-center justify-center flex-col mt-6 md:mt-0'>
@@ -71,7 +71,7 @@ With a passion for excellence and a dedication to sustainability, Luxury Escapes
           <div className='w-full lg:w-4/5 px-0 sm:px-4 md:px-8 lg:px-12 text-center'>
               <h1 className={`text-2xl md:text-3xl ${antic.className} text-primary mb-4`}>Our Mission - Creating Unforgettable Luxury Journeys in the Himalayas</h1>
               <p className='text-center text-gray-600 my-5 md:my-10 tracking-wide font-light text-base md:text-lg'>
-                At Luxury Escapes Nepal, our mission is to craft journeys that go beyond travel – we aim to create unforgettable experiences that resonate with your passions and aspirations. By combining luxury, authenticity, and personalization, we ensure every trip is a masterpiece designed exclusively for you.
+                At Nepal Luxury Escapes, our mission is to craft journeys that go beyond travel – we aim to create unforgettable experiences that resonate with your passions and aspirations. By combining luxury, authenticity, and personalization, we ensure every trip is a masterpiece designed exclusively for you.
               </p>
               <p className='text-center text-gray-600 my-5 md:my-10 tracking-wide font-light text-base md:text-lg'>
                 We are committed to showcasing the best of Nepal, Bhutan, and Tibet, blending their natural beauty, cultural richness, and unique heritage into every tour. From the soaring peaks of the Himalayas to ancient monasteries and serene valleys, our mission is to connect travelers with the essence of these majestic destinations.
@@ -87,7 +87,7 @@ With a passion for excellence and a dedication to sustainability, Luxury Escapes
 
         {/* Fourth section - Destinations */}
         <div className='flex flex-col items-center justify-center px-4 sm:px-8 md:px-12 lg:px-24 mt-8 md:mt-12 lg:mt-16 w-full'>
-          <h1 className={`${antic.className} text-2xl md:text-3xl text-primary text-center`}>Explore with Luxury Escapes Nepal</h1>
+          <h1 className={`${antic.className} text-2xl md:text-3xl text-primary text-center`}>Explore with Nepal Luxury Escapes</h1>
           <div className='flex flex-col md:flex-row items-center justify-center my-8 md:my-12 lg:my-16 w-full gap-6 md:gap-4'>
             {destinations.map((destination, index) => (
               <div key={index} className='w-full md:w-1/3 h-[400px] md:h-[500px] lg:h-[600px] relative group mb-6 md:mb-0'>

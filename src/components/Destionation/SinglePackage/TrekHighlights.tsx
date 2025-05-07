@@ -98,49 +98,17 @@ const TrekHighlights: React.FC<LuxuryPackage> = ({activities, inclusions, exclus
         <div className='my-12'>
             <h1 className={`text-3xl ${antic.className} font-semibold text-primary my-8 `}>Trip Highlights</h1>
             
-            {/* Only render the slider if there are activities */}
-            {activities && activities.length > 3 ? (
-                <div className="w-full my-16 relative">
-                    <Slider {...settings}>
-                        {activities.map((item, index) => (
-                            <div
-                                className={`w-full sm:w-1/2 md:w-1/3 cursor-pointer h-[350px] px-4 relative ${
-                                    index % 2 === 0 ? 'mt-16' : 'mt-0'
-                                }`}
-                                key={index}
-                            >
-                                <div className="h-full relative">
-                                    <Image
-                                        src={item.image || "/placeholder-image.jpg"}
-                                        alt={item.activity || "Tour highlight"}
-                                        height={1000}
-                                        width={1000}
-                                        className="w-full h-full object-cover rounded-sm"
-                                    />
-                                    <div className="z-[10] flex gap-4 items-center rounded-b-sm absolute bottom-0 w-full px-4 py-4 bg-black/60 text-white">
-                                        <CiLocationOn size={20} className='text-primary'/>
-                                        <h1>{item.activity}</h1>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </Slider>
-                </div>
-            ):
-            <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 relative'>
+
+            <div className='grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-8'>
                         {activities?.map(item=>{
                             return(
-                                <div key={item.activity} className='w-full h-[260px] rounded-md relative'>
-                                    <Image src={item.image!} alt='Image' height={1000} width={1000} className='object-cover h-full w-full rounded-md shadow-md'/>
-                                    <div className="z-[10] flex gap-4 items-center rounded-b-sm absolute bottom-0 w-full px-4 py-4 bg-black/60 text-white">
+                                    <div key={item.activity} className="z-[10] flex gap-4 items-center rounded-b-sm absolute bottom-0 w-full px-4 py-4 bg-black/60 text-white">
                                         <CiLocationOn size={20} className='text-primary'/>
                                         <h1>{item.activity}</h1>
                                     </div>
-                                </div>
                             )
                         })}
                     </div>
-            }
 
             {/* Only render the inclusions section if there are inclusions */}
             {inclusions && inclusions.length > 0 && (

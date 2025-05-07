@@ -41,28 +41,33 @@ const DetailedItenary: React.FC<LuxuryPackage> = ({itinerary}) => {
                                 />
                             </div>
                         </div>
-                        {index !== itinerary.length - 1 && <Divider className=''/>}                        
-                        {item?.hotel && index !== itinerary.length - 1 && (
-                                <section className='' key={index}>
-                                    <h1 className={`${antic.className} text-4xl my-2 text-primary`}>Your Possible Stay</h1>
-                                    <Link href={`/accommodations/${item?.hotel.slug}`}>
-                                        <div className='flex flex-col gap-4 cursor-pointer w-[300px] mt-8'>
-                                            <div className='h-[180px] w-[300px]'>
+                        {index !== itinerary.length - 1 && <Divider className=''/>}   
+                        {index !== itinerary.length - 1 &&<h1 className={`${antic.className} text-4xl my-2 text-primary`}>Envisaged Hotels / Resorts</h1>}
+                        {item?.hotels && index !== itinerary.length - 1 && (
+                            <div className='grid grid-cols-4 max-md:grid-cols-3 max-sm:grid-cols-2 gap-6'>
+                                {item?.hotels.map((hotel:any,index:number)=>( //eslint-disable-line @typescript-eslint/no-explicit-any
+                                    <section className='' key={index}>
+                                    <Link href={`/accommodations/${hotel.slug}`}>
+                                        <div className='flex flex-col gap-4 cursor-pointer mt-8'>
+                                            <div className='h-[180px]'>
                                                 <Image 
-                                                    src={item?.hotel?.image!} 
-                                                    alt={item?.hotel?.name!} 
+                                                    src={hotel?.accommodationPics[0]!} 
+                                                    alt={hotel?.accommodationTitle!} 
                                                     width={1000} 
                                                     height={1000} 
                                                     className='w-full h-full object-cover rounded-sm shadow-md'
                                                 />
                                             </div>
-                                            <p className='font-semibold text-lg'>{item?.hotel?.name}</p>
+                                            <p className='font-semibold text-lg'>{hotel?.accommodationTitle}</p>
                                             <Button variant='light' className="text-primary underline underline-offset-2 rounded-sm">
                                                 View Details
                                             </Button>
                                         </div>
                                     </Link>
                                 </section>
+                                ))}
+                            </div>
+                                
                         )}
                     </div>
                 ))}

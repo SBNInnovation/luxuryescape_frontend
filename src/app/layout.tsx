@@ -9,11 +9,11 @@ import Footer from "@/shared/Footer/Footer";
 import Whatsapp from "@/shared/Whatsapp/Whatsapp";
 
 export const metadata: Metadata = {
-  title: "Luxury Escapes Nepal | Luxury Tours & Travel in Nepal, Bhutan & Tibet",
+  title: "Nepal Luxury Escapes | Luxury Tours & Travel in Nepal, Bhutan & Tibet",
   description: "Experience luxury travel in Nepal, Bhutan & Tibet. Discover exclusive hotels, private tours, and bespoke itineraries designed for ultimate comfort and elegance.",
-  keywords: "Luxury travel Nepal, luxury tours Nepal, luxury escapes Nepal, 5-star hotels Nepal, private tours Nepal, high-end travel Bhutan, luxury vacation Tibet",
+  keywords: "Luxury travel Nepal, luxury tours Nepal, Nepal Luxury Escapes, 5-star hotels Nepal, private tours Nepal, high-end travel Bhutan, luxury vacation Tibet",
   openGraph: {
-    title: "Luxury Escapes Nepal | Premium Travel Experiences in the Himalayas",
+    title: "Nepal Luxury Escapes | Premium Travel Experiences in the Himalayas",
     description: "Indulge in world-class luxury travel experiences in Nepal, Bhutan, and Tibet. Stay in exclusive resorts and explore curated itineraries tailored for elite travelers.",
     type: "website",
     url: "https://nepalluxuryescapes.com",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
         url: "https://nepalluxuryescapes.com/ab2.jpg",
         width: 1200,
         height: 630,
-        alt: "Luxury Escapes Nepal - Premium Travel Experiences",
+        alt: "Nepal Luxury Escapes - Premium Travel Experiences",
       },
     ],
   },

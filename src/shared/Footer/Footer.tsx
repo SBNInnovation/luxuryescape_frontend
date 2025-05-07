@@ -95,7 +95,7 @@ const Footer = () => {
                 <hr className="my-6 border-gray-700 sm:mx-auto lg:my-8" />
                 <div className='flex justify-between items-center'>
                     <span className="block text-sm  sm:text-center ">
-                    © 2023 <Link href="/" className="hover:underline">Luxury Escapes Nepal™</Link>. All Rights Reserved.
+                    © 2023 <Link href="/" className="hover:underline">Nepal Luxury Escapes™</Link>. All Rights Reserved.
                     </span>
                     <span className="block text-sm  sm:text-center ">
                     Powered by SBN Innovations Pvt. Ltd.

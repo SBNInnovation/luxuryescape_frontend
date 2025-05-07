@@ -9,8 +9,5 @@ export const generateStars = (numOfStars:number):any => {
   if (numOfStars % 1 !== 0) {
     stars.push(<FaStarHalfAlt key="half" />);
   }
-  while (stars.length < 5) {
-    stars.push(<FaRegStar key={`empty-${stars.length}`} />);
-  }
   return stars;
 };

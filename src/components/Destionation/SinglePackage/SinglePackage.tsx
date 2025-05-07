@@ -36,11 +36,7 @@ const SinglePackage:React.FC<props> = ({id}) => {
         title: item.title,
         description: item.description,
         image: singleTour.data.specificTour?.itineraryDayPhoto[index] || "",
-        hotel: {
-            name: item.accommodation && item.accommodation?.length > 0 ? item.accommodation[0]?.accommodationTitle : "Luxury Accommodation",
-            image:  item.accommodation[0]?.accommodationPics[0],
-            slug: item.accommodation[0]?.slug
-        }
+        hotels:item.accommodation
     }));
 
     const trip = {

@@ -96,19 +96,21 @@ const TrekHighlights: React.FC<LuxuryPackage> = ({activities, inclusions, exclus
     
     return (
         <div className='my-12'>
-            <h1 className={`text-3xl ${antic.className} font-semibold text-primary my-8 `}>Trip Highlights</h1>
             
-
+            {activities && <>
+            <h1 className={`text-3xl ${antic.className} font-semibold text-primary my-8 `}>Trip Highlights</h1>
             <div className='grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-8'>
                         {activities?.map(item=>{
                             return(
-                                    <div key={item.activity} className="z-[10] flex gap-4 items-center rounded-b-sm absolute bottom-0 w-full px-4 py-4 bg-black/60 text-white">
+                                    <div key={item.activity} className="flex gap-4 items-center w-full px-4 py-4  text-black">
                                         <CiLocationOn size={20} className='text-primary'/>
                                         <h1>{item.activity}</h1>
                                     </div>
                             )
                         })}
                     </div>
+            </>}
+           
 
             {/* Only render the inclusions section if there are inclusions */}
             {inclusions && inclusions.length > 0 && (

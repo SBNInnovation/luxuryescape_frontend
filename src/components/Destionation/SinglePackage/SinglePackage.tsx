@@ -28,7 +28,7 @@ const SinglePackage:React.FC<props> = ({id}) => {
 
     const activitiesWithImages = singleTour?.data?.specificTour?.tourHighlights?.map((activity:any, index:number) => ({
         activity: activity,
-        image: singleTour.data.specificTour?.highlightPicture[index] || ""
+        // image: singleTour.data.specificTour?.highlightPicture[index] || ""
     }));
 
     const itineraryWithImages = singleTour?.data?.specificTour?.tourItinerary?.map((item:any, index:number) => ({

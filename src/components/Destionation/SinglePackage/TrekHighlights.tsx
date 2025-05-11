@@ -103,7 +103,9 @@ const TrekHighlights: React.FC<LuxuryPackage> = ({activities, inclusions, exclus
                         {activities?.map(item=>{
                             return(
                                     <div key={item.activity} className="flex gap-4 items-center w-full px-4 py-4  text-black">
-                                        <CiLocationOn size={20} className='text-primary'/>
+                                        <div className='size-5'>
+                                            <CiLocationOn size={20} className='text-primary'/>
+                                        </div>
                                         <h1>{item.activity}</h1>
                                     </div>
                             )

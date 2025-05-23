@@ -123,7 +123,6 @@ const Navbar = () => {
       items: [
         { title: 'About', href: '/about' },
         { title: 'Contact', href: '/contact' },
-        { title: 'Blogs', href: '/blogs' },
         { title: 'Travel Permits', href: '/permits' },
         { title: 'Terms and Conditions', href: '/terms-and-conditions' },
         { title: 'Privacy Policy', href: '/privacy-policy' },

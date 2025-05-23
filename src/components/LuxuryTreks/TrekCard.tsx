@@ -6,17 +6,23 @@ import { FiCalendar, FiMapPin } from 'react-icons/fi';
 import { Trek } from '@/types/types';
 import { antic } from '@/utility/font';
 
-
-const TrekCard: React.FC<Trek> = ({ slug, trekName, location, duration, cost, thumbnail, difficultyLevel}) => {
-
+const TrekCard: React.FC<Trek> = ({
+  slug,
+  trekName,
+  location,
+  duration,
+  cost,
+  thumbnail,
+  difficultyLevel,
+}) => {
   const getDifficultyColor = (level: string) => {
     switch (level.toLowerCase()) {
       case 'easy':
-        return "success";
+        return 'success';
       case 'moderate':
-        return "warning";
+        return 'warning';
       case 'hard':
-        return "danger";
+        return 'danger';
       default:
         return;
     }
@@ -38,23 +44,25 @@ const TrekCard: React.FC<Trek> = ({ slug, trekName, location, duration, cost, th
           </Chip>
         </div>
         <div className="absolute text-white top-3 left-3">
-          <Chip 
-            color={getDifficultyColor(difficultyLevel)} 
+          <Chip
+            color={getDifficultyColor(difficultyLevel)}
             className="text-white"
           >
             {difficultyLevel}
           </Chip>
         </div>
       </div>
-      
+
       <CardBody className="pb-0">
-        <h3 className={`text-xl  mb-2 ${antic.className} text-primary`}>{trekName}</h3>
-        
-        <div className="flex items-center text-default-500 mb-3">
+        <h3 className={`text-2xl  mb-2 ${antic.className} text-black`}>
+          {trekName}
+        </h3>
+
+        <div className="flex items-center text-gray-500 mb-3">
           <FiMapPin className="mr-2" />
           <span>{location}</span>
         </div>
-        
+
         <div className="flex justify-between mb-4">
           <div className="flex items-center text-default-500">
             <FiCalendar className="mr-2" />
@@ -62,9 +70,12 @@ const TrekCard: React.FC<Trek> = ({ slug, trekName, location, duration, cost, th
           </div>
         </div>
       </CardBody>
-      
+
       <CardFooter>
-        <Link href={`/luxury-treks/${slug}`} className="w-full flex justify-end">
+        <Link
+          href={`/luxury-treks/${slug}`}
+          className="w-full flex justify-end"
+        >
           <Button className=" px-8 bg-primary text-sm text-white rounded-md hover:opacity-90 transition-opacity">
             View Details
           </Button>

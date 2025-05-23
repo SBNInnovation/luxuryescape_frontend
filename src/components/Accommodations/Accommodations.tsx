@@ -256,7 +256,7 @@ const Accommodations: React.FC = () => {
               </div>
               <div className="px-4 pt-2 pb-4 flex flex-col h-1/2">
                 <h3
-                  className={`${antic.className} text-primary text-xl font-semibold mb-2`}
+                  className={`${antic.className} text-black text-2xl font-semibold mb-2`}
                 >
                   {hotel.accommodationTitle}
                 </h3>

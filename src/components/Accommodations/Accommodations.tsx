@@ -1,16 +1,23 @@
-"use client";
-import React, { useState, useMemo, useEffect, useRef } from "react";
-import Image from "next/image";
-import { Pagination, Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/react";
-import { motion } from "framer-motion";
-import { FaMapMarkerAlt, FaStar } from "react-icons/fa";
-import { antic } from "@/utility/font";
-import { useQuery } from "@tanstack/react-query";
-import { getAccoms } from "@/services/accom";
-import Loader from "@/shared/Loader";
-import Link from "next/link";
-import { FiChevronDown, FiMapPin } from "react-icons/fi";
-import Affiliates from "@/shared/Affiliates";
+'use client';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
+import Image from 'next/image';
+import {
+  Pagination,
+  Button,
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from '@nextui-org/react';
+import { motion } from 'framer-motion';
+import { FaMapMarkerAlt, FaStar } from 'react-icons/fa';
+import { antic } from '@/utility/font';
+import { useQuery } from '@tanstack/react-query';
+import { getAccoms } from '@/services/accom';
+import Loader from '@/shared/Loader';
+import Link from 'next/link';
+import { FiChevronDown, FiMapPin } from 'react-icons/fi';
+import Affiliates from '@/shared/Affiliates';
 import { generateStars } from '../../utility/generateStars';
 
 export interface Accommodation {
@@ -41,13 +48,14 @@ export interface Room {
 
 const ITEMS_PER_PAGE = 9;
 
-type CountryFilter = "all" | "Nepal" | "Bhutan" | "Tibet";
+type CountryFilter = 'all' | 'Nepal' | 'Bhutan' | 'Tibet';
 
-type StarRatingFilter = "all" | "3" | "4" | "5";
+type StarRatingFilter = 'all' | '4' | '5' | '6';
 
 const Accommodations: React.FC = () => {
-  const [filterCountry, setFilterCountry] = useState<CountryFilter>("all");
-  const [filterStarRating, setFilterStarRating] = useState<StarRatingFilter>("all");
+  const [filterCountry, setFilterCountry] = useState<CountryFilter>('all');
+  const [filterStarRating, setFilterStarRating] =
+    useState<StarRatingFilter>('all');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const firstRef = useRef<HTMLDivElement>(null);
 
@@ -56,17 +64,21 @@ const Accommodations: React.FC = () => {
   }, [filterCountry, filterStarRating]);
 
   const { data: accomData, isLoading } = useQuery({
-    queryKey: ["accommodations", currentPage],
-    queryFn: () => getAccoms(currentPage, ITEMS_PER_PAGE, ""),
+    queryKey: ['accommodations', currentPage],
+    queryFn: () => getAccoms(currentPage, ITEMS_PER_PAGE, ''),
   });
 
   const filteredHotels = useMemo(() => {
     return accomData?.data?.accommodations?.filter((hotel: Accommodation) => {
-      const matchesCountry = filterCountry === "all" || hotel.country.includes(filterCountry);
-      
-      const starRatingNumber = filterStarRating === "all" ? "all" : parseInt(filterStarRating);
-      const matchesStarRating = starRatingNumber === "all" || hotel.accommodationRating === starRatingNumber;
-      
+      const matchesCountry =
+        filterCountry === 'all' || hotel.country.includes(filterCountry);
+
+      const starRatingNumber =
+        filterStarRating === 'all' ? 'all' : parseInt(filterStarRating);
+      const matchesStarRating =
+        starRatingNumber === 'all' ||
+        hotel.accommodationRating === starRatingNumber;
+
       return matchesCountry && matchesStarRating;
     });
   }, [accomData, filterCountry, filterStarRating]);
@@ -76,12 +88,16 @@ const Accommodations: React.FC = () => {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    firstRef?.current?.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+    firstRef?.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+      inline: 'nearest',
+    });
   };
-  
-  const isFiltering = filterCountry !== "all" || filterStarRating !== "all";
-  const totalPages = isFiltering 
-    ? totalFilteredPages 
+
+  const isFiltering = filterCountry !== 'all' || filterStarRating !== 'all';
+  const totalPages = isFiltering
+    ? totalFilteredPages
     : accomData?.data?.pagination?.totalPages || 1;
 
   const paginatedHotels = useMemo(() => {
@@ -94,7 +110,6 @@ const Accommodations: React.FC = () => {
     return filteredHotels;
   }, [filteredHotels, currentPage, isFiltering]);
 
-  
   return (
     <div className="min-h-screen">
       <div className="relative h-[500px] overflow-hidden">
@@ -107,7 +122,10 @@ const Accommodations: React.FC = () => {
           priority
         />
         <div className="absolute inset-0 bg-black/40" />
-        <div ref={firstRef} className="w-full items-center px-8 h-full flex flex-col justify-center absolute inset-0">
+        <div
+          ref={firstRef}
+          className="w-full items-center px-8 h-full flex flex-col justify-center absolute inset-0"
+        >
           <h1
             className={`${antic.className} lg:text-6xl text-4xl font-bold mb-6 text-white leading-tight text-center`}
           >
@@ -121,27 +139,30 @@ const Accommodations: React.FC = () => {
 
       <div className="py-8 w-full lg:px-20 px-4">
         <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-          <h2 className={`${antic.className} text-primary text-3xl font-bold`}>Featured Luxury Accommodations</h2>
-          
+          <h2 className={`${antic.className} text-primary text-3xl font-bold`}>
+            Featured Luxury Accommodations
+          </h2>
+
           <div className="flex flex-wrap gap-4">
-            {/* Country Filter Dropdown */}
+            {/* Star Rating Filter Dropdown */}
             <Dropdown>
               <DropdownTrigger>
-                <Button 
-                  variant="flat" 
-                  endContent={<FiChevronDown />}
-                >
-                  {filterStarRating === "all" ? "All Star Standard" : `${filterStarRating} Star`}
+                <Button variant="flat" endContent={<FiChevronDown />}>
+                  {filterStarRating === 'all'
+                    ? 'All Star Standard'
+                    : filterStarRating === '6'
+                      ? 'Premium 5 Star'
+                      : `${filterStarRating} Star`}
                 </Button>
               </DropdownTrigger>
-              <DropdownMenu 
+              <DropdownMenu
                 aria-label="Star rating options"
                 onAction={(key) => setFilterStarRating(key as StarRatingFilter)}
                 selectedKeys={[filterStarRating.toString()]}
                 selectionMode="single"
               >
                 <DropdownItem key="all">All Star Ratings</DropdownItem>
-                <DropdownItem key="5">
+                <DropdownItem key="6">
                   <div className="flex items-center gap-1">
                     <span>Premium 5 Star</span>
                   </div>
@@ -159,17 +180,18 @@ const Accommodations: React.FC = () => {
               </DropdownMenu>
             </Dropdown>
 
+            {/* Country Filter Dropdown */}
             <Dropdown>
               <DropdownTrigger>
-                <Button 
-                  variant="flat" 
+                <Button
+                  variant="flat"
                   endContent={<FiChevronDown />}
                   startContent={<FiMapPin />}
                 >
-                  {filterCountry === "all" ? "All Countries" : filterCountry}
+                  {filterCountry === 'all' ? 'All Countries' : filterCountry}
                 </Button>
               </DropdownTrigger>
-              <DropdownMenu 
+              <DropdownMenu
                 aria-label="Country options"
                 onAction={(key) => setFilterCountry(key as CountryFilter)}
                 selectedKeys={[filterCountry]}
@@ -181,7 +203,6 @@ const Accommodations: React.FC = () => {
                 <DropdownItem key="Tibet">Tibet</DropdownItem>
               </DropdownMenu>
             </Dropdown>
-                  
           </div>
         </div>
       </div>
@@ -190,7 +211,9 @@ const Accommodations: React.FC = () => {
         {isLoading && <Loader />}
         {!isLoading && (!filteredHotels || filteredHotels.length === 0) && (
           <div className="flex justify-center items-center py-16">
-            <p className="text-lg text-gray-500">No accommodations found for the selected filters.</p>
+            <p className="text-lg text-gray-500">
+              No accommodations found for the selected filters.
+            </p>
           </div>
         )}
         <div className="grid grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 gap-8">
@@ -213,19 +236,27 @@ const Accommodations: React.FC = () => {
                 />
                 <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full">
                   <div className="flex items-center gap-1">
-                    <span className="text-sm font-semibold flex tems-xs gap-1 text-primary">{generateStars(hotel.accommodationRating)}</span>
+                    <span className="text-sm font-semibold flex tems-xs gap-1 text-primary">
+                      {generateStars(hotel.accommodationRating)}
+                    </span>
                   </div>
                 </div>
-                {hotel?.isPremium &&
-                 <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full">
-                  <div className="flex items-center gap-1">
-                    <span className="text-sm font-semibold flex tems-xs gap-1 text-primary">Premium</span>
+                {(hotel?.isPremium || hotel.accommodationRating === 6) && (
+                  <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full">
+                    <div className="flex items-center gap-1">
+                      <span className="text-sm font-semibold flex tems-xs gap-1 text-primary">
+                        Premium
+                      </span>
+                    </div>
                   </div>
-                </div>}
-               
+                )}
               </div>
               <div className="px-4 pt-2 pb-4 flex flex-col h-1/2">
-                <h3 className={`${antic.className} text-primary text-xl font-semibold mb-2`}>{hotel.accommodationTitle}</h3>
+                <h3
+                  className={`${antic.className} text-primary text-xl font-semibold mb-2`}
+                >
+                  {hotel.accommodationTitle}
+                </h3>
                 <div className="flex items-center gap-2 text-gray-600 mb-3">
                   <FaMapMarkerAlt className="w-4 h-4" />
                   <span className="text-sm">{hotel.accommodationLocation}</span>
@@ -235,7 +266,10 @@ const Accommodations: React.FC = () => {
                 </p>
                 <div className="flex items-center justify-end mt-auto">
                   <Link href={`/accommodations/${hotel.slug}`}>
-                    <Button size='sm' className="px-4 bg-primary text-xs text-white rounded-md hover:opacity-90 transition-opacity">
+                    <Button
+                      size="sm"
+                      className="px-4 bg-primary text-xs text-white rounded-md hover:opacity-90 transition-opacity"
+                    >
                       View Details
                     </Button>
                   </Link>
@@ -260,8 +294,7 @@ const Accommodations: React.FC = () => {
         </div>
       )}
       <div className="container mx-auto px-4 pb-8">
-
-        <Affiliates/>
+        <Affiliates />
       </div>
     </div>
   );

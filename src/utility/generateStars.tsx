@@ -1,13 +1,15 @@
-import React from 'react'
-import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa'
+import React from 'react';
+import { FaStar } from 'react-icons/fa';
 
-export const generateStars = (numOfStars:number):any => {
-  const stars:any[]= [];
-  for (let i = 0; i < Math.floor(numOfStars); i++) {
-    stars.push(<FaStar key={i}/>);
+export const generateStars = (numOfStars: number): JSX.Element[] => {
+  const stars: JSX.Element[] = [];
+
+  // Clamp the stars to a maximum of 5
+  const fullStars = Math.min(Math.floor(numOfStars), 5);
+
+  for (let i = 0; i < fullStars; i++) {
+    stars.push(<FaStar key={i} />);
   }
-  if (numOfStars % 1 !== 0) {
-    stars.push(<FaStarHalfAlt key="half" />);
-  }
+
   return stars;
 };

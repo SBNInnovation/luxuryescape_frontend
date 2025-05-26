@@ -84,7 +84,7 @@ const SingleAccommodation: React.FC<props> = ({ id }) => {
               <div className="flex items-center gap-2">
                 <FaGem className="w-4 h-4 text-white drop-shadow-sm" />
                 <span className="text-sm font-bold text-white drop-shadow-sm">
-                  Premium Property
+                  Premium Accommodation
                 </span>
               </div>
             </div>

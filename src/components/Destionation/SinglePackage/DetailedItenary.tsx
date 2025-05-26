@@ -7,6 +7,7 @@ import SharedTitle, { monsterrat } from '@/shared/SharedTitle';
 import Image from 'next/image';
 import { Button, Divider } from '@nextui-org/react';
 import Link from 'next/link';
+import { generateStars } from '@/utility/generateStars';
 
 const DetailedItenary: React.FC<LuxuryPackage> = ({ itinerary }) => {
   const [expanded, setExpanded] = useState<{ [key: number]: boolean }>({});
@@ -94,7 +95,24 @@ const DetailedItenary: React.FC<LuxuryPackage> = ({ itinerary }) => {
                   {item?.hotels.map((hotel: any, hotelIndex: number) => (
                     <section key={hotelIndex}>
                       <Link href={`/accommodations/${hotel.slug}`}>
-                        <div className="flex flex-col gap-4 cursor-pointer mt-8">
+                        <div className="flex flex-col gap-4 cursor-pointer mt-8 relative">
+                          {(hotel?.isPremium ||
+                            hotel.accommodationRating === 6) && (
+                            <div className="absolute top-2 left-2 bg-white px-3 py-1 rounded-full">
+                              <div className="flex items-center gap-1">
+                                <span className="text-xs font-semibold flex tems-xs gap-1 text-primary">
+                                  Premium
+                                </span>
+                              </div>
+                            </div>
+                          )}
+                          <div className="absolute top-2 right-2 bg-white px-3 py-1 rounded-full">
+                            <div className="flex items-center gap-1">
+                              <span className="text-xs font-semibold flex tems-xs gap-1 text-primary">
+                                {generateStars(hotel.accommodationRating)}
+                              </span>
+                            </div>
+                          </div>
                           <div className="h-[180px]">
                             <Image
                               src={

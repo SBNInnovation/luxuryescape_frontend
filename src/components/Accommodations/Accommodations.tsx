@@ -63,28 +63,46 @@ const Accommodations: React.FC = () => {
     setCurrentPage(1);
   }, [filterCountry, filterStarRating]);
 
+  // Fetch ALL accommodations data instead of paginated data
   const { data: accomData, isLoading } = useQuery({
-    queryKey: ['accommodations', currentPage],
-    queryFn: () => getAccoms(currentPage, ITEMS_PER_PAGE, ''),
+    queryKey: ['accommodations'],
+    queryFn: () => getAccoms(1, 1000, ''), // Fetch a large number to get all accommodations
   });
 
   const filteredHotels = useMemo(() => {
-    return accomData?.data?.accommodations?.filter((hotel: Accommodation) => {
+    if (!accomData?.data?.accommodations) return [];
+
+    return accomData.data.accommodations.filter((hotel: Accommodation) => {
       const matchesCountry =
         filterCountry === 'all' || hotel.country.includes(filterCountry);
 
-      const starRatingNumber =
-        filterStarRating === 'all' ? 'all' : parseInt(filterStarRating);
-      const matchesStarRating =
-        starRatingNumber === 'all' ||
-        hotel.accommodationRating === starRatingNumber;
+      // Fixed rating filter logic
+      let matchesStarRating = true;
+      if (filterStarRating !== 'all') {
+        const filterRating = parseInt(filterStarRating);
+        if (filterRating === 6) {
+          // Premium 5 Star - check for rating 6 OR isPremium flag
+          matchesStarRating =
+            hotel.accommodationRating === 6 || hotel.isPremium;
+        } else {
+          // Regular 4 or 5 star ratings
+          matchesStarRating = hotel.accommodationRating === filterRating;
+        }
+      }
 
       return matchesCountry && matchesStarRating;
     });
   }, [accomData, filterCountry, filterStarRating]);
 
-  const totalFilteredItems = filteredHotels?.length || 0;
-  const totalFilteredPages = Math.ceil(totalFilteredItems / ITEMS_PER_PAGE);
+  // Paginate the filtered results
+  const paginatedHotels = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    return filteredHotels.slice(startIndex, endIndex);
+  }, [filteredHotels, currentPage]);
+
+  const totalFilteredItems = filteredHotels.length;
+  const totalPages = Math.ceil(totalFilteredItems / ITEMS_PER_PAGE);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -94,21 +112,6 @@ const Accommodations: React.FC = () => {
       inline: 'nearest',
     });
   };
-
-  const isFiltering = filterCountry !== 'all' || filterStarRating !== 'all';
-  const totalPages = isFiltering
-    ? totalFilteredPages
-    : accomData?.data?.pagination?.totalPages || 1;
-
-  const paginatedHotels = useMemo(() => {
-    if (isFiltering) {
-      return filteredHotels?.slice(
-        (currentPage - 1) * ITEMS_PER_PAGE,
-        currentPage * ITEMS_PER_PAGE
-      );
-    }
-    return filteredHotels;
-  }, [filteredHotels, currentPage, isFiltering]);
 
   return (
     <div className="min-h-screen">
@@ -152,7 +155,7 @@ const Accommodations: React.FC = () => {
                     ? 'All Star Standard'
                     : filterStarRating === '6'
                       ? 'Premium 5 Star'
-                      : `${filterStarRating} Star`}
+                      : `${filterStarRating} Star Standard`}
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
@@ -209,7 +212,7 @@ const Accommodations: React.FC = () => {
 
       <div className="container mx-auto px-4 mb-8">
         {isLoading && <Loader />}
-        {!isLoading && (!filteredHotels || filteredHotels.length === 0) && (
+        {!isLoading && filteredHotels.length === 0 && (
           <div className="flex justify-center items-center py-16">
             <p className="text-lg text-gray-500">
               No accommodations found for the selected filters.

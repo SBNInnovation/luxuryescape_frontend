@@ -14,6 +14,7 @@ import { getTrekBySlug } from '@/services/trek';
 import { saveBookingDetails } from '@/utility/BookingStorageHandler';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { ChevronLeft } from 'lucide-react';
 
 interface props {
   id: string;
@@ -80,6 +81,14 @@ const SingleTrek: React.FC<props> = ({ id }) => {
     <div className="lg:px-20 px-4 lg:my-16 my-4">
       {/* Header Section */}
       <div className="flex flex-col gap-6">
+        <Button
+          onClick={() => router.back()}
+          isIconOnly
+          size="md"
+          className="bg-primary text-white mb-0"
+        >
+          <ChevronLeft size={20} />
+        </Button>
         <h1
           className={`text-primary lg:text-5xl text-3xl tracking-wide ${antic.className}`}
         >

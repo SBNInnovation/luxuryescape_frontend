@@ -17,6 +17,8 @@ import 'slick-carousel/slick/slick-theme.css';
 import { CiLocationOn } from 'react-icons/ci';
 import { settings } from '../Destionation/SinglePackage/TrekHighlights';
 import { generateStars } from '@/utility/generateStars';
+import { ChevronLeft } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 interface props {
   id: string;
@@ -37,10 +39,20 @@ const SingleExplore: React.FC<props> = ({ id }) => {
 
   const activities = singleExplore?.data?.destinations;
 
+  const router = useRouter();
+
   if (isLoading) return <Loader />;
   return (
     <>
       <div className="flex flex-col items-start justify-start lg:px-32 px-4 lg:py-20 py-4 ">
+        <Button
+          onClick={() => router.back()}
+          isIconOnly
+          size="md"
+          className="bg-primary text-white mb-4"
+        >
+          <ChevronLeft size={20} />
+        </Button>
         <h1 className={`${antic.className} lg:text-5xl text-2xl text-primary`}>
           {singleExplore?.data?.title}
         </h1>

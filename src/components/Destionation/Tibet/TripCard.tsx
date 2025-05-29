@@ -34,7 +34,7 @@ const TripCard: React.FC<Tour> = ({
           {slicedDesc}
         </p>
         <div className="flex items-center justify-between gap-4">
-          <p className={`${antic.className} text-xl text-primary`}>
+          <p className={`${antic.className} text-xl text-black`}>
             <span className="text-sm">Starting from</span> ${cost}{' '}
             <span className="text-sm">/ per person</span>
           </p>

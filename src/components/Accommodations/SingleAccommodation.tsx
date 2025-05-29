@@ -18,6 +18,8 @@ import { Button } from '@nextui-org/react';
 import { antic } from '@/utility/font';
 import Link from 'next/link';
 import Affiliates from '@/shared/Affiliates';
+import { ChevronLeft } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 interface props {
   id: string;
@@ -31,6 +33,8 @@ const SingleAccommodation: React.FC<props> = ({ id }) => {
     null
   );
   const [index, setIndex] = useState(0);
+
+  const router = useRouter();
 
   const { data: hotel, isLoading } = useQuery({
     queryKey: ['singleAccommodation', id],
@@ -67,6 +71,14 @@ const SingleAccommodation: React.FC<props> = ({ id }) => {
   return (
     <div className="py-12 lg:space-y-12 space-y-6 lg:px-32 px-4">
       {/* Main Image and Gallery */}
+      <Button
+        onClick={() => router.back()}
+        isIconOnly
+        size="md"
+        className="bg-primary text-white mb-0"
+      >
+        <ChevronLeft size={20} />
+      </Button>
       <div className="space-y-4">
         {/* Main Selected Image */}
         <div className="relative lg:h-[600px] h-[300px] rounded-lg overflow-hidden">

@@ -7,6 +7,7 @@ import { FaFacebookF, FaInstagram } from 'react-icons/fa';
 import { FaXTwitter } from 'react-icons/fa6';
 import Image from 'next/image';
 import { antic } from '@/utility/font';
+import { getContactData } from '@/services/form';
 
 export const getAffiliates = async () => {
   try {
@@ -24,6 +25,17 @@ const Footer = () => {
     queryKey: ['data-intl'],
     queryFn: () => getAffiliates(),
   });
+
+  const { data: contactData } = useQuery({
+    queryKey: ['contact'],
+    queryFn: () => getContactData(),
+  });
+
+  const getDate = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    return year;
+  };
 
   const nationalData = affiliatesData?.affiliates?.filter(
     (item: any) => item.type === 'national'
@@ -127,37 +139,47 @@ const Footer = () => {
                   About
                 </Link>
               </li>
-              <li>
-                <Link href="blogs" className="hover:underline me-4 md:me-6">
-                  Blogs
-                </Link>
-              </li>
             </ul>
-            <section className="flex gap-4">
-              <Button
-                isIconOnly
-                className="h-10 w-10 border border-gray-200 hover:border-primary bg-white text-primary hpver:border-primary p-2 rounded-full flex items-center justify-center hover:bg-primary transition duration-300 hover:text-white"
+            <section className="hidden md:flex gap-4">
+              <Link
+                href={contactData?.data?.facebookLink || '#'}
+                target="_blank"
               >
-                <FaFacebookF size={20} />
-              </Button>
-              <Button
-                isIconOnly
-                className="h-10 w-10 border border-gray-200 hover:border-primary bg-white text-primary hpver:border-primary p-2 rounded-full flex items-center justify-center hover:bg-primary transition duration-300 hover:text-white"
+                <Button
+                  isIconOnly
+                  className="h-10 w-10 border border-gray-200 hover:border-primary bg-white text-primary p-2 rounded-full flex items-center justify-center hover:bg-primary transition duration-300 hover:text-white"
+                >
+                  <FaFacebookF size={20} />
+                </Button>
+              </Link>
+              <Link
+                href={contactData?.data?.instagramLink || '#'}
+                target="_blank"
               >
-                <FaInstagram size={20} />
-              </Button>
-              <Button
-                isIconOnly
-                className="h-10 w-10 border border-gray-200 hover:border-primary bg-white text-primary hpver:border-primary p-2 rounded-full flex items-center justify-center hover:bg-primary transition duration-300 hover:text-white"
+                <Button
+                  isIconOnly
+                  className="h-10 w-10 border border-gray-200 hover:border-primary bg-white text-primary p-2 rounded-full flex items-center justify-center hover:bg-primary transition duration-300 hover:text-white"
+                >
+                  <FaInstagram size={20} />
+                </Button>
+              </Link>
+              <Link
+                href={contactData?.data?.twitterLink || '#'}
+                target="_blank"
               >
-                <FaXTwitter size={20} />
-              </Button>
+                <Button
+                  isIconOnly
+                  className="h-10 w-10 border border-gray-200 bg-white text-primary hover:border-primary p-2 rounded-full flex items-center justify-center hover:bg-primary transition duration-300 hover:text-white"
+                >
+                  <FaXTwitter size={20} />
+                </Button>
+              </Link>
             </section>
           </div>
           <hr className="my-6 border-gray-700 sm:mx-auto lg:my-8" />
           <div className="flex justify-start items-center">
             <span className="block text-sm  sm:text-center ">
-              © 2023{' '}
+              ©{getDate()}{' '}
               <Link href="/" className="hover:underline">
                 Nepal Luxury Escapes™
               </Link>

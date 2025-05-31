@@ -164,11 +164,11 @@ export default function CheckoutPage() {
       case 'Four Star':
         return 0;
       case 'Five Star':
-        return bookingDetails.standardFiveStar;
+        return bookingDetails.standardFiveStar!;
       case 'Premium Five Star':
-        return bookingDetails.standardPremiumFiveStar;
+        return bookingDetails.standardPremiumFiveStar!;
       default:
-        return bookingDetails.standardFourStar;
+        return bookingDetails.standardFourStar!;
     }
   };
 
@@ -181,13 +181,13 @@ export default function CheckoutPage() {
       let costPerRoom = 0;
       switch (config.supplementaryRoomType) {
         case 'Four Star':
-          costPerRoom = bookingDetails.singleSupplementaryFourStar;
+          costPerRoom = bookingDetails.singleSupplementaryFourStar!;
           break;
         case 'Five Star':
-          costPerRoom = bookingDetails.singleSupplementaryFiveStar;
+          costPerRoom = bookingDetails.singleSupplementaryFiveStar!;
           break;
         case 'Premium Five Star':
-          costPerRoom = bookingDetails.singleSupplementaryPremiumFiveStar;
+          costPerRoom = bookingDetails.singleSupplementaryPremiumFiveStar!;
           break;
         default:
           costPerRoom = 0;
@@ -204,13 +204,13 @@ export default function CheckoutPage() {
 
     switch (accommodationType) {
       case 'Four Star':
-        return bookingDetails.soloFourStar;
+        return bookingDetails.soloFourStar!;
       case 'Five Star':
-        return bookingDetails.soloFiveStar;
+        return bookingDetails.soloFiveStar!;
       case 'Premium Five Star':
-        return bookingDetails.soloPremiumFiveStar;
+        return bookingDetails.soloPremiumFiveStar!;
       default:
-        return bookingDetails.solo;
+        return bookingDetails.solo!;
     }
   };
 

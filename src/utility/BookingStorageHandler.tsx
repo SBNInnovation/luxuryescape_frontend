@@ -17,16 +17,16 @@ export interface BookingDetails {
   quantity?: number;
 
   // Additional fields from API bookingDetails
-  singleSupplementaryPremiumFiveStar: number;
-  singleSupplementaryFourStar: number;
-  singleSupplementaryFiveStar: number;
-  solo: number;
-  soloPremiumFiveStar: number;
-  soloFourStar: number;
-  soloFiveStar: number;
-  standardPremiumFiveStar: number;
-  standardFourStar: number;
-  standardFiveStar: number;
+  singleSupplementaryPremiumFiveStar?: number;
+  singleSupplementaryFourStar?: number;
+  singleSupplementaryFiveStar?: number;
+  solo?: number;
+  soloPremiumFiveStar?: number;
+  soloFourStar?: number;
+  soloFiveStar?: number;
+  standardPremiumFiveStar?: number;
+  standardFourStar?: number;
+  standardFiveStar?: number;
 }
 
 export const saveBookingDetails = (details: BookingDetails): void => {

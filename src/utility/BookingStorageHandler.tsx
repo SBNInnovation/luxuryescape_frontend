@@ -5,16 +5,28 @@ export interface BookingDetails {
   email?: string;
   phone?: string;
   address?: string;
-  
-  adventureType:string|undefined
-  adventureName:string|undefined
-  adventureSlug:string|undefined
-  adventureId:string|undefined
-  
+
+  adventureType: string | undefined;
+  adventureName: string | undefined;
+  adventureSlug: string | undefined;
+  adventureId: string | undefined;
+
   bookingDate?: string;
   price?: number;
-  totalPrice?: number;          
-  quantity?: number;      
+  totalPrice?: number;
+  quantity?: number;
+
+  // Additional fields from API bookingDetails
+  singleSupplementaryPremiumFiveStar: number;
+  singleSupplementaryFourStar: number;
+  singleSupplementaryFiveStar: number;
+  solo: number;
+  soloPremiumFiveStar: number;
+  soloFourStar: number;
+  soloFiveStar: number;
+  standardPremiumFiveStar: number;
+  standardFourStar: number;
+  standardFiveStar: number;
 }
 
 export const saveBookingDetails = (details: BookingDetails): void => {

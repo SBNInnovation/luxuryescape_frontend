@@ -1,21 +1,46 @@
-"use client";
+'use client';
 import React, { useState, useEffect } from 'react';
-import { Card, CardBody, CardHeader } from "@nextui-org/card";
-import { Input } from "@nextui-org/input";
-import { Button } from "@nextui-org/button";
-import { Divider } from "@nextui-org/divider";
+import { Card, CardBody, CardHeader } from '@nextui-org/card';
+import { Input } from '@nextui-org/input';
+import { Button } from '@nextui-org/button';
+import { Divider } from '@nextui-org/divider';
 import { FiUser, FiCalendar, FiMinus, FiPlus } from 'react-icons/fi';
 import { MdMail } from 'react-icons/md';
 import { FaPhone } from 'react-icons/fa';
 import { CiLocationOn } from 'react-icons/ci';
 import { useRouter } from 'next/navigation';
-import { BookingDetails, clearBookingDetails, getBookingDetails } from '@/utility/BookingStorageHandler';
+import {
+  BookingDetails,
+  clearBookingDetails,
+  getBookingDetails,
+} from '@/utility/BookingStorageHandler';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import Loader from '@/shared/Loader';
 import { toast } from 'sonner';
 import { createBookingCheckout } from '@/services/checkout';
-import { Autocomplete, AutocompleteItem, DatePicker, Checkbox, Radio, RadioGroup } from '@nextui-org/react';
+import {
+  Autocomplete,
+  AutocompleteItem,
+  DatePicker,
+  Radio,
+  RadioGroup,
+  Select,
+  SelectItem,
+} from '@nextui-org/react';
 import { CalendarDate } from '@internationalized/date';
+
+// Define accommodation types based on API response
+type AccommodationType =
+  | 'Standard'
+  | 'Four Star'
+  | 'Five Star'
+  | 'Premium Five Star';
+
+// Define supplementary room configuration
+interface SupplementaryConfig {
+  numberOfSupplementaryRooms: number;
+  supplementaryRoomType: AccommodationType;
+}
 
 interface FormData {
   fullName: string;
@@ -24,14 +49,13 @@ interface FormData {
   address: string;
 }
 
-// Define accommodation types
-type AccommodationType = "Standard" | "5 Star" | "Luxury" | "Ultra Luxury";
-
 export default function CheckoutPage() {
   const router = useRouter();
-  const [bookingDetails, setBookingDetails] = useState<BookingDetails | null>(null);
+  const [bookingDetails, setBookingDetails] = useState<BookingDetails | null>(
+    null
+  );
   const [loading, setLoading] = useState(true);
-  const [country, setCountry] = useState<string>('');                               
+  const [country, setCountry] = useState<string>('');
   const [errors, setErrors] = useState<Partial<FormData>>({});
   const [formData, setFormData] = useState<FormData>({
     fullName: '',
@@ -42,55 +66,47 @@ export default function CheckoutPage() {
 
   // State for selected date
   const [selectedDate, setSelectedDate] = useState<CalendarDate | null>(null);
-  
-  // State for accommodation type
-  const [accommodationType, setAccommodationType] = useState<AccommodationType>("Standard");
-  
-  // State for single supplementary room
-  const [singleSupplementary, setSingleSupplementary] = useState<boolean>(false);
-  
-  // Accommodation prices (additional costs per person)
-  const accommodationPrices = {
-    "Standard": 0, // No additional cost for standard
-    "5 Star": 50,
-    "Luxury": 100,
-    "Ultra Luxury": 200
-  };
-  
-  // Single supplementary room cost (flat fee)
-  const singleSupplementaryCost = 75;
 
-  const { data: countries, isLoading } = useQuery({
-          queryKey: ["countries"],
-          queryFn: async () => {
-              const response = await fetch("https://restcountries.com/v3.1/all");
-              const data = await response.json();
-              return data.map((country: any) => country.name.common);
-          },
-      });
+  // State for accommodation type
+  const [accommodationType, setAccommodationType] =
+    useState<AccommodationType>('Four Star');
+
+  // State for multiple supplementary room configurations
+  const [supplementaryConfigs, setSupplementaryConfigs] = useState<
+    SupplementaryConfig[]
+  >([]);
+
+  const { data: countries, isLoading: isCountriesLoading } = useQuery({
+    queryKey: ['countries'],
+    queryFn: async () => {
+      const response = await fetch('https://restcountries.com/v3.1/all');
+      const data = await response.json();
+      return data.map((country: any) => country.name.common);
+    },
+  });
 
   const onSelectionChange = (key: React.Key | null) => {
-          if (key) {
-              setCountry(String(key));
-          }
-      };
+    if (key) {
+      setCountry(String(key));
+    }
+  };
 
-  const {mutate:checkoutMutation}=useMutation({
-    mutationFn:(data:any)=>createBookingCheckout(data), //eslint-disable-line @typescript-eslint/no-explicit-any
-    onSuccess:()=>{
-      toast.success('Your booking has been submitted successfully.')
+  const { mutate: checkoutMutation } = useMutation({
+    mutationFn: (data: any) => createBookingCheckout(data),
+    onSuccess: () => {
+      toast.success('Your booking has been submitted successfully.');
       setFormData({
         fullName: '',
         email: '',
         phone: '',
-        address: '',       
-      })
+        address: '',
+      });
       clearBookingDetails();
-      router.push('/')
+      router.push('/');
     },
-    onError:()=>{
-      toast.error('Failed to submit your booking.')
-    } 
+    onError: () => {
+      toast.error('Failed to submit your booking.');
+    },
   });
 
   const dateToCalendarDate = (date: Date): CalendarDate => {
@@ -110,17 +126,23 @@ export default function CheckoutPage() {
   };
 
   useEffect(() => {
-    const loadBookingDetails = () => {
+    const loadBookingDetails = async () => {
       const details = getBookingDetails();
       setBookingDetails(details);
-      if (details && details.bookingDate) {
-        const bookingDate = new Date(details.bookingDate);
-        setSelectedDate(dateToCalendarDate(bookingDate));
+
+      if (details) {
+        if (details.bookingDate) {
+          const bookingDate = new Date(details.bookingDate);
+          setSelectedDate(dateToCalendarDate(bookingDate));
+        }
+
+        // Initialize supplementary configs as empty
+        setSupplementaryConfigs([]);
       }
       setLoading(false);
     };
-    
-    setTimeout(loadBookingDetails, 0);
+
+    loadBookingDetails();
   }, []);
 
   useEffect(() => {
@@ -134,10 +156,66 @@ export default function CheckoutPage() {
     }
   }, [selectedDate]);
 
+  // Get accommodation upgrade cost per person
+  const getAccommodationUpgradeCost = (): number => {
+    if (!bookingDetails) return 0;
+
+    switch (accommodationType) {
+      case 'Four Star':
+        return 0;
+      case 'Five Star':
+        return bookingDetails.standardFiveStar;
+      case 'Premium Five Star':
+        return bookingDetails.standardPremiumFiveStar;
+      default:
+        return bookingDetails.standardFourStar;
+    }
+  };
+
+  // Get supplementary room cost for all configurations
+  const getSupplementaryRoomCost = (): number => {
+    if (!bookingDetails || supplementaryConfigs.length === 0) return 0;
+
+    let totalCost = 0;
+    supplementaryConfigs.forEach((config) => {
+      let costPerRoom = 0;
+      switch (config.supplementaryRoomType) {
+        case 'Four Star':
+          costPerRoom = bookingDetails.singleSupplementaryFourStar;
+          break;
+        case 'Five Star':
+          costPerRoom = bookingDetails.singleSupplementaryFiveStar;
+          break;
+        case 'Premium Five Star':
+          costPerRoom = bookingDetails.singleSupplementaryPremiumFiveStar;
+          break;
+        default:
+          costPerRoom = 0;
+      }
+      totalCost += costPerRoom * config.numberOfSupplementaryRooms;
+    });
+
+    return totalCost;
+  };
+
+  // Get solo traveler cost
+  const getSoloTravelerCost = (): number => {
+    if (!bookingDetails || bookingDetails.quantity !== 1) return 0;
+
+    switch (accommodationType) {
+      case 'Four Star':
+        return bookingDetails.soloFourStar;
+      case 'Five Star':
+        return bookingDetails.soloFiveStar;
+      case 'Premium Five Star':
+        return bookingDetails.soloPremiumFiveStar;
+      default:
+        return bookingDetails.solo;
+    }
+  };
+
   if (loading) {
-    return (
-      <Loader/>
-    );
+    return <Loader />;
   }
 
   if (!bookingDetails) {
@@ -145,8 +223,13 @@ export default function CheckoutPage() {
       <div className="flex min-h-screen items-center justify-center">
         <Card>
           <CardBody>
-            <p className="mb-4">No booking details found. Please return to the trek or tour page and try booking again.</p>
-            <Button color="primary" onPress={() => router.push('/')}>Return to Home</Button>
+            <p className="mb-4">
+              No booking details found. Please return to the trek or tour page
+              and try booking again.
+            </p>
+            <Button color="primary" onPress={() => router.push('/')}>
+              Return to Home
+            </Button>
           </CardBody>
         </Card>
       </div>
@@ -182,74 +265,126 @@ export default function CheckoutPage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
-    
+
     if (errors[name as keyof FormData]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [name]: undefined
+        [name]: undefined,
       }));
     }
   };
 
   const handleQuantityChange = (increment: boolean) => {
     if (!bookingDetails) return;
-    
-    let newQuantity = increment ? bookingDetails.quantity! + 1 : bookingDetails.quantity! - 1;
-    
+
+    let newQuantity = increment
+      ? bookingDetails.quantity! + 1
+      : bookingDetails.quantity! - 1;
+
     newQuantity = Math.max(1, newQuantity);
-    
+
     const updatedDetails = {
       ...bookingDetails,
       quantity: newQuantity,
-      totalPrice: newQuantity * bookingDetails.price!
+      totalPrice: newQuantity * bookingDetails.price!,
     };
-    
+
     setBookingDetails(updatedDetails);
-    
-    // If quantity becomes 1, disable single supplementary option
-    if (newQuantity === 1) {
-      setSingleSupplementary(false);
-    }
+
+    // Reset supplementary configs when quantity changes
+    setSupplementaryConfigs([]);
   };
 
   // Handle date change from DatePicker
   const handleDateChange = (date: CalendarDate | null) => {
     setSelectedDate(date);
   };
-  
-  // Calculate the total price including accommodation upgrades and supplements
+
+  // Calculate the total price including all upgrades and supplements
   const calculateTotalPrice = (): number => {
     if (!bookingDetails) return 0;
-    
+
     // Base price
     let total = bookingDetails.quantity! * bookingDetails.price!;
-    
-    // Add accommodation upgrade costs
-    total += bookingDetails.quantity! * accommodationPrices[accommodationType];
-    
-    // Add single supplementary room cost if selected
-    if (singleSupplementary && bookingDetails.quantity! > 1) {
-      total += singleSupplementaryCost;
-    }
-    
+
+    // Add accommodation upgrade costs (per person)
+    total += bookingDetails.quantity! * getAccommodationUpgradeCost();
+
+    // Add supplementary room costs
+    total += getSupplementaryRoomCost();
+
+    // Add solo traveler cost if applicable
+    total += getSoloTravelerCost();
+
     return total;
+  };
+
+  // Handle supplementary room number change for a specific index
+  const handleSupplementaryRoomChange = (index: number, value: string) => {
+    const numberOfRooms = parseInt(value);
+    const newConfigs = [...supplementaryConfigs];
+    newConfigs[index] = {
+      ...newConfigs[index],
+      numberOfSupplementaryRooms: numberOfRooms,
+    };
+    setSupplementaryConfigs(newConfigs);
+  };
+
+  // Handle supplementary room type change for a specific index
+  const handleSupplementaryRoomTypeChange = (
+    index: number,
+    value: AccommodationType
+  ) => {
+    const newConfigs = [...supplementaryConfigs];
+    newConfigs[index] = {
+      ...newConfigs[index],
+      supplementaryRoomType: value,
+    };
+    setSupplementaryConfigs(newConfigs);
+  };
+
+  // Calculate remaining people after accounting for current supplementary rooms
+  const getRemainingPeople = () => {
+    if (!bookingDetails) return 0;
+    const totalSupplementaryRooms = supplementaryConfigs.reduce(
+      (sum, config) => sum + config.numberOfSupplementaryRooms,
+      0
+    );
+    return bookingDetails.quantity! - totalSupplementaryRooms;
+  };
+
+  // Generate supplementary room options based on remaining people
+  const getSupplementaryRoomOptions = (remainingPeople: number) => {
+    if (!bookingDetails || remainingPeople < 1) return [];
+
+    const options = [];
+    for (let i = 0; i <= remainingPeople; i++) {
+      options.push({
+        value: i.toString(),
+        label:
+          i === 0
+            ? 'No supplementary rooms'
+            : `${i} supplementary room${i > 1 ? 's' : ''}`,
+      });
+    }
+    return options;
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
-    
+
     const jsDate = selectedDate ? calendarDateToDate(selectedDate) : null;
 
     const finalTotalPrice = calculateTotalPrice();
-    
+
     // Prepare data for the POST request
     const checkoutData = {
       ...formData,
@@ -262,33 +397,121 @@ export default function CheckoutPage() {
       country: country,
       bookingDate: jsDate?.toISOString().split('T')[0],
       accommodationType: accommodationType,
-      singleSupplementary: singleSupplementary,
+      supplementaryConfigs: supplementaryConfigs, // Send all configurations
     };
 
-    if(!country || country === ''){
+    if (!country || country === '') {
       toast.error('Please select a country');
       return;
     }
-    
+
     checkoutMutation(checkoutData);
   };
 
   const today = dateToCalendarDate(new Date());
 
+  // Render supplementary room selection recursively
+  const renderSupplementarySection = (
+    index: number,
+    remainingPeople: number
+  ) => {
+    if (remainingPeople < 1) return null;
+
+    const currentConfig = supplementaryConfigs[index] || {
+      numberOfSupplementaryRooms: 0,
+      supplementaryRoomType: 'Four Star',
+    };
+
+    return (
+      <div key={index} className="space-y-3 border-l-2 pl-4 ml-2">
+        <Select
+          label={`Number of supplementary rooms (Set ${index + 1})`}
+          placeholder="Select number of supplementary rooms"
+          selectedKeys={[currentConfig.numberOfSupplementaryRooms.toString()]}
+          onSelectionChange={(keys) => {
+            const selectedKey = Array.from(keys)[0] as string;
+            if (selectedKey) {
+              handleSupplementaryRoomChange(index, selectedKey);
+            }
+          }}
+          className="max-w-sm"
+        >
+          {getSupplementaryRoomOptions(remainingPeople).map((option) => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+        </Select>
+
+        {currentConfig.numberOfSupplementaryRooms > 0 && (
+          <div className="space-y-2">
+            <label className="text-sm font-medium">
+              Supplementary Room Type (Set {index + 1})
+            </label>
+            <RadioGroup
+              value={currentConfig.supplementaryRoomType}
+              onValueChange={(value) =>
+                handleSupplementaryRoomTypeChange(
+                  index,
+                  value as AccommodationType
+                )
+              }
+            >
+              <Radio value="Four Star">
+                Four Star (${bookingDetails?.singleSupplementaryFourStar || 0})
+              </Radio>
+              <Radio value="Five Star">
+                Five Star (${bookingDetails?.singleSupplementaryFiveStar || 0})
+              </Radio>
+              <Radio value="Premium Five Star">
+                Premium Five Star ($
+                {bookingDetails?.singleSupplementaryPremiumFiveStar || 0})
+              </Radio>
+            </RadioGroup>
+
+            <p className="text-xs text-gray-500">
+              Cost for this set: $
+              {(bookingDetails?.singleSupplementaryFourStar || 0) *
+                (currentConfig.supplementaryRoomType === 'Four Star'
+                  ? currentConfig.numberOfSupplementaryRooms
+                  : 0) +
+                (bookingDetails?.singleSupplementaryFiveStar || 0) *
+                  (currentConfig.supplementaryRoomType === 'Five Star'
+                    ? currentConfig.numberOfSupplementaryRooms
+                    : 0) +
+                (bookingDetails?.singleSupplementaryPremiumFiveStar || 0) *
+                  (currentConfig.supplementaryRoomType === 'Premium Five Star'
+                    ? currentConfig.numberOfSupplementaryRooms
+                    : 0)}
+            </p>
+          </div>
+        )}
+
+        {currentConfig.numberOfSupplementaryRooms > 0 &&
+          renderSupplementarySection(
+            index + 1,
+            remainingPeople - currentConfig.numberOfSupplementaryRooms
+          )}
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl font-bold mb-8">Checkout</h1>
-        
+
         <form
           className="grid grid-cols-1 md:grid-cols-2 gap-8"
           onSubmit={handleSubmit}
         >
           <div className="space-y-6">
-            <Card className='px-4 py-4'>
+            <Card className="px-4 py-4">
               <CardHeader className="flex flex-col gap-1">
                 <h4 className="text-xl font-bold">Customer Information</h4>
-                <p className="text-sm text-gray-500">Please enter your details</p>
+                <p className="text-sm text-gray-500">
+                  Please enter your details
+                </p>
               </CardHeader>
               <CardBody className="space-y-4">
                 <Input
@@ -301,7 +524,7 @@ export default function CheckoutPage() {
                   isInvalid={!!errors.fullName}
                   startContent={<FiUser className="text-gray-400" size={16} />}
                 />
-                
+
                 <Input
                   label="Email"
                   name="email"
@@ -333,7 +556,9 @@ export default function CheckoutPage() {
                   onChange={handleInputChange}
                   errorMessage={errors.address}
                   isInvalid={!!errors.address}
-                  startContent={<CiLocationOn className="text-gray-400" size={16} />}
+                  startContent={
+                    <CiLocationOn className="text-gray-400" size={16} />
+                  }
                 />
 
                 <div className="flex flex-col gap-2 sm:col-span-2">
@@ -343,12 +568,12 @@ export default function CheckoutPage() {
                     label="Select a country"
                     radius="none"
                     isClearable={false}
-                    className='max-w-sm'
+                    className="max-w-sm"
                     value={country}
                     selectedKey={country || undefined}
                     onSelectionChange={onSelectionChange}
                   >
-                    {!isLoading &&
+                    {!isCountriesLoading &&
                       countries?.map((country: string) => (
                         <AutocompleteItem key={country} value={country}>
                           {country}
@@ -359,23 +584,27 @@ export default function CheckoutPage() {
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Booking Date</label>
-                  <DatePicker 
+                  <DatePicker
                     label="Select your booking date"
                     value={selectedDate}
                     onChange={handleDateChange}
                     minValue={today}
                     classNames={{
-                      base: "w-full",
-                      input: "text-small",
+                      base: 'w-full',
+                      input: 'text-small',
                     }}
-                    startContent={<FiCalendar className="text-gray-400" size={16} />}
+                    startContent={
+                      <FiCalendar className="text-gray-400" size={16} />
+                    }
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">Number of Persons</label>
+                  <label className="text-sm font-medium">
+                    Number of Persons
+                  </label>
                   <div className="flex items-center">
-                    <Button 
+                    <Button
                       isIconOnly
                       variant="bordered"
                       aria-label="Decrease quantity"
@@ -385,7 +614,9 @@ export default function CheckoutPage() {
                       <FiMinus size={16} />
                     </Button>
                     <div className="w-16 text-center">
-                      <span className="text-lg font-medium">{bookingDetails.quantity}</span>
+                      <span className="text-lg font-medium">
+                        {bookingDetails.quantity}
+                      </span>
                     </div>
                     <Button
                       isIconOnly
@@ -397,32 +628,74 @@ export default function CheckoutPage() {
                     </Button>
                   </div>
                 </div>
-                
+
                 {/* Accommodation Options */}
                 <div className="space-y-3">
-                  <label className="text-sm font-medium">Accommodation Type</label>
+                  <label className="text-sm font-medium">
+                    Accommodation Type
+                  </label>
                   <RadioGroup
                     value={accommodationType}
-                    onValueChange={(value) => setAccommodationType(value as AccommodationType)}
+                    onValueChange={(value) =>
+                      setAccommodationType(value as AccommodationType)
+                    }
                   >
-                    <Radio value="Standard">Standard (Included)</Radio>
-                    <Radio value="5 Star">5 Star (+${accommodationPrices["5 Star"]} per person)</Radio>
-                    <Radio value="Luxury">Luxury (+${accommodationPrices["Luxury"]} per person)</Radio>
-                    <Radio value="Ultra Luxury">Ultra Luxury (+${accommodationPrices["Ultra Luxury"]} per person)</Radio>
+                    <Radio value="Four Star">
+                      Four Star (${bookingDetails?.standardFourStar || 0})
+                    </Radio>
+                    <Radio value="Five Star">
+                      Five Star (${bookingDetails?.standardFiveStar || 0})
+                    </Radio>
+                    <Radio value="Premium Five Star">
+                      Premium Five Star ($
+                      {bookingDetails?.standardPremiumFiveStar || 0})
+                    </Radio>
                   </RadioGroup>
                 </div>
-                
-                {/* Single Supplementary Option - only show if more than 1 person */}
-                {bookingDetails.quantity! > 1 && (
-                  <div className="space-y-2">
-                    <Checkbox
-                      isSelected={singleSupplementary}
-                      onValueChange={setSingleSupplementary}
-                    >
-                      Add Single Supplementary Room (+${singleSupplementaryCost})
-                    </Checkbox>
-                    <p className="text-xs text-gray-500 ml-6">
-                      Get a private room for one person in your group
+
+                {/* Supplementary Room Selection */}
+                {bookingDetails.quantity! >= 2 && (
+                  <div className="space-y-3">
+                    <label className="text-sm font-medium">
+                      Supplementary Rooms
+                    </label>
+
+                    {bookingDetails.quantity === 3 && (
+                      <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                        <p className="text-sm text-blue-700">
+                          <strong>Note:</strong> For 3 people, you can assign
+                          supplementary rooms for up to 3 people, with each set
+                          having its own room type.
+                        </p>
+                      </div>
+                    )}
+
+                    {bookingDetails.quantity! >= 2 && (
+                      <div className="space-y-2">
+                        {renderSupplementarySection(
+                          0,
+                          bookingDetails.quantity!
+                        )}
+                      </div>
+                    )}
+
+                    {supplementaryConfigs.length > 0 && (
+                      <div className="p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                        <p className="text-sm text-gray-700">
+                          <strong>Total supplementary room cost:</strong> $
+                          {getSupplementaryRoomCost()}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Solo Traveler Information */}
+                {bookingDetails.quantity === 1 && (
+                  <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                    <p className="text-sm text-yellow-700">
+                      <strong>Solo Traveler:</strong> Additional cost of $
+                      {getSoloTravelerCost()} applies for single occupancy.
                     </p>
                   </div>
                 )}
@@ -434,42 +707,111 @@ export default function CheckoutPage() {
             <Card className="sticky top-8 px-4 py-4">
               <CardHeader className="flex flex-col gap-1">
                 <h4 className="text-xl font-bold">Order Summary</h4>
-                <p className="text-sm text-gray-500">Review your booking details</p>
+                <p className="text-sm text-gray-500">
+                  Review your booking details
+                </p>
               </CardHeader>
               <CardBody className="space-y-4">
                 <div>
-                  <h3 className="text-xl font-semibold">{bookingDetails.adventureName}</h3>
-                  <p className="text-gray-600">Booking Type: {bookingDetails.adventureType === 'Trekking' ? 'Trek' : 'Tour'}</p>
-                  <p className="text-gray-600">Booking Date: {bookingDetails.bookingDate ? formatDate(bookingDetails.bookingDate) : 'Select a date'}</p>
-                  <p className="text-gray-600">Number of Persons: {bookingDetails.quantity}</p>
-                  <p className="text-gray-600">Accommodation: {accommodationType}</p>
-                  {singleSupplementary && bookingDetails.quantity! > 1 && (
-                    <p className="text-gray-600">Single Supplementary Room: Yes</p>
+                  <h3 className="text-xl font-semibold">
+                    {bookingDetails.adventureName}
+                  </h3>
+                  <p className="text-gray-600">
+                    Booking Type:{' '}
+                    {bookingDetails.adventureType === 'Trekking'
+                      ? 'Trek'
+                      : 'Tour'}
+                  </p>
+                  <p className="text-gray-600">
+                    Booking Date:{' '}
+                    {bookingDetails.bookingDate
+                      ? formatDate(bookingDetails.bookingDate)
+                      : 'Select a date'}
+                  </p>
+                  <p className="text-gray-600">
+                    Number of Persons: {bookingDetails.quantity}
+                  </p>
+                  <p className="text-gray-600">
+                    Accommodation: {accommodationType}
+                  </p>
+                  {supplementaryConfigs.map(
+                    (config, index) =>
+                      config.numberOfSupplementaryRooms > 0 && (
+                        <p key={index} className="text-gray-600">
+                          Supplementary Rooms (Set {index + 1}):{' '}
+                          {config.numberOfSupplementaryRooms} (
+                          {config.supplementaryRoomType})
+                        </p>
+                      )
                   )}
                 </div>
 
                 <Divider />
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span>Base Price ({bookingDetails.quantity} x ${bookingDetails.price})</span>
-                    <span>${bookingDetails.quantity! * bookingDetails.price!}</span>
+                    <span>
+                      Base Price ({bookingDetails.quantity} x $
+                      {bookingDetails.price})
+                    </span>
+                    <span>
+                      ${bookingDetails.quantity! * bookingDetails.price!}
+                    </span>
                   </div>
-                  
-                  {/* Show accommodation costs if not standard */}
-                  {accommodationType !== "Standard" && (
+
+                  {accommodationType !== 'Four Star' && (
                     <div className="flex justify-between">
-                      <span>{accommodationType} Accommodation ({bookingDetails.quantity} x ${accommodationPrices[accommodationType]})</span>
-                      <span>+${bookingDetails.quantity! * accommodationPrices[accommodationType]}</span>
+                      <span>
+                        {accommodationType} Accommodation (
+                        {bookingDetails.quantity} x $
+                        {getAccommodationUpgradeCost()})
+                      </span>
+                      <span>
+                        +$
+                        {bookingDetails.quantity! *
+                          getAccommodationUpgradeCost()}
+                      </span>
                     </div>
                   )}
-                  
-                  {/* Show single supplementary cost if selected */}
-                  {singleSupplementary && bookingDetails.quantity! > 1 && (
-                    <div className="flex justify-between">
-                      <span>Single Supplementary Room</span>
-                      <span>+${singleSupplementaryCost}</span>
-                    </div>
+
+                  {supplementaryConfigs.map(
+                    (config, index) =>
+                      config.numberOfSupplementaryRooms > 0 && (
+                        <div key={index} className="flex justify-between">
+                          <span>
+                            Supplementary Rooms (Set {index + 1}) (
+                            {config.numberOfSupplementaryRooms} x{' '}
+                            {config.supplementaryRoomType})
+                          </span>
+                          <span>
+                            +$
+                            {(bookingDetails?.singleSupplementaryFourStar ||
+                              0) *
+                              (config.supplementaryRoomType === 'Four Star'
+                                ? config.numberOfSupplementaryRooms
+                                : 0) +
+                              (bookingDetails?.singleSupplementaryFiveStar ||
+                                0) *
+                                (config.supplementaryRoomType === 'Five Star'
+                                  ? config.numberOfSupplementaryRooms
+                                  : 0) +
+                              (bookingDetails?.singleSupplementaryPremiumFiveStar ||
+                                0) *
+                                (config.supplementaryRoomType ===
+                                'Premium Five Star'
+                                  ? config.numberOfSupplementaryRooms
+                                  : 0)}
+                          </span>
+                        </div>
+                      )
                   )}
+
+                  {bookingDetails.quantity === 1 &&
+                    getSoloTravelerCost() > 0 && (
+                      <div className="flex justify-between">
+                        <span>Solo Traveler Supplement</span>
+                        <span>+${getSoloTravelerCost()}</span>
+                      </div>
+                    )}
                 </div>
 
                 <Divider />
@@ -479,7 +821,7 @@ export default function CheckoutPage() {
                   <span>${calculateTotalPrice()}</span>
                 </div>
 
-                <Button 
+                <Button
                   color="primary"
                   size="lg"
                   className="w-full rounded-sm"

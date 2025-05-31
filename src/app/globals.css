@@ -34,7 +34,7 @@ body {
   text-align: center;
   font-size: 30px;
   box-shadow: 2px 2px 3px #999;
-  z-index: 10;
+  z-index: 1000;
 }
 
 .whatsapp-icon {

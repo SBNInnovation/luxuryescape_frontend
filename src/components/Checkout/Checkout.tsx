@@ -423,7 +423,7 @@ export default function CheckoutPage() {
     };
 
     return (
-      <div key={index} className="space-y-3 border-l-2 pl-4 ml-2">
+      <div key={index} className="space-y-3">
         <Select
           label={`Number of supplementary rooms (Set ${index + 1})`}
           placeholder="Select number of supplementary rooms"
@@ -497,7 +497,7 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen p-8 max-sm:p-4">
       <div className="max-w-6xl mx-auto">
         <h1 className="text-3xl font-bold mb-8">Checkout</h1>
 

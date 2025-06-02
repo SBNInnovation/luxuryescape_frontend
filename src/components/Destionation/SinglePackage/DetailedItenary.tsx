@@ -85,13 +85,15 @@ const DetailedItenary: React.FC<LuxuryPackage> = ({ itinerary }) => {
               {index !== itinerary.length - 1 && <Divider />}
 
               {index !== itinerary.length - 1 && (
-                <h1 className={`${antic.className} text-4xl my-2 text-primary`}>
+                <h1
+                  className={`${antic.className} text-4xl max-sm:text-2xl my-2 text-primary`}
+                >
                   Envisaged Hotels / Resorts
                 </h1>
               )}
 
               {item?.hotels && index !== itinerary.length - 1 && (
-                <div className="grid grid-cols-4 max-md:grid-cols-3 max-sm:grid-cols-2 gap-6">
+                <div className="grid grid-cols-4 max-md:grid-cols-3 max-sm:grid-cols-1 gap-6">
                   {item?.hotels.map((hotel: any, hotelIndex: number) => (
                     <section key={hotelIndex}>
                       <Link href={`/accommodations/${hotel.slug}`}>

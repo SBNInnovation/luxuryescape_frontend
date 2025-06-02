@@ -12,7 +12,7 @@ import { getContactData } from '@/services/form';
 export const getAffiliates = async () => {
   try {
     const res = await axios.get(
-      `https://going-nepal-adventure.onrender.com/api/v1/resources/get-affiliates`
+      `${process.env.NEXT_PUBLIC_BASE_URL2}/resources/get-affiliates`
     );
     return res.data;
   } catch (err) {

@@ -108,12 +108,12 @@ const SinglePackage: React.FC<Props> = ({ id }) => {
           <ChevronLeft size={20} />
         </Button>
         <h1
-          className={`text-primary lg:text-5xl text-3xl tracking-wide ${antic.className}`}
+          className={`text-primary lg:text-5xl text-2xl tracking-wide ${antic.className}`}
         >
           {trip.title}
         </h1>
         <section className="flex lg:flex-row flex-col items-center justify-between">
-          <div className="flex gap-20 items-center ">
+          <div className="flex gap-20 items-center flex-wrap max-sm:gap-8 sm:w-4/5 w-full">
             <main className="">
               <h1
                 className={` font-semibold tracking-wide lg:text-base text-sm`}
@@ -145,17 +145,17 @@ const SinglePackage: React.FC<Props> = ({ id }) => {
               </main>
             )}
           </div>
-          <div className="flex flex-col gap-2 lg:mt-0 mt-8">
+          <div className="flex flex-col gap-2 lg:mt-0 mt-8 sm:w-1/5 w-full">
             <Button
               onPress={() => setIsOpen(true)}
               variant="bordered"
-              className="border border-primary rounded-sm px-8 py-0 text-primary"
+              className="border border-primary rounded-sm px-8 py-0 text-primary max-sm:w-full"
             >
               Get Customized Quote
             </Button>
             <Button
               onPress={handleBookNow}
-              className="bg-primary rounded-sm px-8 py-0 text-white"
+              className="bg-primary rounded-sm px-8 py-0 text-white max-sm:w-full"
             >
               Book with us
             </Button>

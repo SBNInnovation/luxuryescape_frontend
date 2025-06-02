@@ -90,12 +90,12 @@ const SingleTrek: React.FC<props> = ({ id }) => {
           <ChevronLeft size={20} />
         </Button>
         <h1
-          className={`text-primary lg:text-5xl text-3xl tracking-wide ${antic.className}`}
+          className={`text-primary lg:text-5xl text-2xl tracking-wide ${antic.className}`}
         >
           {trip.title}
         </h1>
         <section className="flex lg:flex-row flex-col items-center justify-between">
-          <div className="flex gap-20 items-center ">
+          <div className="flex gap-20 flex-wrap max-sm:gap-8 items-center sm:w-1/5 w-full">
             <main className="">
               <h1
                 className={` font-semibold tracking-wide lg:text-base text-sm`}
@@ -125,7 +125,7 @@ const SingleTrek: React.FC<props> = ({ id }) => {
               </p>
             </main>
           </div>
-          <div className="flex flex-col gap-2 lg:mt-0 mt-8">
+          <div className="flex flex-col gap-2 lg:mt-0 mt-8 sm:w-1/5 w-full">
             <Button
               onPress={() => setIsOpen(true)}
               variant="bordered"

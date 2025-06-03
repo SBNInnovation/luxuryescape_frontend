@@ -156,9 +156,9 @@ export default function CheckoutPage() {
     }
   }, [selectedDate]);
 
-  // Get accommodation upgrade cost per person
+  // Get accommodation upgrade cost per person (for group bookings)
   const getAccommodationUpgradeCost = (): number => {
-    if (!bookingDetails) return 0;
+    if (!bookingDetails || bookingDetails.quantity === 1) return 0;
 
     switch (accommodationType) {
       case 'Four Star':
@@ -211,6 +211,37 @@ export default function CheckoutPage() {
         return bookingDetails.soloPremiumFiveStar!;
       default:
         return bookingDetails.solo!;
+    }
+  };
+
+  // Get the display price for accommodation options
+  const getAccommodationDisplayPrice = (type: AccommodationType): number => {
+    if (!bookingDetails) return 0;
+
+    if (bookingDetails.quantity === 1) {
+      // Solo traveler pricing
+      switch (type) {
+        case 'Four Star':
+          return bookingDetails.soloFourStar! || 0;
+        case 'Five Star':
+          return bookingDetails.soloFiveStar! || 0;
+        case 'Premium Five Star':
+          return bookingDetails.soloPremiumFiveStar! || 0;
+        default:
+          return bookingDetails.solo! || 0;
+      }
+    } else {
+      // Group pricing (standard rates)
+      switch (type) {
+        case 'Four Star':
+          return bookingDetails.standardFourStar! || 0;
+        case 'Five Star':
+          return bookingDetails.standardFiveStar! || 0;
+        case 'Premium Five Star':
+          return bookingDetails.standardPremiumFiveStar! || 0;
+        default:
+          return 0;
+      }
     }
   };
 
@@ -308,19 +339,21 @@ export default function CheckoutPage() {
   const calculateTotalPrice = (): number => {
     if (!bookingDetails) return 0;
 
-    // Base price
-    let total = bookingDetails.quantity! * bookingDetails.price!;
+    if (bookingDetails.quantity === 1) {
+      // Solo traveler - use solo pricing which includes base price + solo supplement
+      return bookingDetails.price! + getSoloTravelerCost();
+    } else {
+      // Group booking
+      let total = bookingDetails.quantity! * bookingDetails.price!;
 
-    // Add accommodation upgrade costs (per person)
-    total += bookingDetails.quantity! * getAccommodationUpgradeCost();
+      // Add accommodation upgrade costs (per person)
+      total += bookingDetails.quantity! * getAccommodationUpgradeCost();
 
-    // Add supplementary room costs
-    total += getSupplementaryRoomCost();
+      // Add supplementary room costs
+      total += getSupplementaryRoomCost();
 
-    // Add solo traveler cost if applicable
-    total += getSoloTravelerCost();
-
-    return total;
+      return total;
+    }
   };
 
   // Handle supplementary room number change for a specific index
@@ -496,6 +529,8 @@ export default function CheckoutPage() {
     );
   };
 
+  const isSoloBooking = bookingDetails.quantity === 1;
+
   return (
     <div className="min-h-screen p-8 max-sm:p-4">
       <div className="max-w-6xl mx-auto">
@@ -633,6 +668,11 @@ export default function CheckoutPage() {
                 <div className="space-y-3">
                   <label className="text-sm font-medium">
                     Accommodation Type
+                    {isSoloBooking && (
+                      <span className="text-xs text-blue-600 ml-2">
+                        (Solo Traveler Pricing)
+                      </span>
+                    )}
                   </label>
                   <RadioGroup
                     value={accommodationType}
@@ -641,19 +681,28 @@ export default function CheckoutPage() {
                     }
                   >
                     <Radio value="Four Star">
-                      Four Star (${bookingDetails?.standardFourStar || 0})
+                      Four Star (${getAccommodationDisplayPrice('Four Star')})
                     </Radio>
                     <Radio value="Five Star">
-                      Five Star (${bookingDetails?.standardFiveStar || 0})
+                      Five Star (${getAccommodationDisplayPrice('Five Star')})
                     </Radio>
                     <Radio value="Premium Five Star">
                       Premium Five Star ($
-                      {bookingDetails?.standardPremiumFiveStar || 0})
+                      {getAccommodationDisplayPrice('Premium Five Star')})
                     </Radio>
                   </RadioGroup>
+
+                  {isSoloBooking && (
+                    <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                      <p className="text-sm text-blue-700">
+                        <strong>Solo Traveler:</strong> Prices shown include
+                        solo supplement charges.
+                      </p>
+                    </div>
+                  )}
                 </div>
 
-                {/* Supplementary Room Selection */}
+                {/* Supplementary Room Selection - Only show for group bookings */}
                 {bookingDetails.quantity! >= 2 && (
                   <div className="space-y-3">
                     <label className="text-sm font-medium">
@@ -670,14 +719,9 @@ export default function CheckoutPage() {
                       </div>
                     )}
 
-                    {bookingDetails.quantity! >= 2 && (
-                      <div className="space-y-2">
-                        {renderSupplementarySection(
-                          0,
-                          bookingDetails.quantity!
-                        )}
-                      </div>
-                    )}
+                    <div className="space-y-2">
+                      {renderSupplementarySection(0, bookingDetails.quantity!)}
+                    </div>
 
                     {supplementaryConfigs.length > 0 && (
                       <div className="p-3 bg-gray-50 border border-gray-200 rounded-lg">
@@ -687,16 +731,6 @@ export default function CheckoutPage() {
                         </p>
                       </div>
                     )}
-                  </div>
-                )}
-
-                {/* Solo Traveler Information */}
-                {bookingDetails.quantity === 1 && (
-                  <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-                    <p className="text-sm text-yellow-700">
-                      <strong>Solo Traveler:</strong> Additional cost of $
-                      {getSoloTravelerCost()} applies for single occupancy.
-                    </p>
                   </div>
                 )}
               </CardBody>
@@ -730,6 +764,9 @@ export default function CheckoutPage() {
                   </p>
                   <p className="text-gray-600">
                     Number of Persons: {bookingDetails.quantity}
+                    {isSoloBooking && (
+                      <span className="text-blue-600 ml-1">(Solo)</span>
+                    )}
                   </p>
                   <p className="text-gray-600">
                     Accommodation: {accommodationType}
@@ -758,59 +795,59 @@ export default function CheckoutPage() {
                     </span>
                   </div>
 
-                  {accommodationType !== 'Four Star' && (
+                  {isSoloBooking ? (
                     <div className="flex justify-between">
-                      <span>
-                        {accommodationType} Accommodation (
-                        {bookingDetails.quantity} x $
-                        {getAccommodationUpgradeCost()})
-                      </span>
-                      <span>
-                        +$
-                        {bookingDetails.quantity! *
-                          getAccommodationUpgradeCost()}
-                      </span>
+                      <span>Solo {accommodationType} Supplement</span>
+                      <span>+${getSoloTravelerCost()}</span>
                     </div>
+                  ) : (
+                    accommodationType !== 'Four Star' && (
+                      <div className="flex justify-between">
+                        <span>
+                          {accommodationType} Accommodation (
+                          {bookingDetails.quantity} x $
+                          {getAccommodationUpgradeCost()})
+                        </span>
+                        <span>
+                          +$
+                          {bookingDetails.quantity! *
+                            getAccommodationUpgradeCost()}
+                        </span>
+                      </div>
+                    )
                   )}
 
-                  {supplementaryConfigs.map(
-                    (config, index) =>
-                      config.numberOfSupplementaryRooms > 0 && (
-                        <div key={index} className="flex justify-between">
-                          <span>
-                            Supplementary Rooms (Set {index + 1}) (
-                            {config.numberOfSupplementaryRooms} x{' '}
-                            {config.supplementaryRoomType})
-                          </span>
-                          <span>
-                            +$
-                            {(bookingDetails?.singleSupplementaryFourStar ||
-                              0) *
-                              (config.supplementaryRoomType === 'Four Star'
-                                ? config.numberOfSupplementaryRooms
-                                : 0) +
-                              (bookingDetails?.singleSupplementaryFiveStar ||
+                  {!isSoloBooking &&
+                    supplementaryConfigs.map(
+                      (config, index) =>
+                        config.numberOfSupplementaryRooms > 0 && (
+                          <div key={index} className="flex justify-between">
+                            <span>
+                              Supplementary Rooms (Set {index + 1}) (
+                              {config.numberOfSupplementaryRooms} x{' '}
+                              {config.supplementaryRoomType})
+                            </span>
+                            <span>
+                              +$
+                              {(bookingDetails?.singleSupplementaryFourStar ||
                                 0) *
-                                (config.supplementaryRoomType === 'Five Star'
+                                (config.supplementaryRoomType === 'Four Star'
                                   ? config.numberOfSupplementaryRooms
                                   : 0) +
-                              (bookingDetails?.singleSupplementaryPremiumFiveStar ||
-                                0) *
-                                (config.supplementaryRoomType ===
-                                'Premium Five Star'
-                                  ? config.numberOfSupplementaryRooms
-                                  : 0)}
-                          </span>
-                        </div>
-                      )
-                  )}
-
-                  {bookingDetails.quantity === 1 &&
-                    getSoloTravelerCost() > 0 && (
-                      <div className="flex justify-between">
-                        <span>Solo Traveler Supplement</span>
-                        <span>+${getSoloTravelerCost()}</span>
-                      </div>
+                                (bookingDetails?.singleSupplementaryFiveStar ||
+                                  0) *
+                                  (config.supplementaryRoomType === 'Five Star'
+                                    ? config.numberOfSupplementaryRooms
+                                    : 0) +
+                                (bookingDetails?.singleSupplementaryPremiumFiveStar ||
+                                  0) *
+                                  (config.supplementaryRoomType ===
+                                  'Premium Five Star'
+                                    ? config.numberOfSupplementaryRooms
+                                    : 0)}
+                            </span>
+                          </div>
+                        )
                     )}
                 </div>
 

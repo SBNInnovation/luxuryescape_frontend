@@ -79,7 +79,9 @@ export default function CheckoutPage() {
   const { data: countries, isLoading: isCountriesLoading } = useQuery({
     queryKey: ['countries'],
     queryFn: async () => {
-      const response = await fetch('https://restcountries.com/v3.1/all');
+      const response = await fetch(
+        'https://restcountries.com/v3.1/all?fields=name'
+      );
       const data = await response.json();
       return data.map((country: any) => country.name.common);
     },
@@ -360,11 +362,28 @@ export default function CheckoutPage() {
   const handleSupplementaryRoomChange = (index: number, value: string) => {
     const numberOfRooms = parseInt(value);
     const newConfigs = [...supplementaryConfigs];
+
+    // Ensure the array has enough elements
+    while (newConfigs.length <= index) {
+      newConfigs.push({
+        numberOfSupplementaryRooms: 0,
+        supplementaryRoomType: 'Four Star' as AccommodationType,
+      });
+    }
+
     newConfigs[index] = {
       ...newConfigs[index],
       numberOfSupplementaryRooms: numberOfRooms,
     };
-    setSupplementaryConfigs(newConfigs);
+
+    // Clean up - remove configs with 0 rooms from the end
+    const cleanedConfigs = newConfigs.filter(
+      (config, idx) =>
+        config.numberOfSupplementaryRooms > 0 ||
+        idx < newConfigs.findIndex((c) => c.numberOfSupplementaryRooms > 0)
+    );
+
+    setSupplementaryConfigs(cleanedConfigs);
   };
 
   // Handle supplementary room type change for a specific index
@@ -373,10 +392,20 @@ export default function CheckoutPage() {
     value: AccommodationType
   ) => {
     const newConfigs = [...supplementaryConfigs];
+
+    // Ensure the array has enough elements
+    while (newConfigs.length <= index) {
+      newConfigs.push({
+        numberOfSupplementaryRooms: 0,
+        supplementaryRoomType: 'Four Star' as AccommodationType,
+      });
+    }
+
     newConfigs[index] = {
       ...newConfigs[index],
       supplementaryRoomType: value,
     };
+
     setSupplementaryConfigs(newConfigs);
   };
 
@@ -415,8 +444,12 @@ export default function CheckoutPage() {
     }
 
     const jsDate = selectedDate ? calendarDateToDate(selectedDate) : null;
-
     const finalTotalPrice = calculateTotalPrice();
+
+    // Clean supplementary configs - only include configs with rooms > 0
+    const cleanSupplementaryConfigs = supplementaryConfigs.filter(
+      (config) => config.numberOfSupplementaryRooms > 0
+    );
 
     // Prepare data for the POST request
     const checkoutData = {
@@ -430,13 +463,15 @@ export default function CheckoutPage() {
       country: country,
       bookingDate: jsDate?.toISOString().split('T')[0],
       accommodationType: accommodationType,
-      supplementaryConfigs: supplementaryConfigs, // Send all configurations
+      supplementaryConfigs: cleanSupplementaryConfigs, // Send only valid configurations
     };
 
     if (!country || country === '') {
       toast.error('Please select a country');
       return;
     }
+
+    console.log('Checkout data being sent:', checkoutData); // Debug log
 
     checkoutMutation(checkoutData);
   };
@@ -463,7 +498,7 @@ export default function CheckoutPage() {
           selectedKeys={[currentConfig.numberOfSupplementaryRooms.toString()]}
           onSelectionChange={(keys) => {
             const selectedKey = Array.from(keys)[0] as string;
-            if (selectedKey) {
+            if (selectedKey !== undefined && selectedKey !== null) {
               handleSupplementaryRoomChange(index, selectedKey);
             }
           }}

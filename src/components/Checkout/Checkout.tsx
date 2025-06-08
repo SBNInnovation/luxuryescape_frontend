@@ -164,7 +164,7 @@ export default function CheckoutPage() {
 
     switch (accommodationType) {
       case 'Four Star':
-        return 0;
+        return bookingDetails.standardFourStar!;
       case 'Five Star':
         return bookingDetails.standardFiveStar!;
       case 'Premium Five Star':
@@ -836,7 +836,7 @@ export default function CheckoutPage() {
                       <span>+${getSoloTravelerCost()}</span>
                     </div>
                   ) : (
-                    accommodationType !== 'Four Star' && (
+                    getAccommodationUpgradeCost() > 0 && ( // ← Fixed: Show if there's any upgrade cost
                       <div className="flex justify-between">
                         <span>
                           {accommodationType} Accommodation (

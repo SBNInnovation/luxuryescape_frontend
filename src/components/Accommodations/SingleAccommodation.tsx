@@ -145,23 +145,42 @@ const SingleAccommodation: React.FC<props> = ({ id }) => {
               <span>{hotel?.data?.accommodationLocation}</span>
             </div>
           </div>
-          <div
-            className={`flex items-center gap-2 px-4 py-2 rounded-full ${
-              isPremium ? 'premium-rating-badge' : 'bg-primary/10'
-            }`}
-          >
-            {isPremium && <FaGem className="w-4 h-4 text-white" />}
-            <FaStar
-              className={`w-4 h-4 ${isPremium ? 'text-primary' : 'text-primary'}`}
-            />
-            <span
-              className={`font-semibold text-sm sm:text-base ${
-                isPremium ? 'text-primary' : 'text-primary'
+
+          {hotel?.data?.accommodationRating < 7 ? (
+            <div
+              className={`flex items-center gap-2 px-4 py-2 rounded-full ${
+                isPremium ? 'premium-rating-badge' : 'bg-primary/10'
               }`}
             >
-              {getRatingDisplay(hotel?.data?.accommodationRating)}
-            </span>
-          </div>
+              {isPremium && <FaGem className="w-4 h-4 text-white" />}
+              <FaStar
+                className={`w-4 h-4 ${isPremium ? 'text-primary' : 'text-primary'}`}
+              />
+              <span
+                className={`font-semibold text-sm sm:text-base ${
+                  isPremium ? 'text-primary' : 'text-primary'
+                }`}
+              >
+                {getRatingDisplay(hotel?.data?.accommodationRating)}
+              </span>
+            </div>
+          ) : hotel?.data?.accommodationRating === 7 ? (
+            <div className="bg-primary px-4 py-2 rounded-full">
+              <div className="flex items-center gap-1">
+                <span className="text-base font-semibold flex tems-xs gap-1 text-white">
+                  Boutique
+                </span>
+              </div>
+            </div>
+          ) : hotel?.data?.accommodationRating === 8 ? (
+            <div className="bg-primary px-3 py-1 rounded-full">
+              <div className="flex items-center gap-1">
+                <span className="text-base font-semibold flex tems-xs gap-1 text-white">
+                  Premium Boutique
+                </span>
+              </div>
+            </div>
+          ) : null}
         </div>
       </div>
 

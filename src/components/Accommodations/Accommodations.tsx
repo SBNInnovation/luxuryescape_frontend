@@ -50,7 +50,7 @@ const ITEMS_PER_PAGE = 9;
 
 type CountryFilter = 'all' | 'Nepal' | 'Bhutan' | 'Tibet';
 
-type StarRatingFilter = 'all' | '4' | '5' | '6';
+type StarRatingFilter = 'all' | '4' | '5' | '6' | '7' | '8';
 
 const Accommodations: React.FC = () => {
   const [filterCountry, setFilterCountry] = useState<CountryFilter>('all');
@@ -76,7 +76,7 @@ const Accommodations: React.FC = () => {
       const matchesCountry =
         filterCountry === 'all' || hotel.country.includes(filterCountry);
 
-      // Fixed rating filter logic
+      // Updated rating filter logic
       let matchesStarRating = true;
       if (filterStarRating !== 'all') {
         const filterRating = parseInt(filterStarRating);
@@ -84,6 +84,12 @@ const Accommodations: React.FC = () => {
           // Premium 5 Star - check for rating 6 OR isPremium flag
           matchesStarRating =
             hotel.accommodationRating === 6 || hotel.isPremium;
+        } else if (filterRating === 7) {
+          // Boutique - check for rating 7
+          matchesStarRating = hotel.accommodationRating === 7;
+        } else if (filterRating === 8) {
+          // Premium Boutique - check for rating 8
+          matchesStarRating = hotel.accommodationRating === 8;
         } else {
           // Regular 4 or 5 star ratings
           matchesStarRating = hotel.accommodationRating === filterRating;
@@ -111,6 +117,22 @@ const Accommodations: React.FC = () => {
       block: 'start',
       inline: 'nearest',
     });
+  };
+
+  // Function to get filter button text
+  const getFilterButtonText = (rating: StarRatingFilter) => {
+    switch (rating) {
+      case 'all':
+        return 'All Star Standard';
+      case '6':
+        return 'Premium 5 Star';
+      case '7':
+        return 'Boutique';
+      case '8':
+        return 'Premium Boutique';
+      default:
+        return `${rating} Star Standard`;
+    }
   };
 
   return (
@@ -151,11 +173,7 @@ const Accommodations: React.FC = () => {
             <Dropdown>
               <DropdownTrigger>
                 <Button variant="flat" endContent={<FiChevronDown />}>
-                  {filterStarRating === 'all'
-                    ? 'All Star Standard'
-                    : filterStarRating === '6'
-                      ? 'Premium 5 Star'
-                      : `${filterStarRating} Star Standard`}
+                  {getFilterButtonText(filterStarRating)}
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
@@ -165,6 +183,16 @@ const Accommodations: React.FC = () => {
                 selectionMode="single"
               >
                 <DropdownItem key="all">All Star Ratings</DropdownItem>
+                <DropdownItem key="8">
+                  <div className="flex items-center gap-1">
+                    <span>Premium Boutique</span>
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="7">
+                  <div className="flex items-center gap-1">
+                    <span>Boutique</span>
+                  </div>
+                </DropdownItem>
                 <DropdownItem key="6">
                   <div className="flex items-center gap-1">
                     <span>Premium 5 Star</span>
@@ -237,13 +265,16 @@ const Accommodations: React.FC = () => {
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
-                <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full">
-                  <div className="flex items-center gap-1">
-                    <span className="text-sm font-semibold flex tems-xs gap-1 text-primary">
-                      {generateStars(hotel.accommodationRating)}
-                    </span>
+                {hotel.accommodationRating < 7 && (
+                  <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full">
+                    <div className="flex items-center gap-1">
+                      <span className="text-sm font-semibold flex tems-xs gap-1 text-primary">
+                        {generateStars(hotel.accommodationRating)}
+                      </span>
+                    </div>
                   </div>
-                </div>
+                )}
+
                 {(hotel?.isPremium || hotel.accommodationRating === 6) && (
                   <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full">
                     <div className="flex items-center gap-1">
@@ -253,6 +284,23 @@ const Accommodations: React.FC = () => {
                     </div>
                   </div>
                 )}
+                {hotel.accommodationRating === 7 ? (
+                  <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full">
+                    <div className="flex items-center gap-1">
+                      <span className="text-sm font-semibold flex tems-xs gap-1 text-primary">
+                        Boutique
+                      </span>
+                    </div>
+                  </div>
+                ) : hotel.accommodationRating === 8 ? (
+                  <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full">
+                    <div className="flex items-center gap-1">
+                      <span className="text-sm font-semibold flex tems-xs gap-1 text-primary">
+                        Premium Boutique
+                      </span>
+                    </div>
+                  </div>
+                ) : null}
               </div>
               <div className="px-4 pt-2 pb-4 flex flex-col h-1/2">
                 <h3

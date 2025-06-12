@@ -6,7 +6,7 @@ export const postContact = async (data: any) => { //eslint disable line @typescr
         return res.data
 
     }catch(err){
-        console.log(err)
+        console.error(err)
     }
 }
 
@@ -15,7 +15,7 @@ export const getContactData=async()=>{
         const res=await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/profile/get/67e6ceb9a96701a607af52ef`)
         return res.data
     }catch(err){
-        console.log(err)
+        console.error(err)
     }
 }
 
@@ -25,7 +25,7 @@ export const postQuote = async (data: any) => { //eslint disable line @typescrip
         return res.data
 
     }catch(err){
-        console.log(err)
+        console.error(err)
     }
 }
 
@@ -42,7 +42,7 @@ export const postTailor = async (data: any) => { //eslint-disable-line @typescri
         const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/tailor-made/add`, formattedData);
         return res.data;
     } catch (err) {
-        console.log(err);
+        console.error(err);
         throw err; // Re-throw to allow error handling in components
     }
 }

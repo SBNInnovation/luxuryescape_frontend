@@ -5,7 +5,7 @@ export const getAccoms = async (page:number, limit:number,location:string) => {
         const res=await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/get-all-details?page=${page}&limit=${limit}&search=&country=${location}&sort=asc`)
         return res.data
     }catch(err){
-        console.log(err)
+        console.error(err)
     }
 }
 
@@ -14,7 +14,7 @@ export const getAccomsByDestinations = async (destination:string) => {
         const res=await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/get-selected-data?destination=${destination}&sort=asc`)
         return res.data
     }catch(err){
-        console.log(err)
+        console.error(err)
     }
 }
 export const getAccomsByCountry = async (page:number, limit:number,location:string) => {
@@ -22,7 +22,7 @@ export const getAccomsByCountry = async (page:number, limit:number,location:stri
         const res=await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/get-selected-data?page=${page}&limit=${limit}&search=&location=${location}&sort=asc`)
         return res.data
     }catch(err){
-        console.log(err)
+        console.error(err)
     }
 }
 
@@ -31,7 +31,7 @@ export const getAccomBySlug = async (slug:string) => {
         const res=await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/get-by/${slug}`)
         return res.data
     }catch(err){
-        console.log(err)
+        console.error(err)
     }
 }
 

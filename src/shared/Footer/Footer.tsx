@@ -16,7 +16,7 @@ export const getAffiliates = async () => {
     );
     return res.data;
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 };
 

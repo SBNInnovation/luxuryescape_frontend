@@ -471,8 +471,6 @@ export default function CheckoutPage() {
       return;
     }
 
-    console.log('Checkout data being sent:', checkoutData); // Debug log
-
     checkoutMutation(checkoutData);
   };
 

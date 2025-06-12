@@ -19,6 +19,7 @@ import { settings } from '../Destionation/SinglePackage/TrekHighlights';
 import { generateStars } from '@/utility/generateStars';
 import { ChevronLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import DestinationAffiliates from './DestinationAffiliates';
 
 interface props {
   id: string;
@@ -199,6 +200,7 @@ const SingleExplore: React.FC<props> = ({ id }) => {
           </div>
         </div>
       )}
+      <DestinationAffiliates destination={singleExplore?.data?.title} />
     </>
   );
 };

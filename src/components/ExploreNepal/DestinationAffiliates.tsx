@@ -23,6 +23,8 @@ const DestinationAffiliates: React.FC<DestinationAffiliatesProps> = (
     //eslint-disable-next-line @typescript-eslint/no-explicit-any
     (item: any) => item?.destination?.toLowerCase() === lowerCaseDestination
   );
+
+  if (filteredAffiliates?.length === 0) return null;
   return (
     <div className="px-32 max-sm:px-4">
       {isAffiliatesLoading && <Loader />}

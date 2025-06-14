@@ -19,6 +19,7 @@ import Link from 'next/link';
 import { FiChevronDown, FiMapPin } from 'react-icons/fi';
 import Affiliates from '@/shared/Affiliates';
 import { generateStars } from '../../utility/generateStars';
+import DestinationAffiliates from '../ExploreNepal/DestinationAffiliates';
 
 export interface Accommodation {
   _id: string;
@@ -36,6 +37,13 @@ export interface Accommodation {
   updatedAt: string;
   __v: number;
   country: string;
+  destination: {
+    _id: string;
+    title: string;
+    slug: string;
+    description: string;
+    thumbnail: string;
+  };
 }
 
 export interface Room {
@@ -49,19 +57,25 @@ export interface Room {
 const ITEMS_PER_PAGE = 9;
 
 type CountryFilter = 'all' | 'Nepal' | 'Bhutan' | 'Tibet';
-
 type StarRatingFilter = 'all' | '4' | '5' | '6' | '7' | '8';
+type LocationFilter = 'all' | string;
 
 const Accommodations: React.FC = () => {
   const [filterCountry, setFilterCountry] = useState<CountryFilter>('all');
   const [filterStarRating, setFilterStarRating] =
     useState<StarRatingFilter>('all');
+  const [filterLocation, setFilterLocation] = useState<LocationFilter>('all');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const firstRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [filterCountry, filterStarRating]);
+  }, [filterCountry, filterStarRating, filterLocation]);
+
+  // Reset location filter when country changes
+  useEffect(() => {
+    setFilterLocation('all');
+  }, [filterCountry]);
 
   // Fetch ALL accommodations data instead of paginated data
   const { data: accomData, isLoading } = useQuery({
@@ -69,12 +83,32 @@ const Accommodations: React.FC = () => {
     queryFn: () => getAccoms(1, 1000, ''), // Fetch a large number to get all accommodations
   });
 
-  const filteredHotels = useMemo(() => {
-    if (!accomData?.data?.accommodations) return [];
+  // Get unique destinations for the selected country
+  const availableDestinations = useMemo(() => {
+    if (!accomData?.data?.formattedData || filterCountry === 'all') return [];
 
-    return accomData.data.accommodations.filter((hotel: Accommodation) => {
+    const destinations = accomData.data.formattedData
+      .filter((hotel: Accommodation) => hotel.country === filterCountry)
+      .map((hotel: Accommodation) => hotel.destination?.title)
+      .filter((title: string) => title) // Filter out any undefined/null titles
+      .filter(
+        (title: string, index: number, self: string[]) =>
+          self.indexOf(title) === index // Remove duplicates
+      )
+      .sort(); // Sort alphabetically
+
+    return destinations;
+  }, [accomData, filterCountry]);
+
+  const filteredHotels = useMemo(() => {
+    if (!accomData?.data?.formattedData) return [];
+
+    return accomData.data.formattedData.filter((hotel: Accommodation) => {
       const matchesCountry =
         filterCountry === 'all' || hotel.country.includes(filterCountry);
+
+      const matchesLocation =
+        filterLocation === 'all' || hotel.destination?.title === filterLocation;
 
       // Updated rating filter logic
       let matchesStarRating = true;
@@ -96,9 +130,9 @@ const Accommodations: React.FC = () => {
         }
       }
 
-      return matchesCountry && matchesStarRating;
+      return matchesCountry && matchesLocation && matchesStarRating;
     });
-  }, [accomData, filterCountry, filterStarRating]);
+  }, [accomData, filterCountry, filterLocation, filterStarRating]);
 
   // Paginate the filtered results
   const paginatedHotels = useMemo(() => {
@@ -117,6 +151,11 @@ const Accommodations: React.FC = () => {
       block: 'start',
       inline: 'nearest',
     });
+  };
+
+  const handleCountryChange = (country: CountryFilter) => {
+    setFilterCountry(country);
+    setFilterLocation('all'); // Reset location when country changes
   };
 
   // Function to get filter button text
@@ -224,7 +263,7 @@ const Accommodations: React.FC = () => {
               </DropdownTrigger>
               <DropdownMenu
                 aria-label="Country options"
-                onAction={(key) => setFilterCountry(key as CountryFilter)}
+                onAction={(key) => handleCountryChange(key as CountryFilter)}
                 selectedKeys={[filterCountry]}
                 selectionMode="single"
               >
@@ -234,6 +273,34 @@ const Accommodations: React.FC = () => {
                 <DropdownItem key="Tibet">Tibet</DropdownItem>
               </DropdownMenu>
             </Dropdown>
+
+            {/* Location Filter Dropdown - Only show when a specific country is selected */}
+            {filterCountry !== 'all' && availableDestinations.length > 0 && (
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button
+                    variant="flat"
+                    endContent={<FiChevronDown />}
+                    startContent={<FaMapMarkerAlt />}
+                  >
+                    {filterLocation === 'all'
+                      ? 'All Locations'
+                      : filterLocation}
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu
+                  aria-label="Location options"
+                  onAction={(key) => setFilterLocation(key as LocationFilter)}
+                  selectedKeys={[filterLocation]}
+                  selectionMode="single"
+                >
+                  <DropdownItem key="all">All Locations</DropdownItem>
+                  {availableDestinations.map((destination: string) => (
+                    <DropdownItem key={destination}>{destination}</DropdownItem>
+                  ))}
+                </DropdownMenu>
+              </Dropdown>
+            )}
           </div>
         </div>
       </div>
@@ -344,8 +411,12 @@ const Accommodations: React.FC = () => {
           />
         </div>
       )}
-      <div className="container mx-auto px-4 pb-8">
-        <Affiliates />
+      <div className="container mx-auto px-4 pb-8 w-full">
+        {filterLocation === 'all' ? (
+          <Affiliates />
+        ) : (
+          <DestinationAffiliates destination={filterLocation} />
+        )}
       </div>
     </div>
   );

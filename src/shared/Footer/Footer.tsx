@@ -177,13 +177,24 @@ const Footer = () => {
             </section>
           </div>
           <hr className="my-6 border-gray-700 sm:mx-auto lg:my-8" />
-          <div className="flex justify-start items-center">
+          <div className="flex justify-between w-full items-center">
             <span className="block text-sm  sm:text-center ">
               ©{getDate()}{' '}
               <Link href="/" className="hover:underline">
                 Nepal Luxury Escapes™
               </Link>
               . All Rights Reserved.
+            </span>
+
+            <span className="block text-sm  sm:text-center ">
+              Sister company of{' '}
+              <Link
+                href="https://www.goingnepal.com/"
+                target="_blank"
+                className="hover:underline"
+              >
+                Going Nepal
+              </Link>{' '}
             </span>
           </div>
         </div>

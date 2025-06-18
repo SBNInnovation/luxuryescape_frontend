@@ -208,49 +208,6 @@ const Accommodations: React.FC = () => {
           </h2>
 
           <div className="flex flex-wrap gap-4">
-            {/* Star Rating Filter Dropdown */}
-            <Dropdown>
-              <DropdownTrigger>
-                <Button variant="flat" endContent={<FiChevronDown />}>
-                  {getFilterButtonText(filterStarRating)}
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                aria-label="Star rating options"
-                onAction={(key) => setFilterStarRating(key as StarRatingFilter)}
-                selectedKeys={[filterStarRating.toString()]}
-                selectionMode="single"
-              >
-                <DropdownItem key="all">All Star Ratings</DropdownItem>
-                <DropdownItem key="8">
-                  <div className="flex items-center gap-1">
-                    <span>Premium Boutique</span>
-                  </div>
-                </DropdownItem>
-                <DropdownItem key="7">
-                  <div className="flex items-center gap-1">
-                    <span>Boutique</span>
-                  </div>
-                </DropdownItem>
-                <DropdownItem key="6">
-                  <div className="flex items-center gap-1">
-                    <span>Premium 5 Star</span>
-                  </div>
-                </DropdownItem>
-                <DropdownItem key="5">
-                  <div className="flex items-center gap-1">
-                    <span>5 Star Standard</span>
-                  </div>
-                </DropdownItem>
-                <DropdownItem key="4">
-                  <div className="flex items-center gap-1">
-                    <span>4 Star Standard</span>
-                  </div>
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
-
-            {/* Country Filter Dropdown */}
             <Dropdown>
               <DropdownTrigger>
                 <Button
@@ -301,6 +258,49 @@ const Accommodations: React.FC = () => {
                 </DropdownMenu>
               </Dropdown>
             )}
+            {/* Star Rating Filter Dropdown */}
+            <Dropdown>
+              <DropdownTrigger>
+                <Button variant="flat" endContent={<FiChevronDown />}>
+                  {getFilterButtonText(filterStarRating)}
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu
+                aria-label="Star rating options"
+                onAction={(key) => setFilterStarRating(key as StarRatingFilter)}
+                selectedKeys={[filterStarRating.toString()]}
+                selectionMode="single"
+              >
+                <DropdownItem key="all">All Star Ratings</DropdownItem>
+                <DropdownItem key="8">
+                  <div className="flex items-center gap-1">
+                    <span>Premium Boutique</span>
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="7">
+                  <div className="flex items-center gap-1">
+                    <span>Boutique</span>
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="6">
+                  <div className="flex items-center gap-1">
+                    <span>Premium 5 Star</span>
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="5">
+                  <div className="flex items-center gap-1">
+                    <span>5 Star Standard</span>
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="4">
+                  <div className="flex items-center gap-1">
+                    <span>4 Star Standard</span>
+                  </div>
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+
+            {/* Country Filter Dropdown */}
           </div>
         </div>
       </div>

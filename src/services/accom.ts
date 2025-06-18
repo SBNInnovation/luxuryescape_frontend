@@ -2,7 +2,7 @@ import axios from "axios"
 
 export const getAccoms = async (page:number, limit:number,location:string) => {
     try{
-        const res=await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/get-selected-data?page=${page}&limit=${limit}&search=&country=${location}&sort=asc`)
+        const res=await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/accommodation/get-selected-data?page=${page}&limit=${limit}&search=&country=${location}`)
         return res.data
     }catch(err){
         console.error(err)

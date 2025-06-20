@@ -123,6 +123,22 @@ const Footer = () => {
               </li>
               <li>
                 <Link
+                  href="/accommodations"
+                  className="hover:underline me-4 md:me-6"
+                >
+                  Hotels/Resorts
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/fine-dinings"
+                  className="hover:underline me-4 md:me-6"
+                >
+                  Fine Dinings
+                </Link>
+              </li>
+              <li>
+                <Link
                   href="/tailor-made"
                   className="hover:underline me-4 md:me-6"
                 >

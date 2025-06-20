@@ -114,8 +114,12 @@ const Navbar = () => {
       link: '/luxury-treks',
     },
     {
-      title: 'Accommodations',
+      title: 'Hotels/Resorts',
       link: '/accommodations',
+    },
+    {
+      title: 'Fine Dinings',
+      link: '/fine-dinings',
     },
     {
       title: 'Resources',

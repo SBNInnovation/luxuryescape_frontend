@@ -301,9 +301,7 @@ const FIneDinings: React.FC = () => {
         {isLoading && <Loader />}
         {!isLoading && filteredHotels.length === 0 && (
           <div className="flex justify-center items-center py-16">
-            <p className="text-lg text-gray-500">
-              No accommodations found for the selected filters.
-            </p>
+            <p className="text-lg text-gray-500">No fine dinings found.</p>
           </div>
         )}
         <div className="grid grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 gap-8">
